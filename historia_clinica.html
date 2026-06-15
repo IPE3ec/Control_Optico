@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Historia Clínica - Ópticas GM</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed": "#e0e3e6",
+                        "on-primary-fixed": "#001a40",
+                        "tertiary-container": "#55595c",
+                        "secondary-fixed-dim": "#bfc8d0",
+                        "tertiary-fixed-dim": "#c4c7ca",
+                        "on-surface": "#181c20",
+                        "surface-dim": "#d7dadf",
+                        "on-error": "#ffffff",
+                        "on-primary-fixed-variant": "#004491",
+                        "outline": "#727784",
+                        "on-tertiary": "#ffffff",
+                        "inverse-surface": "#2d3135",
+                        "error-container": "#ffdad6",
+                        "on-secondary": "#ffffff",
+                        "on-surface-variant": "#424752",
+                        "secondary-container": "#d8e1ea",
+                        "on-secondary-container": "#5b646b",
+                        "background": "#f7f9ff",
+                        "on-secondary-fixed": "#141d23",
+                        "surface-container-highest": "#e0e3e8",
+                        "surface-variant": "#e0e3e8",
+                        "on-tertiary-container": "#ccd0d3",
+                        "surface-container-high": "#e5e8ee",
+                        "error": "#ba1a1a",
+                        "primary-fixed-dim": "#acc7ff",
+                        "on-secondary-fixed-variant": "#3f484f",
+                        "on-error-container": "#93000a",
+                        "on-primary": "#ffffff",
+                        "on-background": "#181c20",
+                        "surface-bright": "#f7f9ff",
+                        "on-primary-container": "#bbd0ff",
+                        "inverse-on-surface": "#eef1f6",
+                        "primary-fixed": "#d7e2ff",
+                        "primary-container": "#0056b3",
+                        "outline-variant": "#c2c6d4",
+                        "on-tertiary-fixed": "#181c1e",
+                        "surface-tint": "#115cb9",
+                        "primary": "#003f87",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-low": "#f1f4f9",
+                        "inverse-primary": "#acc7ff",
+                        "tertiary": "#3e4244",
+                        "surface-container": "#ebeef3",
+                        "surface": "#f7f9ff",
+                        "secondary": "#575f67",
+                        "on-tertiary-fixed-variant": "#43474a",
+                        "secondary-fixed": "#dbe4ed"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "16px",
+                        "xl": "24px",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xl": "32px",
+                        "margin-mobile": "16px",
+                        "xs": "4px",
+                        "sm": "8px",
+                        "lg": "24px",
+                        "md": "16px",
+                        "margin-desktop": "48px",
+                        "base": "4px",
+                        "gutter": "20px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "body-md": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "display-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "label-md": ["14px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "label-sm": ["12px", {"lineHeight": "14px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #f7f9ff; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .active-tab { border-bottom: 3px solid #003f87; color: #003f87; font-weight: 600; }
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="text-on-surface">
+<!-- Top Navigation (Shell Implementation) -->
+<header class="bg-surface w-full top-0 sticky z-50 border-b border-outline-variant shadow-sm flex justify-between items-center px-margin-mobile md:px-margin-desktop h-16">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-headline-md" data-icon="visibility">visibility</span>
+<h1 class="font-headline-md text-headline-md font-bold text-primary">Ópticas GM</h1>
+</div>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-on-surface-variant p-2 rounded-full hover:bg-surface-container-low transition-colors" data-icon="search">search</button>
+<div class="h-10 w-10 rounded-full overflow-hidden border border-outline-variant bg-surface-container-high">
+<img alt="Dr. Practitioner" class="w-full h-full object-cover" data-alt="A professional headshot of a female doctor in a clinical setting, wearing a clean white lab coat and a stethoscope. She has a confident, warm smile, and the background is a blurred, high-end medical office with soft, bright lighting. The style is professional and clinical, emphasizing medical authority and approachability in a modern corporate aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAin-WRqckMVsQ-HfDM_YQVd8lLaO-gGzDmu28ltjzwWYp4cllbVYARFU0XYt9FG2RTRgDpKIOC5OQz3pZcwj58PQW1p01ksV3fohk1bD5OFuf03OOIQ8MHgaPzMEpSnxMQYK5qavibf73yRDDswVEwIvgeGDDUPqPIX5ISYJfJvJC6alYpryAI-mDFPjfNdHREWbmxE6p3J7BAU2pU7c0eLJQj56a-d3ocmvtyOpKxiD5rDchZc3UwM7BiNjRqYw_F1p4n6Pf6JsQ"/>
+</div>
+</div>
+</header>
+<div class="flex min-h-screen">
+<!-- Sidebar (Shell Implementation) -->
+<aside class="hidden md:flex flex-col py-lg h-full w-80 sticky left-0 top-16 bg-surface border-r border-outline-variant shadow-md">
+<nav class="flex flex-col gap-1">
+<a class="text-on-surface-variant hover:bg-surface-container-high px-6 py-3 flex items-center gap-4 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-body-md text-body-md">Dashboard</span>
+</a>
+<a class="bg-secondary-container text-on-secondary-container font-bold rounded-r-full mr-4 px-6 py-3 flex items-center gap-4 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="groups">groups</span>
+<span class="font-body-md text-body-md">Patients</span>
+</a>
+<a class="text-on-surface-variant hover:bg-surface-container-high px-6 py-3 flex items-center gap-4 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+<span class="font-body-md text-body-md">Clinical History</span>
+</a>
+<a class="text-on-surface-variant hover:bg-surface-container-high px-6 py-3 flex items-center gap-4 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="medical_services">medical_services</span>
+<span class="font-body-md text-body-md">Prescriptions</span>
+</a>
+<a class="text-on-surface-variant hover:bg-surface-container-high px-6 py-3 flex items-center gap-4 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="event">event</span>
+<span class="font-body-md text-body-md">Agenda</span>
+</a>
+<a class="text-on-surface-variant hover:bg-surface-container-high px-6 py-3 flex items-center gap-4 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+<span class="font-body-md text-body-md">Billing</span>
+</a>
+</nav>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 p-margin-mobile md:p-margin-desktop bg-background pb-32 md:pb-16">
+<!-- Patient Header Card -->
+<section class="bg-surface-container-lowest rounded-lg shadow-sm p-lg border border-outline-variant mb-lg flex flex-col md:flex-row items-center md:items-start gap-6 relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4">
+<span class="bg-primary-container text-on-primary-container text-label-sm font-label-sm px-3 py-1 rounded-full">ID: GM-8829</span>
+</div>
+<div class="w-32 h-32 rounded-xl overflow-hidden border-2 border-primary/20 shadow-md flex-shrink-0">
+<img alt="Patient Photo" class="w-full h-full object-cover" data-alt="A portrait of a middle-aged woman with clear, expressive eyes, looking directly at the camera with a gentle expression. The lighting is natural and bright, highlighting the fine details of her skin and the clarity of her vision. The background is a minimalist, light-toned domestic setting with soft depth of field. The image conveys health and trust in a medical context." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCsNvKB-oz8XO7LQoYCNt5LizsmvNg7_Mzjwn7IxwAfjYnCGJpS-YIPGulYYAXeB87yKcMgy0dUXS-VA9wCrOlhOTNquD8BoNfXYE6QHmVYraTgjqWn1qGHmmrx-0ifrllnwBZXxQ_9VRfNHTdzd13pHsW09fTmPkW4LFUgzBNwKBNqG77Ab1adyT346uzkrbM4UbdZJvUTQaTmhPAFs7dcuJngBouIHOBpP6fmEIxcidhXlU0RZL98IfSpQ_mWIppbQXtPmwNVDgM"/>
+</div>
+<div class="flex-1 text-center md:text-left">
+<h2 class="font-headline-lg text-headline-lg text-primary mb-1">Elena Rodríguez Santibáñez</h2>
+<div class="flex flex-wrap justify-center md:justify-start gap-x-6 gap-y-2 text-on-surface-variant">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]" data-icon="cake">cake</span>
+<span class="font-body-sm text-body-sm">42 años (15/05/1982)</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]" data-icon="phone">phone</span>
+<span class="font-body-sm text-body-sm">+52 55 1234 5678</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]" data-icon="mail">mail</span>
+<span class="font-body-sm text-body-sm">elena.rodriguez@email.com</span>
+</div>
+</div>
+<div class="mt-4 flex flex-wrap gap-2 justify-center md:justify-start">
+<span class="bg-error-container text-on-error-container text-label-sm font-label-sm px-3 py-1 rounded-full flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="warning" style="font-variation-settings: 'FILL' 1;">warning</span>
+                            Alergia: Penicilina
+                        </span>
+<span class="bg-secondary-container text-on-secondary-container text-label-sm font-label-sm px-3 py-1 rounded-full">Diabetes Tipo 2</span>
+</div>
+</div>
+<div class="flex flex-col gap-2 w-full md:w-auto">
+<button class="bg-primary text-on-primary px-6 py-2 rounded-lg font-label-md text-label-md flex items-center justify-center gap-2 hover:opacity-90 transition-all active:scale-95">
+<span class="material-symbols-outlined" data-icon="edit">edit</span>
+                        Nueva Consulta
+                    </button>
+<button class="bg-secondary-container text-on-secondary-container px-6 py-2 rounded-lg font-label-md text-label-md flex items-center justify-center gap-2 hover:bg-outline-variant/30 transition-all active:scale-95">
+<span class="material-symbols-outlined" data-icon="print">print</span>
+                        Imprimir Resumen
+                    </button>
+</div>
+</section>
+<!-- Navigation Tabs -->
+<nav class="flex border-b border-outline-variant mb-lg overflow-x-auto scrollbar-hide">
+<button class="px-6 py-3 font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors whitespace-nowrap">General Info</button>
+<button class="px-6 py-3 font-body-md text-body-md active-tab whitespace-nowrap">Clinical History</button>
+<button class="px-6 py-3 font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors whitespace-nowrap">Optical Prescriptions</button>
+</nav>
+<!-- Content Grid (Clinical History) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Left Column: Primary Medical Entry -->
+<div class="lg:col-span-8 space-y-gutter">
+<!-- Consultation Header -->
+<div class="bg-surface-container-lowest rounded-lg border border-outline-variant p-lg shadow-sm">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-headline-md text-headline-md text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-icon="history_edu">history_edu</span>
+                                Detalles de la Consulta Actual
+                            </h3>
+<span class="text-label-sm font-label-sm text-on-surface-variant">Fecha: 24 Oct, 2023</span>
+</div>
+<!-- Reason for Consultation -->
+<div class="mb-lg">
+<label class="block font-label-md text-label-md text-on-surface-variant mb-2">Motivo de consulta</label>
+<textarea class="w-full bg-background border border-outline-variant rounded-lg p-3 font-body-md text-body-md focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all h-24" placeholder="Describa el motivo de la visita...">Paciente refiere visión borrosa de lejos en ambos ojos desde hace 3 meses, acompañado de cefaleas ocasionales al final del día laboral.</textarea>
+</div>
+<!-- Medical History -->
+<div class="mb-lg">
+<label class="block font-label-md text-label-md text-on-surface-variant mb-2">Antecedentes Médicos &amp; Oculares</label>
+<textarea class="w-full bg-background border border-outline-variant rounded-lg p-3 font-body-md text-body-md focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all h-24" placeholder="Antecedentes relevantes...">Antecedentes familiares de glaucoma (padre). Paciente usa lentes de contacto desechables quincenales.</textarea>
+</div>
+<hr class="border-outline-variant mb-lg"/>
+<!-- Clinical Measurements Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-lg">
+<!-- Visual Acuity -->
+<div class="space-y-4">
+<h4 class="font-label-md text-label-md text-primary uppercase tracking-wider">Agudeza Visual (AV)</h4>
+<div class="grid grid-cols-3 gap-2 items-center">
+<span class="font-label-sm text-label-sm text-on-surface-variant"></span>
+<span class="text-center font-label-sm text-label-sm text-on-surface-variant">Ojo Derecho</span>
+<span class="text-center font-label-sm text-label-sm text-on-surface-variant">Ojo Izquierdo</span>
+<span class="font-label-sm text-label-sm">Sin Corrección</span>
+<input class="bg-background border border-outline-variant rounded p-2 text-center text-body-sm font-body-sm focus:border-primary focus:ring-1 focus:ring-primary/20 outline-none" type="text" value="20/50"/>
+<input class="bg-background border border-outline-variant rounded p-2 text-center text-body-sm font-body-sm focus:border-primary focus:ring-1 focus:ring-primary/20 outline-none" type="text" value="20/70"/>
+<span class="font-label-sm text-label-sm">Con Corrección</span>
+<input class="bg-background border border-outline-variant rounded p-2 text-center text-body-sm font-body-sm focus:border-primary focus:ring-1 focus:ring-primary/20 outline-none" type="text" value="20/20"/>
+<input class="bg-background border border-outline-variant rounded p-2 text-center text-body-sm font-body-sm focus:border-primary focus:ring-1 focus:ring-primary/20 outline-none" type="text" value="20/25"/>
+</div>
+</div>
+<!-- Tonometry -->
+<div class="space-y-4">
+<h4 class="font-label-md text-label-md text-primary uppercase tracking-wider">Tonometría (PIO)</h4>
+<div class="grid grid-cols-2 gap-4">
+<div class="flex flex-col gap-1">
+<label class="text-label-sm font-label-sm text-on-surface-variant">OD (mmHg)</label>
+<div class="relative">
+<input class="w-full bg-background border border-outline-variant rounded-lg p-2 pl-4 text-body-md font-body-md focus:border-primary focus:ring-1 focus:ring-primary/20 outline-none" type="text" value="14"/>
+<span class="absolute right-3 top-2 text-on-surface-variant text-label-sm">mmHg</span>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<label class="text-label-sm font-label-sm text-on-surface-variant">OI (mmHg)</label>
+<div class="relative">
+<input class="w-full bg-background border border-outline-variant rounded-lg p-2 pl-4 text-body-md font-body-md focus:border-primary focus:ring-1 focus:ring-primary/20 outline-none" type="text" value="15"/>
+<span class="absolute right-3 top-2 text-on-surface-variant text-label-sm">mmHg</span>
+</div>
+</div>
+</div>
+<div class="p-3 bg-surface-container text-label-sm font-label-sm rounded-lg flex gap-2 items-start">
+<span class="material-symbols-outlined text-[18px] text-primary" data-icon="info">info</span>
+                                    Valores normales: 10 - 21 mmHg. El paciente se encuentra en rangos estables.
+                                </div>
+</div>
+</div>
+<!-- Refraction Section -->
+<div class="mt-lg pt-lg border-t border-outline-variant">
+<h4 class="font-label-md text-label-md text-primary uppercase tracking-wider mb-4">Refracción Final</h4>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="text-label-sm font-label-sm text-on-surface-variant">
+<th class="pb-2 pr-4"></th>
+<th class="pb-2 px-4 border-l border-outline-variant/30">Esfera (SPH)</th>
+<th class="pb-2 px-4">Cilindro (CYL)</th>
+<th class="pb-2 px-4">Eje (AXIS)</th>
+<th class="pb-2 px-4">Adición (ADD)</th>
+</tr>
+</thead>
+<tbody class="text-body-md">
+<tr class="border-t border-outline-variant/30">
+<td class="py-3 pr-4 font-label-md text-primary">OD</td>
+<td class="py-3 px-4 border-l border-outline-variant/30"><input class="w-20 bg-background border border-outline-variant rounded p-1 text-center" type="text" value="-1.25"/></td>
+<td class="py-3 px-4"><input class="w-20 bg-background border border-outline-variant rounded p-1 text-center" type="text" value="-0.50"/></td>
+<td class="py-3 px-4"><input class="w-20 bg-background border border-outline-variant rounded p-1 text-center" type="text" value="165°"/></td>
+<td class="py-3 px-4"><input class="w-20 bg-background border border-outline-variant rounded p-1 text-center" type="text" value="+1.50"/></td>
+</tr>
+<tr class="border-t border-outline-variant/30">
+<td class="py-3 pr-4 font-label-md text-primary">OI</td>
+<td class="py-3 px-4 border-l border-outline-variant/30"><input class="w-20 bg-background border border-outline-variant rounded p-1 text-center" type="text" value="-1.50"/></td>
+<td class="py-3 px-4"><input class="w-20 bg-background border border-outline-variant rounded p-1 text-center" type="text" value="-0.75"/></td>
+<td class="py-3 px-4"><input class="w-20 bg-background border border-outline-variant rounded p-1 text-center" type="text" value="15°"/></td>
+<td class="py-3 px-4"><input class="w-20 bg-background border border-outline-variant rounded p-1 text-center" type="text" value="+1.50"/></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Support Modules -->
+<div class="lg:col-span-4 space-y-gutter">
+<!-- Exams & Images Section -->
+<div class="bg-surface-container-lowest rounded-lg border border-outline-variant p-lg shadow-sm">
+<h3 class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]" data-icon="file_upload">file_upload</span>
+                            Adjuntar Exámenes / Imágenes
+                        </h3>
+<div class="border-2 border-dashed border-outline-variant rounded-xl p-6 flex flex-col items-center justify-center text-center bg-surface-container-low hover:bg-surface-container-high transition-all cursor-pointer group">
+<span class="material-symbols-outlined text-[48px] text-outline group-hover:text-primary transition-colors mb-3" data-icon="add_photo_alternate">add_photo_alternate</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Arrastre aquí o haga clic para subir archivos</p>
+<p class="text-[10px] text-outline mt-1 uppercase">JPG, PNG, PDF (Max 10MB)</p>
+</div>
+<div class="mt-lg space-y-3">
+<div class="flex items-center gap-3 p-3 bg-background rounded-lg border border-outline-variant group hover:border-primary transition-colors">
+<div class="w-10 h-10 bg-secondary-container rounded flex items-center justify-center text-on-secondary-container">
+<span class="material-symbols-outlined" data-icon="image">image</span>
+</div>
+<div class="flex-1 overflow-hidden">
+<p class="font-label-sm text-label-sm truncate">Retinografia_OCT_2023.jpg</p>
+<p class="text-[10px] text-outline">Subido hace 2 días • 2.4 MB</p>
+</div>
+<button class="material-symbols-outlined text-outline hover:text-error transition-colors" data-icon="delete">delete</button>
+</div>
+<div class="flex items-center gap-3 p-3 bg-background rounded-lg border border-outline-variant group hover:border-primary transition-colors">
+<div class="w-10 h-10 bg-secondary-container rounded flex items-center justify-center text-on-secondary-container">
+<span class="material-symbols-outlined" data-icon="picture_as_pdf">picture_as_pdf</span>
+</div>
+<div class="flex-1 overflow-hidden">
+<p class="font-label-sm text-label-sm truncate">Resultados_Lab_Diabetes.pdf</p>
+<p class="text-[10px] text-outline">Subido ayer • 1.1 MB</p>
+</div>
+<button class="material-symbols-outlined text-outline hover:text-error transition-colors" data-icon="delete">delete</button>
+</div>
+</div>
+</div>
+<!-- Clinical Notes & Observation -->
+<div class="bg-surface-container-lowest rounded-lg border border-outline-variant p-lg shadow-sm">
+<h3 class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]" data-icon="notes">notes</span>
+                            Notas &amp; Observaciones
+                        </h3>
+<textarea class="w-full bg-background border border-outline-variant rounded-lg p-3 font-body-sm text-body-sm focus:border-primary focus:ring-1 focus:ring-primary/20 outline-none h-40" placeholder="Añadir notas internas o instrucciones especiales para el paciente..."></textarea>
+<div class="mt-4 flex items-center gap-2">
+<input class="rounded border-outline-variant text-primary focus:ring-primary" id="urgent" type="checkbox"/>
+<label class="font-label-sm text-label-sm text-on-surface-variant" for="urgent">Marcar como seguimiento urgente</label>
+</div>
+</div>
+<!-- Quick Actions -->
+<div class="flex flex-col gap-3">
+<button class="w-full bg-primary-container text-on-primary-container font-label-md text-label-md py-3 rounded-lg flex items-center justify-center gap-2 shadow-sm hover:brightness-105 active:scale-[0.98] transition-all">
+<span class="material-symbols-outlined" data-icon="save">save</span>
+                            Guardar Cambios
+                        </button>
+<button class="w-full bg-surface-container-highest text-on-surface font-label-md text-label-md py-3 rounded-lg flex items-center justify-center gap-2 border border-outline-variant/30 hover:bg-outline-variant/20 active:scale-[0.98] transition-all">
+<span class="material-symbols-outlined" data-icon="cancel">cancel</span>
+                            Cancelar
+                        </button>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Mobile Navigation Shell -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 bg-surface border-t border-outline-variant shadow-lg flex justify-around items-center h-20 pb-safe px-2">
+<a class="flex flex-col items-center justify-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-label-sm text-label-sm">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-4 py-1" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-label-sm text-label-sm">Patients</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined" data-icon="calendar_month">calendar_month</span>
+<span class="font-label-sm text-label-sm">Agenda</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+<span class="font-label-sm text-label-sm">Sales</span>
+</a>
+</nav>
+<script>
+        // Tab switching logic (Conceptual for visual purposes)
+        const tabs = document.querySelectorAll('nav button');
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active-tab', 'text-primary'));
+                tabs.forEach(t => t.classList.add('text-on-surface-variant'));
+                tab.classList.remove('text-on-surface-variant');
+                tab.classList.add('active-tab');
+            });
+        });
+
+        // Simple interaction for inputs
+        const inputs = document.querySelectorAll('input, textarea');
+        inputs.forEach(input => {
+            input.addEventListener('focus', () => {
+                input.parentElement.classList.add('border-primary');
+            });
+            input.addEventListener('blur', () => {
+                input.parentElement.classList.remove('border-primary');
+            });
+        });
+    </script>
+</body></html>
