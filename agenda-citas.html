@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed": "#e0e3e6",
+                        "on-primary-fixed": "#001a40",
+                        "tertiary-container": "#55595c",
+                        "secondary-fixed-dim": "#bfc8d0",
+                        "tertiary-fixed-dim": "#c4c7ca",
+                        "on-surface": "#181c20",
+                        "surface-dim": "#d7dadf",
+                        "on-error": "#ffffff",
+                        "on-primary-fixed-variant": "#004491",
+                        "outline": "#727784",
+                        "on-tertiary": "#ffffff",
+                        "inverse-surface": "#2d3135",
+                        "error-container": "#ffdad6",
+                        "on-secondary": "#ffffff",
+                        "on-surface-variant": "#424752",
+                        "secondary-container": "#d8e1ea",
+                        "on-secondary-container": "#5b646b",
+                        "background": "#f7f9ff",
+                        "on-secondary-fixed": "#141d23",
+                        "surface-container-highest": "#e0e3e8",
+                        "surface-variant": "#e0e3e8",
+                        "on-tertiary-container": "#ccd0d3",
+                        "surface-container-high": "#e5e8ee",
+                        "error": "#ba1a1a",
+                        "primary-fixed-dim": "#acc7ff",
+                        "on-secondary-fixed-variant": "#3f484f",
+                        "on-error-container": "#93000a",
+                        "on-primary": "#ffffff",
+                        "on-background": "#181c20",
+                        "surface-bright": "#f7f9ff",
+                        "on-primary-container": "#bbd0ff",
+                        "inverse-on-surface": "#eef1f6",
+                        "primary-fixed": "#d7e2ff",
+                        "primary-container": "#0056b3",
+                        "outline-variant": "#c2c6d4",
+                        "on-tertiary-fixed": "#181c1e",
+                        "surface-tint": "#115cb9",
+                        "primary": "#003f87",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-low": "#f1f4f9",
+                        "inverse-primary": "#acc7ff",
+                        "tertiary": "#3e4244",
+                        "surface-container": "#ebeef3",
+                        "surface": "#f7f9ff",
+                        "secondary": "#575f67",
+                        "on-tertiary-fixed-variant": "#43474a",
+                        "secondary-fixed": "#dbe4ed"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xl": "32px",
+                        "margin-mobile": "16px",
+                        "xs": "4px",
+                        "sm": "8px",
+                        "lg": "24px",
+                        "md": "16px",
+                        "margin-desktop": "48px",
+                        "base": "4px",
+                        "gutter": "20px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "body-md": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "display-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "label-md": ["14px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "label-sm": ["12px", {"lineHeight": "14px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen font-body-md">
+<!-- Navigation Drawer (Desktop) -->
+<aside class="hidden md:flex flex-col py-lg bg-surface h-full w-80 fixed left-0 top-0 border-r border-outline-variant shadow-md z-40">
+<div class="px-lg mb-xl flex items-center gap-md">
+<span class="material-symbols-outlined text-primary text-[32px]">visibility</span>
+<span class="font-headline-md text-primary font-bold">Ópticas GM</span>
+</div>
+<div class="px-md mb-xl flex items-center gap-md">
+<div class="w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center overflow-hidden">
+<img alt="Dr. Practitioner" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_sABC3yoyzm3Q3zpI83uuJb_ogu5b0klSIsxxXzlH4rdZR8xLOU9eIId-wBG5yhxXkDjfvc0zRDQRp5I7am2tOpJwVNMvcAsM9OaCncp-p8d7yLHgeDo5i9F7hXwUtcg7dI1SjfJ6yAjeLtCZnaZ7jlFIW3zR_mxl2zlWUHqxAtCb-shXCb2liQM4DoO8yUN9UweLrKXWpuPaXcu3y4LWMJKUQxfLAHkXqqKM-0f2F-q_upRNXfpl5MpkA1ZQzTVZXw6BcarYmHI"/>
+</div>
+<div>
+<p class="font-label-md text-on-surface">Dr. Practitioner</p>
+<p class="text-label-sm text-on-surface-variant">Ópticas GM Admin</p>
+</div>
+</div>
+<nav class="flex-1">
+<a class="flex items-center gap-md px-lg py-3 text-on-surface-variant hover:bg-surface-container transition-colors" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-body-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-md px-lg py-3 text-on-surface-variant hover:bg-surface-container transition-colors" href="#">
+<span class="material-symbols-outlined">groups</span>
+<span class="font-body-md">Patients</span>
+</a>
+<a class="flex items-center gap-md px-lg py-3 bg-secondary-container text-on-secondary-container font-bold rounded-r-full mr-4" href="#">
+<span class="material-symbols-outlined">event</span>
+<span class="font-body-md">Agenda</span>
+</a>
+<a class="flex items-center gap-md px-lg py-3 text-on-surface-variant hover:bg-surface-container transition-colors" href="#">
+<span class="material-symbols-outlined">description</span>
+<span class="font-body-md">Clinical History</span>
+</a>
+<a class="flex items-center gap-md px-lg py-3 text-on-surface-variant hover:bg-surface-container transition-colors" href="#">
+<span class="material-symbols-outlined">medical_services</span>
+<span class="font-body-md">Prescriptions</span>
+</a>
+<a class="flex items-center gap-md px-lg py-3 text-on-surface-variant hover:bg-surface-container transition-colors" href="#">
+<span class="material-symbols-outlined">receipt_long</span>
+<span class="font-body-md">Billing</span>
+</a>
+<a class="flex items-center gap-md px-lg py-3 text-on-surface-variant hover:bg-surface-container transition-colors" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-body-md">Inventory</span>
+</a>
+</nav>
+</aside>
+<!-- Main Content Area -->
+<main class="md:ml-80 pb-24 md:pb-8">
+<!-- TopAppBar (Mobile) -->
+<header class="md:hidden sticky top-0 bg-surface shadow-sm border-b border-outline-variant h-16 w-full flex justify-between items-center px-margin-mobile z-40">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary text-headline-md">visibility</span>
+<h1 class="font-headline-md font-bold text-primary">Ópticas GM</h1>
+</div>
+<div class="w-10 h-10 rounded-full border border-outline-variant overflow-hidden">
+<img alt="Clinic Logo" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCEZQ5vQ1Q86JH755ZBgEf4-fp4-5raOyNlexaXffK8ZA-0fbPFYEX9A_wO-iDGDVXqnhBeCXUr3yzVvH795PUasaemTXmLR7S5NQE2T8LrmuOPasK4-jayAGcMMGLE3fBzXRkoBIqbjHDxYtyySPySlAiqgx4aBUoo93dqVFUhIJb2k196P1DxL-WLJ33WPw3HMmwjrkBupevOTqX3bVu6BRyEzM10kpyH34uZraJhVzBIFz60p1z8NsCgTNVm3lXqG8weLrC9nrA"/>
+</div>
+</header>
+<section class="p-md md:p-xl max-w-6xl mx-auto">
+<!-- Page Header & Global Actions -->
+<div class="flex flex-col md:flex-row md:items-center justify-between mb-lg gap-md">
+<div>
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-on-surface">Agenda y Citas</h2>
+<p class="text-body-sm text-on-surface-variant">Gestiona las consultas diarias y semanales de tus pacientes.</p>
+</div>
+<div class="flex gap-sm">
+<button class="flex items-center gap-xs bg-surface-container-high text-primary px-md py-sm rounded-lg font-label-md hover:bg-secondary-container transition-colors active:scale-95">
+<span class="material-symbols-outlined text-[20px]">person_add</span>
+                        Waiting List
+                    </button>
+<button class="flex items-center gap-xs bg-primary text-on-primary px-md py-sm rounded-lg font-label-md hover:opacity-90 transition-all active:scale-95 shadow-md">
+<span class="material-symbols-outlined text-[20px]">add</span>
+                        New Appointment
+                    </button>
+</div>
+</div>
+<!-- Weekly Calendar Strip -->
+<div class="bg-surface-container-lowest rounded-xl p-md shadow-sm mb-lg border border-outline-variant/30">
+<div class="flex items-center justify-between mb-md">
+<h3 class="font-label-md text-on-surface uppercase tracking-wider">Octubre 2023</h3>
+<div class="flex gap-xs">
+<button class="p-base hover:bg-surface-container rounded-full text-on-surface-variant"><span class="material-symbols-outlined">chevron_left</span></button>
+<button class="p-base hover:bg-surface-container rounded-full text-on-surface-variant"><span class="material-symbols-outlined">chevron_right</span></button>
+</div>
+</div>
+<div class="flex justify-between overflow-x-auto hide-scrollbar gap-sm md:gap-lg py-xs">
+<!-- Day Items -->
+<div class="flex flex-col items-center min-w-[50px] p-sm rounded-lg cursor-pointer hover:bg-surface-container-low transition-colors">
+<span class="text-label-sm text-on-surface-variant">Lun</span>
+<span class="font-headline-md text-on-surface">16</span>
+</div>
+<div class="flex flex-col items-center min-w-[50px] p-sm rounded-lg cursor-pointer hover:bg-surface-container-low transition-colors">
+<span class="text-label-sm text-on-surface-variant">Mar</span>
+<span class="font-headline-md text-on-surface">17</span>
+</div>
+<div class="flex flex-col items-center min-w-[50px] p-sm rounded-lg cursor-pointer bg-primary-container text-on-primary-container shadow-md">
+<span class="text-label-sm opacity-80">Mié</span>
+<span class="font-headline-md font-bold">18</span>
+<div class="w-1.5 h-1.5 bg-on-primary-container rounded-full mt-1"></div>
+</div>
+<div class="flex flex-col items-center min-w-[50px] p-sm rounded-lg cursor-pointer hover:bg-surface-container-low transition-colors">
+<span class="text-label-sm text-on-surface-variant">Jue</span>
+<span class="font-headline-md text-on-surface">19</span>
+</div>
+<div class="flex flex-col items-center min-w-[50px] p-sm rounded-lg cursor-pointer hover:bg-surface-container-low transition-colors">
+<span class="text-label-sm text-on-surface-variant">Vie</span>
+<span class="font-headline-md text-on-surface">20</span>
+</div>
+<div class="flex flex-col items-center min-w-[50px] p-sm rounded-lg cursor-pointer hover:bg-surface-container-low transition-colors opacity-50">
+<span class="text-label-sm text-on-surface-variant">Sáb</span>
+<span class="font-headline-md text-on-surface">21</span>
+</div>
+<div class="flex flex-col items-center min-w-[50px] p-sm rounded-lg cursor-pointer hover:bg-surface-container-low transition-colors opacity-50">
+<span class="text-label-sm text-on-surface-variant">Dom</span>
+<span class="font-headline-md text-on-surface">22</span>
+</div>
+</div>
+</div>
+<!-- Daily Schedule View -->
+<div class="space-y-md">
+<!-- Time Slot 08:00 (Confirmed) -->
+<div class="group flex gap-md items-stretch">
+<div class="w-16 pt-xs flex flex-col items-center">
+<span class="font-label-md text-on-surface">08:00</span>
+<div class="flex-1 w-px bg-outline-variant my-xs"></div>
+</div>
+<div class="flex-1 bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-md shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-md relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1.5 bg-primary"></div>
+<div class="flex items-center gap-md">
+<div class="w-12 h-12 rounded-full overflow-hidden bg-surface-container-high border-2 border-primary-fixed">
+<img alt="Ana García" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAyscdUmnpeRnRAab09MU_yolQHuzBdqUNCGINior2IP3Fbh8vlPlv0lqATJ38Vz8oXWGciYrFgempkzUjpAK9yapsjp2BYtUfWIeHRNWo-lxD4YRGkPehaOKj7I15vOO0DLh7uNo4Ca6mpZzc11CKSKGIfS_ZOxBdCM4MPiTASbAm60bzHkuRtUFRGxRhTmYPOjVp8_H-qHeN8IOObtUzpGBRrMsE_faV75ye1J2RQrNP1xF9WEWXpnUR2P_8mvyOqK-n7J6bZV40"/>
+</div>
+<div>
+<h4 class="font-label-md text-on-surface">Ana García Román</h4>
+<p class="text-body-sm text-on-surface-variant">Examen de Refracción • Dr. Ortega</p>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<span class="px-sm py-xs rounded bg-blue-50 text-blue-700 text-label-sm font-bold border border-blue-100 uppercase">Confirmed</span>
+<div class="flex gap-xs opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-xs text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined">edit</span></button>
+<button class="p-xs text-on-surface-variant hover:text-error transition-colors"><span class="material-symbols-outlined">delete</span></button>
+</div>
+</div>
+</div>
+</div>
+<!-- Time Slot 09:00 (Rescheduled) -->
+<div class="group flex gap-md items-stretch">
+<div class="w-16 pt-xs flex flex-col items-center">
+<span class="font-label-md text-on-surface">09:00</span>
+<div class="flex-1 w-px bg-outline-variant my-xs"></div>
+</div>
+<div class="flex-1 bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-md shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-md relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1.5 bg-secondary"></div>
+<div class="flex items-center gap-md">
+<div class="w-12 h-12 rounded-full overflow-hidden bg-surface-container-high">
+<img alt="Juan López" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBtmJfIIggNu4eaEIWhiTqxqaUAplm1NvQujRlQDJlMiDkU4WYCjWIL4paTVOgljdWNxW5WEd1JdULwv0Av8G0qX_4cY4HC6kLEkaf1VjIadc2Hwf3A8n2Hhps7-z7vMyctt-oRg678V6cN-a8jshfVbk85C0E-YmMiR1YzeQZvBdkVPOpCrD7ZXAq1gtjeTY33nvQUR92xVRuz_8W0TJKwIRo8B_r9lkAlN0j18B5rKrAYaX6orRkJJTufxZtcuf_1Zn_ANvldgNQ"/>
+</div>
+<div>
+<h4 class="font-label-md text-on-surface">Juan Manuel López</h4>
+<p class="text-body-sm text-on-surface-variant">Control de Presión Intraocular</p>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<span class="px-sm py-xs rounded bg-surface-container-high text-secondary text-label-sm font-bold border border-outline-variant uppercase">Rescheduled</span>
+<div class="flex gap-xs opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-xs text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined">event_repeat</span></button>
+</div>
+</div>
+</div>
+</div>
+<!-- Time Slot 10:00 (Blocked) -->
+<div class="flex gap-md items-stretch">
+<div class="w-16 pt-xs flex flex-col items-center">
+<span class="font-label-md text-on-surface">10:00</span>
+<div class="flex-1 w-px bg-outline-variant my-xs"></div>
+</div>
+<div class="flex-1 bg-surface-container-low/50 border border-dashed border-outline-variant rounded-xl p-md flex items-center justify-between">
+<div class="flex items-center gap-md text-on-surface-variant">
+<span class="material-symbols-outlined">lock</span>
+<p class="font-body-md italic">Blocked for Administrative Maintenance</p>
+</div>
+<button class="text-primary font-label-md hover:underline">Unblock</button>
+</div>
+</div>
+<!-- Time Slot 11:00 (Pending) -->
+<div class="group flex gap-md items-stretch">
+<div class="w-16 pt-xs flex flex-col items-center">
+<span class="font-label-md text-on-surface">11:00</span>
+<div class="flex-1 w-px bg-outline-variant my-xs"></div>
+</div>
+<div class="flex-1 bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-md shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-md relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1.5 bg-error"></div>
+<div class="flex items-center gap-md">
+<div class="w-12 h-12 rounded-full overflow-hidden bg-surface-container-high">
+<img alt="Claudia M." class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBGbkKbbq04Uf6kSubITW_hvxZOqZO_ZA90PdlcO5x4UWcX1-hVHc8n9VJlwO-4-RQ296qETNPN77UM-7AAuKuLP8boDA648awiRmd7e0OmWqbLEvhnBEpbFmNCQJ5aZSMgJz-N4k2HusDUs5j9x0geAo7jqiZUqXpO1u90VetT0UxU8yRN0Fv8fcUJy-bFJPUpdxuJpDvs-WvhXxyRiTyXOhUJIX_RVgxzGFt0lICs28C_dKUDyDi3uZUzYOPiD9Vqk7GI47MdrW8"/>
+</div>
+<div>
+<h4 class="font-label-md text-on-surface">Claudia Méndez Soto</h4>
+<p class="text-body-sm text-on-surface-variant">Prueba de Lentes de Contacto</p>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<span class="px-sm py-xs rounded bg-error-container text-on-error-container text-label-sm font-bold border border-error/20 uppercase">Pending</span>
+<div class="flex gap-xs">
+<button class="p-sm bg-primary-container text-on-primary-container rounded-lg hover:brightness-110 transition-all"><span class="material-symbols-outlined text-[20px]">check</span></button>
+<button class="p-sm bg-surface-container-high text-on-surface-variant rounded-lg hover:bg-error/10 hover:text-error transition-all"><span class="material-symbols-outlined text-[20px]">close</span></button>
+</div>
+</div>
+</div>
+</div>
+<!-- Empty Slot Interaction -->
+<div class="flex gap-md items-stretch cursor-pointer hover:bg-surface-container-low transition-all group rounded-xl">
+<div class="w-16 pt-xs flex flex-col items-center">
+<span class="font-label-md text-on-surface">12:00</span>
+<div class="flex-1 w-px bg-outline-variant my-xs"></div>
+</div>
+<div class="flex-1 p-md flex items-center justify-center border border-dashed border-transparent group-hover:border-outline-variant rounded-xl transition-all">
+<div class="flex items-center gap-sm text-on-surface-variant opacity-0 group-hover:opacity-100">
+<span class="material-symbols-outlined">add_circle</span>
+<span class="font-label-md">Schedule Appointment at 12:00</span>
+<span class="mx-md">|</span>
+<button class="hover:text-primary transition-colors">Block Hours</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar (Mobile) -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 bg-surface border-t border-outline-variant shadow-lg flex justify-around items-center h-20 pb-safe px-2">
+<a class="flex flex-col items-center justify-center text-on-surface-variant active:scale-90 transition-all" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-sm text-label-sm">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant active:scale-90 transition-all" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-sm text-label-sm">Patients</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-4 py-1 active:scale-90 transition-all" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">calendar_month</span>
+<span class="font-label-sm text-label-sm">Agenda</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant active:scale-90 transition-all" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-label-sm text-label-sm">Sales</span>
+</a>
+</nav>
+<!-- FAB (Mobile Only - Primary Action) -->
+<button class="md:hidden fixed bottom-24 right-margin-mobile bg-primary text-on-primary w-14 h-14 rounded-full shadow-xl flex items-center justify-center active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-[28px]">add</span>
+</button>
+<script>
+        // Simple Interaction logic for demo
+        document.querySelectorAll('.cursor-pointer').forEach(item => {
+            item.addEventListener('click', () => {
+                item.classList.toggle('bg-primary-container');
+                item.classList.toggle('text-on-primary-container');
+                item.classList.toggle('hover:bg-surface-container-low');
+            });
+        });
+    </script>
+</body></html>
