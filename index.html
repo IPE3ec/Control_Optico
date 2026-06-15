@@ -1,1 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ópticas GM - Bienvenido</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #003f87 0%, #0056b3 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    }
+    .animation-container {
+      text-align: center;
+      animation: fadeInScale 1.2s cubic-bezier(0.2, 0.9, 0.4, 1.1) forwards;
+    }
+    .logo {
+      width: 120px;
+      height: 120px;
+      background: white;
+      border-radius: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+      box-shadow: 0 20px 35px -10px rgba(0,0,0,0.3);
+      animation: pulse 1.5s infinite alternate;
+    }
+    .logo span {
+      font-size: 64px;
+      color: #003f87;
+    }
+    h1 {
+      color: white;
+      font-size: 2.5rem;
+      letter-spacing: -0.5px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    p {
+      color: rgba(255,255,255,0.9);
+      font-size: 1.1rem;
+    }
+    @keyframes fadeInScale {
+      0% { opacity: 0; transform: scale(0.95); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); box-shadow: 0 20px 35px -10px rgba(0,0,0,0.3); }
+      100% { transform: scale(1.02); box-shadow: 0 30px 40px -12px rgba(0,0,0,0.4); }
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1" rel="stylesheet">
+</head>
+<body>
+  <div class="animation-container">
+    <div class="logo">
+      <span class="material-symbols-outlined">visibility</span>
+    </div>
+    <h1>Ópticas GM</h1>
+    <p>Sistema de Gestión Optométrica</p>
+  </div>
 
+  <script>
+    setTimeout(() => {
+      window.location.href = 'login.html';
+    }, 2800);
+  </script>
+</body>
+</html>
