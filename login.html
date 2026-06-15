@@ -9,14 +9,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1" rel="stylesheet">
   <style>
     body { font-family: 'Inter', sans-serif; background: #f7f9ff; }
-    .card-transition {
-      transition: all 0.3s ease;
-    }
   </style>
 </head>
 <body class="bg-background flex items-center justify-center min-h-screen p-4">
   <div class="max-w-md w-full bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
-    <!-- Header -->
     <div class="bg-primary px-6 py-4 text-white" style="background-color: #003f87;">
       <div class="flex items-center gap-2">
         <span class="material-symbols-outlined">visibility</span>
@@ -24,53 +20,22 @@
       </div>
       <p class="text-sm opacity-90 mt-1">Accede o regístrate para continuar</p>
     </div>
-
-    <!-- Contenido dinámico (login / registro / planes) -->
-    <div id="appContent" class="p-6">
-      <!-- Aquí se renderizarán las vistas -->
-    </div>
+    <div id="appContent" class="p-6"></div>
   </div>
 
   <script>
-    // ================= CONFIGURACIÓN =================
-    // REEMPLAZA ESTA URL CON LA DE TU WEB APP (ver código .gs)
+    // ================= URL DE TU WEB APP =================
     const API_URL = 'https://script.google.com/macros/s/AKfycbyjtsc2Ppw1wRysFFL4ei3JH-hfkAzsAu2zA5lJxekh4F1Zv3yLk9BenXnxUom2gdoeuQ/exec';
 
-    // Estado de la aplicación
     let currentView = 'login'; // 'login', 'register', 'plans'
-    let currentUserEmail = null; // email del usuario autenticado
+    let currentUserEmail = null;
 
-    // ============= FUNCIONES DE LLAMADA A LA API =============
-    async function callAPI(action, data) {
-      const payload = { action, ...data };
-      try {
-        const response = await fetch(API_URL, {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: new URLSearchParams(payload)
-        });
-        // Con no-cors no podemos leer respuesta fácilmente; usaremos JSONP alternativo.
-        // Mejor cambiar a modo cors con Content-Type adecuado. 
-        // Pero Apps Script acepta POST con text/plain. Vamos a usar un enfoque con fetch normal.
-        // Reescribamos para usar POST con JSON y manejar respuesta.
-        // Rehacemos la función correctamente (sin no-cors).
-      } catch(e) { console.error(e); }
-    }
-
-    // Versión correcta con POST y lectura de respuesta JSON
-    async function callAPI2(action, data) {
-      const url = API_URL + '?action=' + action + '&' + new URLSearchParams(data).toString();
-      // Usamos GET para simplificar (Apps Script también responde a GET con doGet)
-      const res = await fetch(url);
-      return await res.json();
-    }
-
-    // Mejor: unificamos usando GET (porque nuestro doGet ya devuelve JSON)
+    // ============= FUNCIÓN API =============
     async function apiRequest(action, params = {}) {
       const query = new URLSearchParams({ action, ...params }).toString();
-      const response = await fetch(`${API_URL}?${query}`);
-      if (!response.ok) throw new Error('Error de red');
+      const url = `${API_URL}?${query}`;
+      const response = await fetch(url, { method: 'GET', mode: 'cors' });
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
       return await response.json();
     }
 
@@ -78,17 +43,17 @@
     function renderLogin() {
       return `
         <h2 class="text-2xl font-bold text-gray-800 mb-2">Iniciar sesión</h2>
-        <p class="text-gray-500 text-sm mb-6">Ingresa tus credenciales para acceder al panel</p>
+        <p class="text-gray-500 text-sm mb-6">Ingresa tus credenciales</p>
         <div class="space-y-4">
           <div>
             <label class="block text-sm font-medium text-gray-700">Correo electrónico</label>
-            <input type="email" id="loginEmail" class="mt-1 w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-primary focus:border-primary" placeholder="admin@opticasm.com">
+            <input type="email" id="loginEmail" class="mt-1 w-full border border-gray-300 rounded-lg px-3 py-2" placeholder="admin@opticasm.com">
           </div>
           <div>
             <label class="block text-sm font-medium text-gray-700">Contraseña</label>
             <input type="password" id="loginPassword" class="mt-1 w-full border border-gray-300 rounded-lg px-3 py-2" placeholder="••••••">
           </div>
-          <button id="doLoginBtn" class="w-full bg-primary text-white py-2 rounded-lg font-semibold hover:bg-opacity-90 transition" style="background-color:#003f87">Ingresar</button>
+          <button id="doLoginBtn" class="w-full bg-primary text-white py-2 rounded-lg font-semibold hover:bg-opacity-90" style="background-color:#003f87">Ingresar</button>
           <p class="text-center text-sm text-gray-500">¿No tienes cuenta? <button id="goToRegister" class="text-primary font-medium">Regístrate aquí</button></p>
         </div>
       `;
@@ -97,7 +62,7 @@
     function renderRegister() {
       return `
         <h2 class="text-2xl font-bold text-gray-800 mb-2">Registro de óptica</h2>
-        <p class="text-gray-500 text-sm mb-4">Completa los datos para empezar tu prueba gratuita</p>
+        <p class="text-gray-500 text-sm mb-4">Completa los datos para empezar</p>
         <div class="space-y-3 max-h-96 overflow-y-auto pr-1">
           <div><label class="block text-sm font-medium">Nombre del doctor / óptica</label><input id="regNombre" class="w-full border rounded-lg px-3 py-2"></div>
           <div><label class="block text-sm font-medium">Ciudad</label><input id="regCiudad" class="w-full border rounded-lg px-3 py-2"></div>
@@ -115,14 +80,14 @@
     function renderPlans() {
       return `
         <h2 class="text-2xl font-bold text-gray-800">Elige tu plan</h2>
-        <p class="text-sm text-gray-500 mb-4">Selecciona la suscripción que mejor se adapte a tu negocio</p>
+        <p class="text-sm text-gray-500 mb-4">Selecciona la suscripción</p>
         <div class="space-y-3">
           <div class="border rounded-xl p-3 flex justify-between items-center hover:bg-gray-50 cursor-pointer" data-plan="gratis">
             <div><span class="font-bold">Plan Gratis</span><span class="text-xs block text-gray-500">7 días de prueba</span></div>
             <span class="text-green-600 font-bold">$0</span>
           </div>
           <div class="border rounded-xl p-3 flex justify-between items-center hover:bg-gray-50 cursor-pointer" data-plan="mensual">
-            <div><span class="font-bold">Plan Mensual</span><span class="text-xs block text-gray-500">Acceso completo por 30 días</span></div>
+            <div><span class="font-bold">Plan Mensual</span><span class="text-xs block text-gray-500">30 días</span></div>
             <span class="text-primary font-bold">$20</span>
           </div>
           <div class="border rounded-xl p-3 flex justify-between items-center hover:bg-gray-50 cursor-pointer" data-plan="semestral">
@@ -138,20 +103,22 @@
       `;
     }
 
-    // Lógica de eventos (se monta después de renderizar)
+    // Eventos dinámicos
     function attachEvents() {
       if (currentView === 'login') {
         document.getElementById('doLoginBtn')?.addEventListener('click', async () => {
-          const email = document.getElementById('loginEmail').value;
-          const pass = document.getElementById('loginPassword').value;
-          const result = await apiRequest('login', { correo: email, password: pass });
-          if (result.success) {
-            currentUserEmail = email;
-            currentView = 'plans';
-            renderApp();
-          } else {
-            alert('Credenciales incorrectas o usuario no existe');
-          }
+          const correo = document.getElementById('loginEmail').value;
+          const password = document.getElementById('loginPassword').value;
+          try {
+            const result = await apiRequest('login', { correo, password });
+            if (result.success) {
+              currentUserEmail = correo;
+              currentView = 'plans';
+              renderApp();
+            } else {
+              alert('Credenciales incorrectas o usuario no existe');
+            }
+          } catch (err) { alert('Error de conexión: ' + err.message); }
         });
         document.getElementById('goToRegister')?.addEventListener('click', () => { currentView = 'register'; renderApp(); });
       }
@@ -165,14 +132,16 @@
           const correo = document.getElementById('regCorreo').value;
           const password = document.getElementById('regPassword').value;
           if (!correo || !password) { alert('Correo y contraseña obligatorios'); return; }
-          const result = await apiRequest('register', { nombre, ciudad, ruc, direccion, telefono, correo, password });
-          if (result.success) {
-            currentUserEmail = correo;
-            currentView = 'plans';
-            renderApp();
-          } else {
-            alert('Error en registro: ' + (result.error || 'correo ya existe'));
-          }
+          try {
+            const result = await apiRequest('register', { nombre, ciudad, ruc, direccion, telefono, correo, password });
+            if (result.success) {
+              currentUserEmail = correo;
+              currentView = 'plans';
+              renderApp();
+            } else {
+              alert('Error en registro: ' + result.error);
+            }
+          } catch (err) { alert('Error de conexión: ' + err.message); }
         });
         document.getElementById('goToLogin')?.addEventListener('click', () => { currentView = 'login'; renderApp(); });
       }
@@ -187,13 +156,15 @@
               case 'semestral': monto = 110; duracionDias = 180; break;
               case 'anual': monto = 200; duracionDias = 365; break;
             }
-            const result = await apiRequest('savePlan', { correo: currentUserEmail, plan, monto, duracionDias });
-            if (result.success) {
-              // Redirigir al dashboard principal
-              window.location.href = 'dashboard.html?email=' + encodeURIComponent(currentUserEmail);
-            } else {
-              alert('Error al guardar el plan: ' + result.error);
-            }
+            try {
+              const result = await apiRequest('savePlan', { correo: currentUserEmail, plan, monto, duracionDias });
+              if (result.success) {
+                // Redirigir al dashboard (debes tener dashboard.html en la misma carpeta)
+                window.location.href = 'dashboard.html?email=' + encodeURIComponent(currentUserEmail);
+              } else {
+                alert('Error al guardar el plan: ' + result.error);
+              }
+            } catch (err) { alert('Error de conexión: ' + err.message); }
           });
         });
       }
@@ -208,7 +179,6 @@
       attachEvents();
     }
 
-    // Inicial
     renderApp();
   </script>
 </body>
