@@ -8,9 +8,18 @@
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
-  .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
-  body { font-family: 'Inter', sans-serif; background-color: #f7f9ff; }
-  .bento-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 20px; }
+  .material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  }
+  body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f7f9ff;
+  }
+  .bento-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 20px;
+  }
 </style>
 <script>
   tailwind.config = {
@@ -18,11 +27,35 @@
     theme: {
       extend: {
         colors: {
-          "primary": "#003f87",
+          "tertiary-fixed": "#e0e3e6",
+          "on-primary-fixed": "#001a40",
+          "tertiary-container": "#55595c",
+          "secondary-fixed-dim": "#bfc8d0",
+          "tertiary-fixed-dim": "#c4c7ca",
+          "on-surface": "#181c20",
+          "surface-dim": "#d7dadf",
+          "on-error": "#ffffff",
+          "outline": "#727784",
+          "error-container": "#ffdad6",
+          "on-secondary": "#ffffff",
+          "on-surface-variant": "#424752",
+          "secondary-container": "#d8e1ea",
           "background": "#f7f9ff",
-          "surface-container-lowest": "#ffffff",
+          "surface-container-high": "#e5e8ee",
           "error": "#ba1a1a",
-          "error-container": "#ffdad6"
+          "on-error-container": "#93000a",
+          "on-primary": "#ffffff",
+          "surface-bright": "#f7f9ff",
+          "primary-fixed": "#d7e2ff",
+          "primary-container": "#0056b3",
+          "outline-variant": "#c2c6d4",
+          "surface-tint": "#115cb9",
+          "primary": "#003f87",
+          "surface-container-lowest": "#ffffff",
+          "surface-container-low": "#f1f4f9",
+          "surface-container": "#ebeef3",
+          "surface": "#f7f9ff",
+          "secondary": "#575f67"
         }
       }
     }
@@ -31,130 +64,249 @@
 </head>
 <body class="bg-background text-on-surface pb-32 md:pb-0 md:pl-80">
 
-<!-- Sidebar igual que el original pero en español -->
-<aside class="hidden md:flex flex-col py-lg bg-white fixed left-0 top-0 h-full w-80 border-r shadow-md">
-  <div class="px-lg mb-xl">
-    <h1 class="font-bold text-2xl text-primary">Ópticas GM</h1>
-    <div class="mt-md flex items-center gap-md">
-      <div class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center">
-        <span class="material-symbols-outlined">person</span>
-      </div>
-      <div><p class="font-bold">Dr. Practitioner</p><p class="text-sm">Administrador</p></div>
-    </div>
-  </div>
-  <nav class="flex-1">
-    <a class="bg-gray-100 font-bold rounded-r-full mr-4 px-4 py-3 flex items-center gap-md" href="#">
-      <span class="material-symbols-outlined">dashboard</span> Panel
-    </a>
-    <a class="text-gray-600 px-4 py-3 flex items-center gap-md" href="#"><span class="material-symbols-outlined">groups</span> Pacientes</a>
-    <a class="text-gray-600 px-4 py-3 flex items-center gap-md" href="#"><span class="material-symbols-outlined">description</span> Historias</a>
-    <a class="text-gray-600 px-4 py-3 flex items-center gap-md" href="#"><span class="material-symbols-outlined">medical_services</span> Recetas</a>
-    <a class="text-gray-600 px-4 py-3 flex items-center gap-md" href="#"><span class="material-symbols-outlined">event</span> Agenda</a>
-    <a class="text-gray-600 px-4 py-3 flex items-center gap-md" href="#"><span class="material-symbols-outlined">receipt_long</span> Facturación</a>
-    <a class="text-gray-600 px-4 py-3 flex items-center gap-md" href="#"><span class="material-symbols-outlined">inventory_2</span> Inventario</a>
-  </nav>
+<aside class="hidden md:flex flex-col py-lg bg-surface dark:bg-surface-dim text-primary dark:text-primary-fixed-dim font-body-md text-body-md h-full w-80 fixed left-0 top-0 border-r border-outline-variant dark:border-outline shadow-md">
+<div class="px-lg mb-xl">
+<h1 class="font-headline-md text-headline-md text-primary">Ópticas GM</h1>
+<div class="mt-md flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container">
+<span class="material-symbols-outlined">person</span>
+</div>
+<div>
+<p class="font-bold">Dr. Practitioner</p>
+<p class="text-label-sm">Ópticas GM Admin</p>
+</div>
+</div>
+</div>
+<nav class="flex-1">
+<a class="bg-secondary-container dark:bg-on-secondary-fixed-variant text-on-secondary-container dark:text-secondary-fixed-dim font-bold rounded-r-full mr-4 px-4 py-3 flex items-center gap-md transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">dashboard</span> Dashboard
+</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high px-4 py-3 flex items-center gap-md transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">groups</span> Pacientes
+</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high px-4 py-3 flex items-center gap-md transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">description</span> Historias Clínicas
+</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high px-4 py-3 flex items-center gap-md transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">medical_services</span> Recetas
+</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high px-4 py-3 flex items-center gap-md transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">event</span> Agenda
+</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high px-4 py-3 flex items-center gap-md transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">receipt_long</span> Facturación
+</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high px-4 py-3 flex items-center gap-md transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">inventory_2</span> Inventario
+</a>
+</nav>
 </aside>
 
-<!-- Header -->
-<header class="bg-white sticky top-0 border-b shadow-sm flex justify-between items-center px-4 md:px-8 h-16 z-40">
-  <div class="flex items-center gap-2"><span class="material-symbols-outlined text-primary">visibility</span><span class="font-bold">Ópticas GM</span></div>
-  <div class="flex items-center gap-3">
-    <button class="material-symbols-outlined text-gray-600">notifications</button>
-    <img alt="Avatar" class="w-8 h-8 rounded-full border" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUJglcOY7JOO6_XaivicYtlsakrxzrFcjoTq5zZoQEzL-ZDlDylbe6Sd8ZXnSaU1MDWTQ0zROuDic9-fHSB7olnkFwMZXQu_6y7SXqJVEetoTltUxp8AiNpocoXoDZo23NQFwJhJcOm1qcysfGHPH_FR5-M2-GD72Ou-MszuCwHaSfXUuioYudm1zkJ14x6dv5booQj5-W7SN3XcWENf5NwiO1FVZboikTahgUeCJ2_je7rrkIKbCkCYs-HkNJUdQsITjl_HDOge0"/>
-  </div>
+<header class="bg-surface dark:bg-surface-dim text-primary dark:text-primary-fixed-dim font-headline-md text-headline-md w-full top-0 sticky border-b border-outline-variant dark:border-outline shadow-sm flex justify-between items-center px-margin-mobile md:px-margin-desktop h-16 z-40">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined">visibility</span>
+<span class="font-bold">Ópticas GM</span>
+</div>
+<div class="flex items-center gap-md">
+<button class="material-symbols-outlined text-on-surface-variant hover:bg-surface-container-low transition-colors p-2 rounded-full">notifications</button>
+<img alt="Clinic Logo" class="w-8 h-8 rounded-full border border-outline-variant" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUJglcOY7JOO6_XaivicYtlsakrxzrFcjoTq5zZoQEzL-ZDlDylbe6Sd8ZXnSaU1MDWTQ0zROuDic9-fHSB7olnkFwMZXQu_6y7SXqJVEetoTltUxp8AiNpocoXoDZo23NQFwJhJcOm1qcysfGHPH_FR5-M2-GD72Ou-MszuCwHaSfXUuioYudm1zkJ14x6dv5booQj5-W7SN3XcWENf5NwiO1FVZboikTahgUeCJ2_je7rrkIKbCkCYs-HkNJUdQsITjl_HDOge0"/>
+</div>
 </header>
 
-<main class="p-4 md:p-8 space-y-6">
-  <section class="flex flex-col md:flex-row justify-between gap-4">
-    <div>
-      <h2 class="text-3xl font-bold">Panel Gerencial</h2>
-      <p class="text-gray-600" id="estadoConexion">Cargando datos desde Google Sheets...</p>
-    </div>
-    <button id="whatsappBtn" class="bg-primary text-white px-4 py-2 rounded-xl flex items-center gap-2 shadow-md">
-      <span class="material-symbols-outlined">campaign</span> Enviar campaña WhatsApp
-    </button>
-  </section>
+<main class="p-margin-mobile md:p-margin-desktop space-y-lg">
+<section class="flex flex-col md:flex-row md:items-center justify-between gap-md">
+<div>
+<h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface">Panel Gerencial</h2>
+<p class="text-body-md text-on-surface-variant" id="estadoConexion">Cargando datos desde Google Sheets...</p>
+</div>
+<button id="whatsappBtn" class="bg-primary-container text-white px-lg py-md rounded-xl flex items-center gap-sm hover:opacity-90 transition-all active:scale-95 shadow-md">
+<span class="material-symbols-outlined">campaign</span>
+<span class="font-label-md">Enviar campaña WhatsApp</span>
+</button>
+</section>
 
-  <!-- Tarjetas KPI -->
-  <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-    <div class="bg-white p-4 rounded-xl shadow border"><p class="text-sm text-gray-500 flex items-center gap-1"><span class="material-symbols-outlined text-primary">group_add</span> Nuevos Pacientes (este mes)</p><div class="flex justify-between items-end mt-2"><h3 class="text-2xl font-bold" id="nuevosPacientes">--</h3><span class="text-green-600 text-sm bg-green-100 px-2 py-0.5 rounded-full" id="trendPacientes">+0%</span></div></div>
-    <div class="bg-white p-4 rounded-xl shadow border"><p class="text-sm text-gray-500 flex items-center gap-1"><span class="material-symbols-outlined text-primary">payments</span> Ventas del mes</p><div class="flex justify-between items-end mt-2"><h3 class="text-2xl font-bold" id="ventasMes">$0</h3><span class="text-primary text-sm bg-blue-50 px-2 py-0.5 rounded-full" id="metaVentas">Meta 80%</span></div></div>
-    <div class="bg-white p-4 rounded-xl shadow border"><p class="text-sm text-gray-500 flex items-center gap-1"><span class="material-symbols-outlined text-primary">event_available</span> Citas asistidas hoy</p><div class="mt-2"><h3 class="text-2xl font-bold" id="asistidasHoy">--</h3></div></div>
-    <div class="bg-white p-4 rounded-xl shadow border"><p class="text-sm text-gray-500 flex items-center gap-1"><span class="material-symbols-outlined text-error">event_busy</span> Citas canceladas hoy</p><div class="mt-2"><h3 class="text-2xl font-bold" id="canceladasHoy">--</h3></div></div>
-  </section>
+<section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-md">
+<div class="bg-surface-container-lowest p-lg rounded-xl shadow-sm border border-outline-variant hover:shadow-md transition-shadow">
+<p class="text-label-sm text-on-surface-variant flex items-center gap-xs">
+<span class="material-symbols-outlined text-primary">group_add</span> Nuevos Pacientes (este mes)
+</p>
+<div class="flex items-end justify-between mt-sm">
+<h3 class="text-headline-md font-bold" id="nuevosPacientes">--</h3>
+<span class="text-label-sm text-green-600 bg-green-100 px-2 py-0.5 rounded-full" id="trendPacientes">+0%</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-lg rounded-xl shadow-sm border border-outline-variant hover:shadow-md transition-shadow">
+<p class="text-label-sm text-on-surface-variant flex items-center gap-xs">
+<span class="material-symbols-outlined text-primary">payments</span> Ventas Mensuales
+</p>
+<div class="flex items-end justify-between mt-sm">
+<h3 class="text-headline-md font-bold" id="ventasMes">$0</h3>
+<span class="text-label-sm text-primary bg-primary-fixed px-2 py-0.5 rounded-full" id="metaVentas">Meta 80%</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-lg rounded-xl shadow-sm border border-outline-variant hover:shadow-md transition-shadow">
+<p class="text-label-sm text-on-surface-variant flex items-center gap-xs">
+<span class="material-symbols-outlined text-primary">event_available</span> Citas Asistidas (Hoy)
+</p>
+<div class="flex items-end justify-between mt-sm">
+<h3 class="text-headline-md font-bold" id="asistidasHoy">--</h3>
+<span class="text-label-sm text-on-surface-variant">Hoy</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-lg rounded-xl shadow-sm border border-outline-variant hover:shadow-md transition-shadow">
+<p class="text-label-sm text-on-surface-variant flex items-center gap-xs">
+<span class="material-symbols-outlined text-error">event_busy</span> Citas Canceladas (Hoy)
+</p>
+<div class="flex items-end justify-between mt-sm">
+<h3 class="text-headline-md font-bold" id="canceladasHoy">--</h3>
+<span class="text-label-sm text-error bg-error-container px-2 py-0.5 rounded-full" id="trendCanceladas">--</span>
+</div>
+</div>
+</section>
 
-  <!-- Bento grid -->
-  <section class="bento-grid">
-    <div class="col-span-12 lg:col-span-8 bg-white p-4 rounded-xl shadow border">
-      <div class="flex justify-between items-center"><h3 class="text-xl font-bold flex items-center gap-2"><span class="material-symbols-outlined text-primary">insights</span> Inteligencia Comercial</h3><button id="verAlertasBtn" class="text-primary text-sm">Ver todas</button></div>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-        <div class="bg-blue-50 p-3 rounded-lg border-l-4 border-primary"><span class="material-symbols-outlined text-primary">medical_information</span><div><h4 class="font-bold">Alerta retención</h4><p class="text-sm" id="textoRetencion">-- pacientes con control anual próximo.</p><button id="autoRecordarBtn" class="mt-2 text-primary text-sm flex items-center gap-1">Automatizar recordatorio <span class="material-symbols-outlined text-sm">chevron_right</span></button></div></div>
-        <div class="bg-red-50 p-3 rounded-lg border-l-4 border-error"><span class="material-symbols-outlined text-error">inventory</span><div><h4 class="font-bold">Riesgo inventario</h4><p class="text-sm" id="textoInventario">-- productos por debajo del stock mínimo.</p><button id="revisarStockBtn" class="mt-2 text-error text-sm flex items-center gap-1">Revisar stock <span class="material-symbols-outlined text-sm">chevron_right</span></button></div></div>
-      </div>
-      <div class="mt-6 h-64 w-full"><canvas id="graficoVentas"></canvas></div>
-    </div>
-    <div class="col-span-12 lg:col-span-4 bg-white p-4 rounded-xl shadow border">
-      <h3 class="text-xl font-bold flex items-center gap-2"><span class="material-symbols-outlined text-primary">star</span> Productos más vendidos</h3>
-      <div id="listaTopProductos" class="space-y-3 mt-4">Cargando...</div>
-      <button id="verInventarioBtn" class="w-full mt-4 border border-primary text-primary py-2 rounded-lg">Ver estadísticas de inventario</button>
-    </div>
-  </section>
+<section class="bento-grid">
+<div class="col-span-12 lg:col-span-8 bg-surface-container-lowest p-lg rounded-xl border border-outline-variant shadow-sm flex flex-col gap-lg">
+<div class="flex items-center justify-between">
+<h3 class="text-headline-md font-bold flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary">insights</span> Inteligencia Comercial
+</h3>
+<button id="viewIntelligenceBtn" class="text-primary font-label-md hover:underline">Ver todas las alertas</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+<div class="bg-primary-fixed-dim/20 p-md rounded-lg border-l-4 border-primary flex items-start gap-md">
+<span class="material-symbols-outlined text-primary mt-1">medical_information</span>
+<div>
+<h4 class="font-bold text-body-md">Alerta de Retención</h4>
+<p class="text-body-sm text-on-surface-variant" id="textoRetencion">-- pacientes con control anual en los próximos 7 días.</p>
+<button id="autoRemindBtn" class="mt-sm text-primary font-label-md flex items-center gap-xs">Automatizar recordatorio <span class="material-symbols-outlined text-[16px]">chevron_right</span></button>
+</div>
+</div>
+<div class="bg-error-container/20 p-md rounded-lg border-l-4 border-error flex items-start gap-md">
+<span class="material-symbols-outlined text-error mt-1">inventory</span>
+<div>
+<h4 class="font-bold text-body-md">Riesgo de Inventario</h4>
+<p class="text-body-sm text-on-surface-variant" id="textoInventario">-- productos por debajo del stock mínimo.</p>
+<button id="reviewStockBtn" class="mt-sm text-error font-label-md flex items-center gap-xs">Revisar stock <span class="material-symbols-outlined text-[16px]">chevron_right</span></button>
+</div>
+</div>
+</div>
+<div class="h-64 w-full bg-surface-container rounded-lg overflow-hidden relative p-2">
+<canvas id="salesChart" class="w-full h-full"></canvas>
+</div>
+</div>
+
+<div class="col-span-12 lg:col-span-4 bg-surface-container-lowest p-lg rounded-xl border border-outline-variant shadow-sm">
+<h3 class="text-headline-md font-bold mb-lg flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary">star</span> Productos más vendidos
+</h3>
+<div id="topProductsList" class="space-y-md">
+<div class="text-center py-6 text-on-surface-variant">Cargando productos...</div>
+</div>
+<button id="inventoryStatsBtn" class="w-full mt-lg border border-primary text-primary py-sm rounded-lg font-label-md hover:bg-primary-fixed transition-colors">Ver estadísticas de inventario</button>
+</div>
+</section>
 </main>
 
-<!-- Navegación móvil (opcional) -->
-<nav class="md:hidden fixed bottom-0 w-full bg-white border-t flex justify-around items-center h-16">
-  <a class="flex flex-col items-center" href="#"><span class="material-symbols-outlined">home</span><span class="text-xs">Inicio</span></a>
-  <a class="flex flex-col items-center" href="#"><span class="material-symbols-outlined">person</span><span class="text-xs">Pacientes</span></a>
-  <a class="flex flex-col items-center" href="#"><span class="material-symbols-outlined">calendar_month</span><span class="text-xs">Agenda</span></a>
-  <a class="flex flex-col items-center" href="#"><span class="material-symbols-outlined">payments</span><span class="text-xs">Ventas</span></a>
+<nav class="md:hidden fixed bottom-0 w-full z-50 bg-surface dark:bg-surface-dim font-label-sm text-label-sm border-t border-outline-variant dark:border-outline shadow-lg flex justify-around items-center h-20 px-2">
+<a class="flex flex-col items-center justify-center bg-primary-container dark:bg-on-primary-fixed-variant text-on-primary-container dark:text-primary-fixed rounded-full px-4 py-1 active:scale-90 transition-all" href="#">
+<span class="material-symbols-outlined">home</span>
+<span>Inicio</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-secondary-container hover:bg-secondary-container/50 active:scale-90 transition-all" href="#">
+<span class="material-symbols-outlined">person</span>
+<span>Pacientes</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-secondary-container hover:bg-secondary-container/50 active:scale-90 transition-all" href="#">
+<span class="material-symbols-outlined">calendar_month</span>
+<span>Agenda</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-secondary-container hover:bg-secondary-container/50 active:scale-90 transition-all" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span>Ventas</span>
+</a>
 </nav>
 
 <script>
+  // 🔁 REEMPLAZA ESTA URL CON LA DE TU WEB APP DESPLEGADA EN APPS SCRIPT
+  const API_URL = 'https://script.google.com/macros/s/AKfycbw0zPNMzD806NPNgmksKeJ--E28ovB3AJX2ARlLOHfDfZ8kBL20WaUkeAlsyu67aAWUEw/exec';
+
   let chartInstance = null;
 
-  function actualizarDashboard(datos) {
-    document.getElementById('nuevosPacientes').innerText = datos.nuevosPacientes;
-    document.getElementById('ventasMes').innerText = '$' + datos.ventasMes.toLocaleString();
-    document.getElementById('asistidasHoy').innerText = datos.asistidasHoy;
-    document.getElementById('canceladasHoy').innerText = datos.canceladasHoy;
-    document.getElementById('textoRetencion').innerText = datos.alertaRetencion + ' paciente(s) con control anual en los próximos 7 días.';
-    document.getElementById('textoInventario').innerText = datos.riesgoInventario + ' producto(s) por debajo del stock mínimo.';
-    document.getElementById('estadoConexion').innerHTML = '✅ Datos sincronizados desde Google Sheets';
+  async function cargarDatos() {
+    try {
+      const respuesta = await fetch(API_URL);
+      if (!respuesta.ok) throw new Error('Error en la petición');
+      const datos = await respuesta.json();
 
-    // Top productos
-    const contenedor = document.getElementById('listaTopProductos');
-    if (datos.topProducts.length > 0) {
-      contenedor.innerHTML = datos.topProducts.map(p => `
-        <div class="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg">
-          <span class="material-symbols-outlined text-gray-500">eyeglasses</span>
-          <div><strong>${escapeHtml(p.nombre)}</strong><br><span class="text-xs text-gray-500">${p.cantidad} unidades vendidas</span></div>
-        </div>
-      `).join('');
-    } else {
-      contenedor.innerHTML = '<p class="text-gray-500">No hay datos de productos.</p>';
+      // Actualizar KPIs
+      document.getElementById('nuevosPacientes').innerText = datos.nuevosPacientes || 0;
+      document.getElementById('ventasMes').innerHTML = '$' + (datos.ventasMes || 0).toLocaleString();
+      document.getElementById('asistidasHoy').innerText = datos.asistidasHoy || 0;
+      document.getElementById('canceladasHoy').innerText = datos.canceladasHoy || 0;
+
+      // Actualizar alertas
+      document.getElementById('textoRetencion').innerHTML = (datos.alertaRetencion || 0) + ' paciente(s) con control anual en los próximos 7 días.';
+      document.getElementById('textoInventario').innerHTML = (datos.riesgoInventario || 0) + ' producto(s) por debajo del stock mínimo.';
+
+      // Estado de conexión
+      document.getElementById('estadoConexion').innerHTML = '✅ Datos sincronizados desde Google Sheets';
+      document.getElementById('estadoConexion').classList.remove('text-error');
+      
+      // Top productos
+      const contenedor = document.getElementById('topProductsList');
+      if (datos.topProducts && datos.topProducts.length > 0) {
+        contenedor.innerHTML = datos.topProducts.map(producto => `
+          <div class="flex items-center gap-md p-sm hover:bg-surface-container rounded-lg transition-colors cursor-pointer group">
+            <div class="w-12 h-12 bg-secondary-container rounded-lg flex items-center justify-center shrink-0">
+              <span class="material-symbols-outlined text-on-secondary-container">eyeglasses</span>
+            </div>
+            <div class="flex-1">
+              <p class="font-bold text-body-md group-hover:text-primary transition-colors">${escapeHtml(producto.nombre)}</p>
+              <p class="text-label-sm text-on-surface-variant">${producto.cantidad} unidades vendidas</p>
+            </div>
+            <span class="material-symbols-outlined text-green-500">trending_up</span>
+          </div>
+        `).join('');
+      } else {
+        contenedor.innerHTML = '<div class="text-center py-6 text-on-surface-variant">No hay datos de ventas para mostrar productos top.</div>';
+      }
+
+      // Gráfico de ventas
+      if (chartInstance) chartInstance.destroy();
+      const ctx = document.getElementById('salesChart').getContext('2d');
+      const labels = datos.graficoVentas?.labels || ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun'];
+      const valores = datos.graficoVentas?.valores || [0,0,0,0,0,0];
+      chartInstance = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Ventas mensuales (USD)',
+            data: valores,
+            borderColor: '#003f87',
+            backgroundColor: 'rgba(0,63,135,0.1)',
+            tension: 0.3,
+            fill: true,
+            pointBackgroundColor: '#0056b3'
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: true,
+          plugins: {
+            tooltip: { callbacks: { label: (ctx) => `$${ctx.raw.toLocaleString()}` } }
+          }
+        }
+      });
+    } catch (error) {
+      console.error('Error al cargar datos:', error);
+      document.getElementById('estadoConexion').innerHTML = '⚠️ Error al cargar datos. Verifica la URL de la API o los permisos.';
+      document.getElementById('estadoConexion').classList.add('text-error');
     }
-
-    // Gráfico de ventas
-    if (chartInstance) chartInstance.destroy();
-    const ctx = document.getElementById('graficoVentas').getContext('2d');
-    chartInstance = new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels: datos.graficoVentas.labels,
-        datasets: [{
-          label: 'Ventas mensuales (USD)',
-          data: datos.graficoVentas.valores,
-          borderColor: '#003f87',
-          backgroundColor: 'rgba(0,63,135,0.1)',
-          tension: 0.3,
-          fill: true
-        }]
-      },
-      options: { responsive: true, maintainAspectRatio: true }
-    });
   }
 
   function escapeHtml(str) {
+    if (!str) return '';
     return String(str).replace(/[&<>]/g, function(m) {
       if (m === '&') return '&amp;';
       if (m === '<') return '&lt;';
@@ -163,15 +315,18 @@
     });
   }
 
-  // Llamar al servidor de Apps Script
-  google.script.run.withSuccessHandler(actualizarDashboard).obtenerDatosDashboard();
+  // Eventos de botones (opcionales)
+  document.getElementById('whatsappBtn').addEventListener('click', () => alert('📱 Campaña de WhatsApp: se enviará a pacientes con control anual próximo.'));
+  document.getElementById('autoRemindBtn').addEventListener('click', () => alert('🔔 Recordatorio automático programado.'));
+  document.getElementById('reviewStockBtn').addEventListener('click', () => alert('📦 Revisar productos con bajo stock.'));
+  document.getElementById('inventoryStatsBtn').addEventListener('click', () => alert('📊 Estadísticas completas de inventario.'));
+  document.getElementById('viewIntelligenceBtn').addEventListener('click', () => alert('🧠 Inteligencia Comercial: alertas y tendencias.'));
 
-  // Eventos de botones (puedes personalizarlos)
-  document.getElementById('whatsappBtn').addEventListener('click', () => alert('Campaña de WhatsApp: se enviará a los pacientes con alerta de retención.'));
-  document.getElementById('autoRecordarBtn').addEventListener('click', () => alert('Recordatorio automático programado.'));
-  document.getElementById('revisarStockBtn').addEventListener('click', () => alert('Revisar productos con bajo stock en el módulo de inventario.'));
-  document.getElementById('verInventarioBtn').addEventListener('click', () => alert('Aquí puedes ver el listado completo de inventario.'));
-  document.getElementById('verAlertasBtn').addEventListener('click', () => alert('Todas las alertas de inteligencia comercial.'));
+  // Cargar datos al iniciar
+  cargarDatos();
+  // Opcional: recargar cada 5 minutos
+  // setInterval(cargarDatos, 300000);
 </script>
+
 </body>
 </html>
