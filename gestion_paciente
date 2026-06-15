@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed": "#e0e3e6",
+                        "on-primary-fixed": "#001a40",
+                        "tertiary-container": "#55595c",
+                        "secondary-fixed-dim": "#bfc8d0",
+                        "tertiary-fixed-dim": "#c4c7ca",
+                        "on-surface": "#181c20",
+                        "surface-dim": "#d7dadf",
+                        "on-error": "#ffffff",
+                        "on-primary-fixed-variant": "#004491",
+                        "outline": "#727784",
+                        "on-tertiary": "#ffffff",
+                        "inverse-surface": "#2d3135",
+                        "error-container": "#ffdad6",
+                        "on-secondary": "#ffffff",
+                        "on-surface-variant": "#424752",
+                        "secondary-container": "#d8e1ea",
+                        "on-secondary-container": "#5b646b",
+                        "background": "#f7f9ff",
+                        "on-secondary-fixed": "#141d23",
+                        "surface-container-highest": "#e0e3e8",
+                        "surface-variant": "#e0e3e8",
+                        "on-tertiary-container": "#ccd0d3",
+                        "surface-container-high": "#e5e8ee",
+                        "error": "#ba1a1a",
+                        "primary-fixed-dim": "#acc7ff",
+                        "on-secondary-fixed-variant": "#3f484f",
+                        "on-error-container": "#93000a",
+                        "on-primary": "#ffffff",
+                        "on-background": "#181c20",
+                        "surface-bright": "#f7f9ff",
+                        "on-primary-container": "#bbd0ff",
+                        "inverse-on-surface": "#eef1f6",
+                        "primary-fixed": "#d7e2ff",
+                        "primary-container": "#0056b3",
+                        "outline-variant": "#c2c6d4",
+                        "on-tertiary-fixed": "#181c1e",
+                        "surface-tint": "#115cb9",
+                        "primary": "#003f87",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-low": "#f1f4f9",
+                        "inverse-primary": "#acc7ff",
+                        "tertiary": "#3e4244",
+                        "surface-container": "#ebeef3",
+                        "surface": "#f7f9ff",
+                        "secondary": "#575f67",
+                        "on-tertiary-fixed-variant": "#43474a",
+                        "secondary-fixed": "#dbe4ed"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xl": "32px",
+                        "margin-mobile": "16px",
+                        "xs": "4px",
+                        "sm": "8px",
+                        "lg": "24px",
+                        "md": "16px",
+                        "margin-desktop": "48px",
+                        "base": "4px",
+                        "gutter": "20px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "body-md": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "display-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "label-md": ["14px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "label-sm": ["12px", {"lineHeight": "14px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface min-h-screen pb-24 md:pb-0 md:pl-80">
+<!-- Top Navigation Bar -->
+<header class="w-full top-0 sticky bg-surface shadow-sm border-b border-outline-variant z-40 h-16 flex justify-between items-center px-margin-mobile md:px-margin-desktop">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary font-headline-md text-headline-md">visibility</span>
+<h1 class="font-headline-md text-headline-md font-bold text-primary">Ópticas GM</h1>
+</div>
+<div class="flex items-center gap-md">
+<button class="p-2 rounded-full hover:bg-surface-container-low transition-colors active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-on-surface-variant">notifications</span>
+</button>
+<div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center overflow-hidden border border-outline-variant">
+<img alt="Clinic Logo" class="w-full h-full object-cover" data-alt="A professional medical headshot of a female optometrist in a clean, bright clinical setting. She is wearing a white lab coat and a subtle smile, conveying trust and expertise. The background is softly blurred, showing hints of modern optical equipment in a high-key, airy light-mode aesthetic with soft blue and white tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDbKDXRUahkWrNQbd97-RBArWJzWNnUom6mWQoim2o4wkFqDF8mYTX5KfIfvrboc5UReop4URGaorZXDJBKZ5o1UUscC4WufMA51N4NK9QLYADT2x0EYyAjsUtlfkaskO5Fz2IKp2CHswUrbil4hT4J4FJsHhav64MJH7IAuTO44iGVFwvza8ksPdNh7aT62E0WQu64shjZXPV7hQeDo2dTDA7JXr0nmECWMh67kFXCcdaTO-LqXdpOYkXnscSiJDMNYNqiSEKw_Dw"/>
+</div>
+</div>
+</header>
+<!-- Navigation Drawer (Desktop Only) -->
+<aside class="hidden md:flex flex-col py-lg h-full w-80 fixed left-0 top-0 bg-surface shadow-md border-r border-outline-variant z-50">
+<div class="px-6 mb-8 flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">medical_services</span>
+</div>
+<div>
+<p class="font-headline-md text-body-md font-bold text-primary">Dr. Practitioner</p>
+<p class="text-on-surface-variant text-label-sm">Ópticas GM Admin</p>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center px-4 py-3 text-on-surface-variant hover:bg-surface-container transition-colors duration-200 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined mr-4">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center bg-secondary-container text-on-secondary-container font-bold rounded-r-full mr-4 px-4 py-3 transition-colors duration-200 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined mr-4" style="font-variation-settings: 'FILL' 1;">groups</span>
+<span>Patients</span>
+</a>
+<a class="flex items-center px-4 py-3 text-on-surface-variant hover:bg-surface-container transition-colors duration-200 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined mr-4">description</span>
+<span>Clinical History</span>
+</a>
+<a class="flex items-center px-4 py-3 text-on-surface-variant hover:bg-surface-container transition-colors duration-200 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined mr-4">medical_services</span>
+<span>Prescriptions</span>
+</a>
+<a class="flex items-center px-4 py-3 text-on-surface-variant hover:bg-surface-container transition-colors duration-200 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined mr-4">event</span>
+<span>Agenda</span>
+</a>
+<a class="flex items-center px-4 py-3 text-on-surface-variant hover:bg-surface-container transition-colors duration-200 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined mr-4">receipt_long</span>
+<span>Billing</span>
+</a>
+<a class="flex items-center px-4 py-3 text-on-surface-variant hover:bg-surface-container transition-colors duration-200 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined mr-4">inventory_2</span>
+<span>Inventory</span>
+</a>
+</nav>
+</aside>
+<!-- Main Content -->
+<main class="p-margin-mobile md:p-margin-desktop max-w-6xl mx-auto">
+<!-- Header & Search -->
+<div class="mb-lg flex flex-col md:flex-row md:items-center justify-between gap-md">
+<div>
+<h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface">Gestión de Pacientes</h2>
+<p class="text-on-surface-variant font-body-md text-body-md">Administra tu base de datos de pacientes y su historial clínico.</p>
+</div>
+<div class="relative group w-full md:w-96">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline group-focus-within:text-primary transition-colors">search</span>
+<input class="w-full pl-12 pr-4 py-3 bg-surface border border-outline-variant rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all font-body-md text-body-md" placeholder="Buscar por nombre, DNI o teléfono..." type="text"/>
+</div>
+</div>
+<!-- Filters (Quick Access) -->
+<div class="flex gap-sm overflow-x-auto hide-scrollbar mb-lg pb-2">
+<button class="px-md py-xs bg-primary-container text-on-primary-container rounded-full font-label-md text-label-md">Todos</button>
+<button class="px-md py-xs bg-surface border border-outline-variant text-on-surface-variant rounded-full font-label-md text-label-md hover:bg-surface-container-low transition-colors">Recientes</button>
+<button class="px-md py-xs bg-surface border border-outline-variant text-on-surface-variant rounded-full font-label-md text-label-md hover:bg-surface-container-low transition-colors">Con Turno</button>
+<button class="px-md py-xs bg-surface border border-outline-variant text-on-surface-variant rounded-full font-label-md text-label-md hover:bg-surface-container-low transition-colors">Inactivos</button>
+</div>
+<!-- Patient List Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter">
+<!-- Patient Card 1 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-lg shadow-sm hover:shadow-md transition-shadow group">
+<div class="flex justify-between items-start mb-md">
+<div class="w-16 h-16 rounded-full overflow-hidden border-2 border-primary-fixed ring-4 ring-background">
+<img alt="Juan Pérez" class="w-full h-full object-cover" data-alt="A clean and professional close-up portrait of a middle-aged man with short dark hair and a friendly expression. He is wearing a minimalist navy blue sweater. The lighting is soft and even, typical of a high-end corporate directory. The background is a solid, neutral light grey, maintaining a modern and clinical light-mode aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCgPnKvi9aHyBFhyB4w1r_SUny9TURhzl6syWHw3lQ0dCNPpvmySIrTY6brnLsk1n8HswdKA8LYqOMQJ4W0zYp4tSdp65Ti0uIQBmZZM46YAWaXZWwRAXFSe6t8UOYbb-WkkIE8ruFvUq6m2sdZztuUo9prEjjnDqEA6WnHqczt3EhbyvU0WcyGo3WazNhjXxUSI-w3p5ViSGnJX-q3XqgNUMbb_Rw65ok0xOrxnvqisS-fPet8GpMoCnEmMw_dDBZQfB8AKuTFgmE"/>
+</div>
+<span class="bg-primary/10 text-primary px-3 py-1 rounded-full font-label-sm text-label-sm">Active</span>
+</div>
+<h3 class="font-headline-md text-body-lg font-bold text-on-surface mb-xs">Juan Pérez</h3>
+<div class="flex items-center gap-xs text-on-surface-variant font-label-sm text-label-sm mb-lg">
+<span class="material-symbols-outlined text-[18px]">history</span>
+<span>Última visita: 12 Oct 2023</span>
+</div>
+<div class="grid grid-cols-2 gap-sm">
+<button class="flex items-center justify-center gap-xs bg-secondary-container text-on-secondary-container py-2 rounded-lg font-label-md text-label-md hover:bg-secondary-container/80 transition-colors active:scale-95">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+<span>Ficha</span>
+</button>
+<button class="flex items-center justify-center gap-xs bg-[#25D366]/10 text-[#075E54] py-2 rounded-lg font-label-md text-label-md hover:bg-[#25D366]/20 transition-colors active:scale-95">
+<svg class="w-5 h-5 fill-current" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.72.94 3.659 1.437 5.634 1.437h.005c6.558 0 11.897-5.335 11.9-11.894a11.83 11.83 0 00-3.415-8.421z"></path></svg>
+<span>Mensaje</span>
+</button>
+</div>
+</div>
+<!-- Patient Card 2 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-lg shadow-sm hover:shadow-md transition-shadow group">
+<div class="flex justify-between items-start mb-md">
+<div class="w-16 h-16 rounded-full overflow-hidden border-2 border-primary-fixed ring-4 ring-background">
+<img alt="Elena García" class="w-full h-full object-cover" data-alt="A portrait of a confident young woman with long wavy brown hair, smiling warmly. She is wearing a professional beige blazer and a white blouse. The scene is bathed in natural, bright daylight, emphasizing a fresh and medical-professional atmosphere. The background consists of soft white walls and large windows, adhering to a minimalist light-mode aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFIdK5kD1C9rdn9STDWSj-C04nlGlplzFPNdpetVzeZ7RGxfe4TagN1cSeXAo3EBF2r3bcSDrl0aZJ9b8Gmgd9d6i2suuwW_2UO3yWBwj76_3XHcza_OpfEDeEVy1-zdDvLUeCxBlYwRKUjxfqAdaTgsVAA_wfiUQB8XZKyNsgGUYLDf3ulVLPINjpQjiaYqXtSFtT7dfKuDgygyPKlW-KPkbtham0VkI2vE9qhOxMzAWHPsucxijdWNTmINcITvyeqINMah-ekZY"/>
+</div>
+<span class="bg-primary/10 text-primary px-3 py-1 rounded-full font-label-sm text-label-sm">Active</span>
+</div>
+<h3 class="font-headline-md text-body-lg font-bold text-on-surface mb-xs">Elena García</h3>
+<div class="flex items-center gap-xs text-on-surface-variant font-label-sm text-label-sm mb-lg">
+<span class="material-symbols-outlined text-[18px]">history</span>
+<span>Última visita: 05 Nov 2023</span>
+</div>
+<div class="grid grid-cols-2 gap-sm">
+<button class="flex items-center justify-center gap-xs bg-secondary-container text-on-secondary-container py-2 rounded-lg font-label-md text-label-md hover:bg-secondary-container/80 transition-colors active:scale-95">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+<span>Ficha</span>
+</button>
+<button class="flex items-center justify-center gap-xs bg-[#25D366]/10 text-[#075E54] py-2 rounded-lg font-label-md text-label-md hover:bg-[#25D366]/20 transition-colors active:scale-95">
+<svg class="w-5 h-5 fill-current" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.72.94 3.659 1.437 5.634 1.437h.005c6.558 0 11.897-5.335 11.9-11.894a11.83 11.83 0 00-3.415-8.421z"></path></svg>
+<span>Mensaje</span>
+</button>
+</div>
+</div>
+<!-- Patient Card 3 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-lg shadow-sm hover:shadow-md transition-shadow group">
+<div class="flex justify-between items-start mb-md">
+<div class="w-16 h-16 rounded-full overflow-hidden border-2 border-primary-fixed ring-4 ring-background">
+<img alt="Carlos Méndez" class="w-full h-full object-cover" data-alt="A portrait of an elderly man with white hair and glasses, looking cheerful and healthy. He is wearing a grey button-down shirt. The lighting is soft and flattering, emphasizing a trustworthy healthcare environment. The setting is a modern medical office with soft tones and clinical precision, using a light-mode color palette." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB5xho1NCIr26hpuPBgFfw2ETdAGEPNsdx5ulaDxXx4i5InsSdqItPVNOnOcYNFryt2SRl-aCMZWE22eoutp6FANU6ff9R15BHND664X974eMpITgQeIJfp7lzq9yLL2RiYBNeq8F3MHZHm8WGovfq09pXVBy7vE8RkeosjZE1lEHgHk46Ho1-W_iMIwtWmUp7tS4wkpjqtdB_G9UyFhJu7LnyeP4XGpxPEus_jxpO4PGOPBtkFRXyACEcI-UIhswkGoyEMObokMkI"/>
+</div>
+<span class="bg-primary/10 text-primary px-3 py-1 rounded-full font-label-sm text-label-sm">Active</span>
+</div>
+<h3 class="font-headline-md text-body-lg font-bold text-on-surface mb-xs">Carlos Méndez</h3>
+<div class="flex items-center gap-xs text-on-surface-variant font-label-sm text-label-sm mb-lg">
+<span class="material-symbols-outlined text-[18px]">history</span>
+<span>Última visita: 28 Oct 2023</span>
+</div>
+<div class="grid grid-cols-2 gap-sm">
+<button class="flex items-center justify-center gap-xs bg-secondary-container text-on-secondary-container py-2 rounded-lg font-label-md text-label-md hover:bg-secondary-container/80 transition-colors active:scale-95">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+<span>Ficha</span>
+</button>
+<button class="flex items-center justify-center gap-xs bg-[#25D366]/10 text-[#075E54] py-2 rounded-lg font-label-md text-label-md hover:bg-[#25D366]/20 transition-colors active:scale-95">
+<svg class="w-5 h-5 fill-current" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.72.94 3.659 1.437 5.634 1.437h.005c6.558 0 11.897-5.335 11.9-11.894a11.83 11.83 0 00-3.415-8.421z"></path></svg>
+<span>Mensaje</span>
+</button>
+</div>
+</div>
+<!-- Patient Card 4 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-lg shadow-sm hover:shadow-md transition-shadow group">
+<div class="flex justify-between items-start mb-md">
+<div class="w-16 h-16 rounded-full overflow-hidden border-2 border-primary-fixed ring-4 ring-background">
+<img alt="Sofía Ruiz" class="w-full h-full object-cover" data-alt="A portrait of a young woman with a calm and intellectual look, wearing modern stylish glasses. She has dark hair tied back and is wearing a white professional blouse. The environment is a brightly lit, high-end optical clinic with soft blue accents. The visual style is clean, modern, and clinical, following a sophisticated light-mode theme." src="https://lh3.googleusercontent.com/aida-public/AB6AXuArndGNaPesI0tDkjuiOWu5nPWJH80bH9-uL9P5NmywZpCk3yWy8ICXy8BPFpEV9vpRZ5GteShmtzl_Ks1mAaDOfJyxQInHMBE3lDL55sLNdVVLPexNqmtDBaPNrX5QcrC3P8LNNoCnkKZrHScyuy8khAy9EbXYU6rjrEZCC-e_h6o-QJU6kO4VpmDs2FhUr41oVuU0YTJE9sPO-rl_CIdBJXHZEjqLgk27QUNriRrOlogk6ekF-XRns0ncBZEvL-2NdBwNWMgcOjg"/>
+</div>
+<span class="bg-primary/10 text-primary px-3 py-1 rounded-full font-label-sm text-label-sm">Active</span>
+</div>
+<h3 class="font-headline-md text-body-lg font-bold text-on-surface mb-xs">Sofía Ruiz</h3>
+<div class="flex items-center gap-xs text-on-surface-variant font-label-sm text-label-sm mb-lg">
+<span class="material-symbols-outlined text-[18px]">history</span>
+<span>Última visita: 15 Nov 2023</span>
+</div>
+<div class="grid grid-cols-2 gap-sm">
+<button class="flex items-center justify-center gap-xs bg-secondary-container text-on-secondary-container py-2 rounded-lg font-label-md text-label-md hover:bg-secondary-container/80 transition-colors active:scale-95">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+<span>Ficha</span>
+</button>
+<button class="flex items-center justify-center gap-xs bg-[#25D366]/10 text-[#075E54] py-2 rounded-lg font-label-md text-label-md hover:bg-[#25D366]/20 transition-colors active:scale-95">
+<svg class="w-5 h-5 fill-current" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.72.94 3.659 1.437 5.634 1.437h.005c6.558 0 11.897-5.335 11.9-11.894a11.83 11.83 0 00-3.415-8.421z"></path></svg>
+<span>Mensaje</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+<!-- Floating Action Button (FAB) -->
+<button class="fixed bottom-24 right-6 md:bottom-10 md:right-10 w-14 h-14 bg-primary-container text-on-primary-container rounded-2xl shadow-xl flex items-center justify-center transition-all hover:scale-110 active:scale-95 z-50 group">
+<span class="material-symbols-outlined text-[28px]" style="font-variation-settings: 'FILL' 1;">person_add</span>
+<span class="absolute right-full mr-4 bg-primary text-white px-4 py-2 rounded-lg text-label-md opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none shadow-lg">Registrar Paciente</span>
+</button>
+<!-- Bottom Navigation Bar (Mobile Only) -->
+<footer class="md:hidden fixed bottom-0 w-full z-50 bg-surface shadow-lg border-t border-outline-variant">
+<nav class="flex justify-around items-center w-full h-20 pb-safe px-2">
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-secondary-container/50 px-4 py-1 rounded-full transition-all active:scale-90" href="#">
+<span class="material-symbols-outlined text-[24px]">home</span>
+<span class="font-label-sm text-label-sm mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-6 py-1 transition-all active:scale-90" href="#">
+<span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 1;">person</span>
+<span class="font-label-sm text-label-sm mt-1">Patients</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-secondary-container/50 px-4 py-1 rounded-full transition-all active:scale-90" href="#">
+<span class="material-symbols-outlined text-[24px]">calendar_month</span>
+<span class="font-label-sm text-label-sm mt-1">Agenda</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-secondary-container/50 px-4 py-1 rounded-full transition-all active:scale-90" href="#">
+<span class="material-symbols-outlined text-[24px]">payments</span>
+<span class="font-label-sm text-label-sm mt-1">Sales</span>
+</a>
+</nav>
+</footer>
+<script>
+        // Simple search interaction
+        const searchInput = document.querySelector('input[type="text"]');
+        const cards = document.querySelectorAll('.grid > div');
+
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            cards.forEach(card => {
+                const name = card.querySelector('h3').textContent.toLowerCase();
+                if (name.includes(query)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+
+        // Hover effect for patient cards
+        cards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.classList.add('border-primary/50');
+            });
+            card.addEventListener('mouseleave', () => {
+                card.classList.remove('border-primary/50');
+            });
+        });
+    </script>
+</body></html>
