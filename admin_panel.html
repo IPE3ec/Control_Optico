@@ -1,260 +1,443 @@
+Aquí tienes todo el archivo **HTML unificado y corregido**. He integrado el **Interruptor Maestro de Acceso (Toggle Switch)** con su lógica de animación fluida, el diseño Bento Premium optimizado en azul eléctrico y la conexión exacta con tu base de datos de Google Sheets.
+
+Puedes copiar este bloque de código por completo en tu archivo `.html`:
+
+```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Panel de Administración - Control Óptico</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
-  <style>
-    body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f0f4f8; }
-    .card-hover:hover { transform: translateY(-2px); transition: all 0.2s; }
-  </style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Control Maestro - Ópticas GM</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>
+  .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+  .glass-header { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(16px); }
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: #F1F5F9; }
+  ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 10px; }
+  ::-webkit-scrollbar-thumb:hover { background: #94A3B8; }
+  .transition-smooth { transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); }
+</style>
 </head>
-<body class="p-6">
-  <div class="max-w-7xl mx-auto">
-    <!-- Cabecera -->
-    <div class="flex justify-between items-center mb-6 bg-white p-4 rounded-2xl shadow-md">
-      <div class="flex items-center gap-3">
-        <span class="material-symbols-outlined text-3xl text-blue-700">admin_panel_settings</span>
-        <h1 class="text-2xl font-bold text-gray-800">Panel de Control Maestro</h1>
-      </div>
-      <button id="logoutBtn" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-xl flex items-center gap-2 transition">
-        <span class="material-symbols-outlined">logout</span> Cerrar sesión
-      </button>
-    </div>
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen antialiased">
 
-    <!-- Estado global del sistema -->
-    <div class="bg-white rounded-2xl shadow-md p-5 mb-6">
-      <h2 class="font-bold text-xl mb-3 flex items-center gap-2"><span class="material-symbols-outlined text-blue-600">toggle_on</span> Control global de acceso</h2>
-      <div class="flex flex-wrap gap-4 items-center">
-        <span class="text-gray-600">Estado actual:</span>
-        <span id="globalStatusBadge" class="px-4 py-1.5 rounded-full text-sm font-bold">--</span>
-        <button id="btnActivarGlobal" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition">Activar sistema</button>
-        <button id="btnBloquearGlobal" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition">Bloquear sistema</button>
-      </div>
+<header class="w-full top-0 sticky z-50 glass-header border-b border-slate-200/80 shadow-sm flex justify-between items-center px-4 md:px-8 h-16">
+  <div class="flex items-center gap-3">
+    <div class="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center text-white shadow-md shadow-blue-500/20">
+      <span class="material-symbols-outlined text-xl">visibility</span>
     </div>
-
-    <!-- Solicitudes pendientes de planes -->
-    <div class="bg-white rounded-2xl shadow-md p-5 mb-6">
-      <h2 class="font-bold text-xl mb-3 flex items-center gap-2"><span class="material-symbols-outlined text-amber-500">pending_actions</span> Solicitudes de planes pendientes</h2>
-      <div id="pendingRequestsList" class="space-y-3">Cargando...</div>
-    </div>
-
-    <!-- Usuarios con plan activo -->
-    <div class="bg-white rounded-2xl shadow-md p-5 mb-6">
-      <h2 class="font-bold text-xl mb-3 flex items-center gap-2"><span class="material-symbols-outlined text-green-600">verified_user</span> Usuarios con plan activo</h2>
-      <div id="activeUsersList" class="overflow-x-auto">Cargando...</div>
-    </div>
-
-    <!-- Sucursales (Sedes) -->
-    <div class="bg-white rounded-2xl shadow-md p-5">
-      <div class="flex justify-between items-center mb-4">
-        <h2 class="font-bold text-xl flex items-center gap-2"><span class="material-symbols-outlined text-blue-600">storefront</span> Sucursales registradas</h2>
-        <button id="newSedeBtn" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm flex items-center gap-1 transition">
-          <span class="material-symbols-outlined text-base">add</span> Nueva sede
-        </button>
-      </div>
-      <div id="sedesTable" class="overflow-x-auto">Cargando...</div>
+    <div class="flex flex-col">
+      <h1 class="font-bold text-base md:text-lg leading-tight text-slate-900 tracking-tight">Control Óptico</h1>
+      <span class="text-[10px] uppercase tracking-wider font-bold text-blue-600 -mt-0.5">Panel de Administración</span>
     </div>
   </div>
+  
+  <div class="flex items-center gap-4">
+    <div class="hidden sm:flex flex-col items-end border-r border-slate-200 pr-4">
+      <span class="text-sm font-semibold text-slate-900">Administrador</span>
+      <span class="text-xs font-medium text-slate-500">Super Admin</span>
+    </div>
+    <button id="logoutBtn" class="flex items-center gap-1.5 bg-rose-50 text-rose-600 hover:bg-rose-600 hover:text-white px-3.5 py-2 rounded-xl text-xs font-semibold transition-smooth border border-rose-100 shadow-sm">
+      <span class="material-symbols-outlined text-sm">logout</span> Cerrar sesión
+    </button>
+  </div>
+</header>
 
-  <script>
-    // === CONFIGURACIÓN ===
-    const API_URL = 'https://script.google.com/macros/s/AKfycbyegoMXgGxVcwKDfVYZ8TNm3s8dwh3c1-YJelDQv8wfadPAdcvhjNn4rR-oYzgmymbOYg/exec'; // <-- REEMPLAZA
+<div class="flex">
+  <aside class="hidden md:flex flex-col py-6 h-[calc(100vh-64px)] w-72 fixed left-0 top-16 bg-white border-r border-slate-200/80">
+    <nav class="flex flex-col gap-1 px-3">
+      <a class="flex items-center gap-3.5 px-4 py-3 text-slate-500 hover:text-blue-600 hover:bg-blue-50/50 rounded-xl transition-smooth font-medium text-sm" href="#">
+        <span class="material-symbols-outlined text-[22px]">dashboard</span><span>Dashboard</span>
+      </a>
+      <a class="flex items-center gap-3.5 bg-blue-600 text-white font-semibold rounded-xl px-4 py-3 shadow-md shadow-blue-500/10 text-sm" href="#">
+        <span class="material-symbols-outlined text-[22px]">groups</span><span>Sedes / Sucursales</span>
+      </a>
+      <a class="flex items-center gap-3.5 px-4 py-3 text-slate-500 hover:text-blue-600 hover:bg-blue-50/50 rounded-xl transition-smooth font-medium text-sm" href="#">
+        <span class="material-symbols-outlined text-[22px]">description</span><span>Historias Clínicas</span>
+      </a>
+      <a class="flex items-center gap-3.5 px-4 py-3 text-slate-500 hover:text-blue-600 hover:bg-blue-50/50 rounded-xl transition-smooth font-medium text-sm" href="#">
+        <span class="material-symbols-outlined text-[22px]">event</span><span>Agenda Médica</span>
+      </a>
+      <a class="flex items-center gap-3.5 px-4 py-3 text-slate-500 hover:text-blue-600 hover:bg-blue-50/50 rounded-xl transition-smooth font-medium text-sm" href="#">
+        <span class="material-symbols-outlined text-[22px]">receipt_long</span><span>Facturación</span>
+      </a>
+      <a class="flex items-center gap-3.5 px-4 py-3 text-slate-500 hover:text-blue-600 hover:bg-blue-50/50 rounded-xl transition-smooth font-medium text-sm" href="#">
+        <span class="material-symbols-outlined text-[22px]">inventory_2</span><span>Inventario</span>
+      </a>
+    </nav>
+    
+    <div class="mt-auto px-4">
+      <div class="p-4 rounded-2xl bg-gradient-to-b from-slate-50 to-slate-100/80 border border-slate-200/60 text-center">
+        <p class="text-xs font-semibold text-slate-700 mb-1">¿Necesitas ayuda?</p>
+        <p class="text-[11px] text-slate-500 mb-3">Soporte Técnico de Canales</p>
+        <button class="w-full py-2 bg-slate-900 text-white rounded-xl text-xs font-medium flex items-center justify-center gap-2 hover:bg-blue-600 shadow-sm transition-smooth">
+          <span class="material-symbols-outlined text-sm">support_agent</span>Contactar Soporte
+        </button>
+      </div>
+    </div>
+  </aside>
 
-    // Autenticación: si no hay sesión de admin, la pedimos con prompt
-    if (!sessionStorage.getItem('adminLogged')) {
-      const user = prompt("Acceso restringido. Ingrese su correo de administrador:");
-      const pass = prompt("Contraseña:");
-      if (user && pass) {
-        fetch(`${API_URL}?action=adminLogin&correo=${encodeURIComponent(user)}&password=${encodeURIComponent(pass)}`)
-          .then(r => r.json())
-          .then(data => {
-            if (data.success) {
-              sessionStorage.setItem('adminLogged', 'true');
-              location.reload();
-            } else {
-              alert("Credenciales incorrectas. Volviendo al inicio.");
-              window.location.href = 'login.html';
-            }
-          })
-          .catch(() => { alert("Error de conexión"); window.location.href = 'login.html'; });
-      } else {
-        window.location.href = 'login.html';
-      }
-      throw new Error("Esperando autenticación");
-    }
+  <main class="w-full md:ml-72 p-4 md:p-8 pb-32">
+    <div class="max-w-6xl mx-auto">
+      
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+        <div>
+          <h2 class="text-2xl font-extrabold text-slate-900 tracking-tight">Control Maestro - Sedes</h2>
+          <p class="text-slate-500 text-sm mt-0.5">Gestiona las autorizaciones, accesos globales y licencias de sucursales.</p>
+        </div>
+        <button id="newSedeBtn" class="flex items-center gap-2 bg-blue-600 text-white px-4 py-2.5 rounded-xl text-sm font-semibold shadow-md shadow-blue-500/20 hover:bg-blue-700 hover:shadow-lg transition-smooth">
+          <span class="material-symbols-outlined text-sm font-bold">add</span> Registrar Nueva Sede
+        </button>
+      </div>
 
-    // === FUNCIONES API ===
-    async function apiRequest(action, params = {}) {
-      const query = new URLSearchParams({ action, ...params }).toString();
-      const res = await fetch(`${API_URL}?${query}`, { method: 'GET', mode: 'cors' });
-      if (!res.ok) throw new Error('Error de red');
-      return await res.json();
-    }
+      <section class="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-8">
+        <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/60 flex items-center gap-4 hover:shadow-md transition-smooth">
+          <div class="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600"><span class="material-symbols-outlined text-2xl font-semibold">store</span></div>
+          <div><p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Total Ópticas</p><h3 class="text-2xl font-black text-slate-900 mt-0.5" id="totalSedes">--</h3></div>
+        </div>
+        <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/60 flex items-center gap-4 hover:shadow-md transition-smooth">
+          <div class="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-600"><span class="material-symbols-outlined text-2xl font-semibold">check_circle</span></div>
+          <div><p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Sedes Activas</p><h3 class="text-2xl font-black text-slate-900 mt-0.5" id="sedesActivas">--</h3></div>
+        </div>
+        <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/60 flex items-center gap-4 hover:shadow-md transition-smooth">
+          <div class="w-12 h-12 rounded-xl bg-amber-50 flex items-center justify-center text-amber-600"><span class="material-symbols-outlined text-2xl font-semibold">pending</span></div>
+          <div><p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Por Aprobar</p><h3 class="text-2xl font-black text-slate-900 mt-0.5" id="sedesPendientes">--</h3></div>
+        </div>
+      </section>
 
-    // === CARGAR SOLICITUDES PENDIENTES ===
-    async function loadPending() {
-      const container = document.getElementById('pendingRequestsList');
-      try {
-        const res = await apiRequest('getPendingRequests');
-        if (!res.success || res.pendientes.length === 0) {
-          container.innerHTML = '<p class="text-gray-500 text-center py-4">No hay solicitudes pendientes.</p>';
-          return;
-        }
-        container.innerHTML = res.pendientes.map(p => `
-          <div class="border rounded-xl p-4 flex flex-wrap justify-between items-center gap-3 bg-gray-50">
-            <div>
-              <strong class="text-gray-800">${escapeHtml(p.nombre)}</strong><br>
-              <span class="text-sm text-gray-500">${p.correo}</span><br>
-              <span class="text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full">Plan: ${p.plan} - $${p.monto}</span>
+      <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 mb-8 bg-gradient-to-r from-white to-slate-50/50">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
+          <div class="flex items-center gap-4">
+            <div id="switchIconContainer" class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center transition-smooth shadow-sm">
+              <span id="switchIcon" class="material-symbols-outlined text-2xl font-semibold">cloud_done</span>
             </div>
-            <div class="flex gap-2">
-              <button class="approve-btn bg-green-600 hover:bg-green-700 text-white px-4 py-1.5 rounded-lg text-sm" data-correo="${p.correo}" data-accion="aprobar">✓ Aprobar</button>
-              <button class="reject-btn bg-red-600 hover:bg-red-700 text-white px-4 py-1.5 rounded-lg text-sm" data-correo="${p.correo}" data-accion="rechazar">✗ Rechazar</button>
+            <div>
+              <h3 class="font-bold text-slate-950 text-base tracking-tight">Interruptor Maestro de Acceso</h3>
+              <p class="text-xs text-slate-500 mt-0.5 max-w-xl">Corta o habilita de forma masiva e inmediata el flujo de autenticación al software para todas las sedes y clientes remotos.</p>
             </div>
           </div>
-        `).join('');
-        // Eventos para aprobar/rechazar
-        document.querySelectorAll('.approve-btn, .reject-btn').forEach(btn => {
-          btn.addEventListener('click', async (e) => {
-            const correo = btn.dataset.correo;
-            const accion = btn.classList.contains('approve-btn') ? 'aprobar' : 'rechazar';
-            const result = await apiRequest('approvePlan', { correo, accion });
-            alert(result.mensaje || (result.success ? 'Operación exitosa' : 'Error'));
-            loadPending();
-            loadActiveUsers();
-          });
-        });
-      } catch (err) {
-        container.innerHTML = '<p class="text-red-500">Error al cargar solicitudes</p>';
-        console.error(err);
+          
+          <div class="flex items-center gap-4 self-end sm:self-auto bg-slate-100 p-2 rounded-2xl border border-slate-200/40">
+            <span id="globalStatusTxt" class="text-xs font-bold uppercase tracking-wider text-slate-600 pl-2">Cargando...</span>
+            <button id="masterToggleBtn" class="relative inline-flex h-7 w-14 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none bg-slate-300" role="switch" aria-checked="false">
+              <span id="masterToggleCircle" class="pointer-events-none inline-block h-6 w-6 transform rounded-full bg-white shadow-md ring-0 transition duration-200 ease-in-out translate-x-0"></span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/60 mb-8">
+        <h3 class="font-bold text-base text-slate-900 mb-4 flex items-center gap-2">
+          <span class="material-symbols-outlined text-amber-500 font-bold">pending_actions</span> Verificación de Pagos y Suscripciones
+        </h3>
+        <div id="pendingRequestsList" class="grid grid-cols-1 md:grid-cols-2 gap-4">Cargando solicitudes...</div>
+      </div>
+
+      <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200/60 mb-4">
+        <div class="relative w-full">
+          <span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xl">search</span>
+          <input id="searchInput" class="w-full pl-11 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white transition-all placeholder:text-slate-400" placeholder="Filtrar por nombre comercial de la óptica o administrador responsable..." type="text">
+        </div>
+      </div>
+
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200/60 overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="bg-slate-50 border-b border-slate-200 text-slate-500">
+                <th class="px-5 py-3.5 text-xs font-bold uppercase tracking-wider">Óptica / Sucursal</th>
+                <th class="px-5 py-3.5 text-xs font-bold uppercase tracking-wider">Representante Legal</th>
+                <th class="px-5 py-3.5 text-xs font-bold uppercase tracking-wider text-center">Estado Regular</th>
+                <th class="px-5 py-3.5 text-xs font-bold uppercase tracking-wider text-center">Acceso Portal</th>
+                <th class="px-5 py-3.5 text-xs font-bold uppercase tracking-wider text-right">Llave</th>
+              </tr>
+            </thead>
+            <tbody id="sedesTableBody" class="divide-y divide-slate-100 text-sm text-slate-700">
+              <tr><td colspan="5" class="text-center py-12 text-slate-400 font-medium">Cargando base de datos central...</td></tr>
+            </tbody>
+          </table>
+        </div>
+        
+        <div class="bg-slate-50 px-5 py-4 flex flex-col sm:flex-row justify-between items-center border-t border-slate-200/60 gap-3 text-xs font-medium text-slate-500">
+          <div id="paginationInfo" class="tracking-wide">--</div>
+          <div class="flex gap-2">
+            <button id="prevPage" class="px-3.5 py-2 border border-slate-200 bg-white rounded-xl disabled:opacity-40 font-semibold shadow-sm hover:bg-slate-50 text-slate-700 transition-smooth">Anterior</button>
+            <button id="nextPage" class="px-3.5 py-2 border border-slate-200 bg-white rounded-xl disabled:opacity-40 font-semibold shadow-sm hover:bg-slate-50 text-slate-700 transition-smooth">Siguiente</button>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </main>
+</div>
+
+<script>
+  // ================= CONFIGURACIÓN DE ENDPOINT =================
+  const API_URL = 'https://script.google.com/macros/s/AKfycbyegoMXgGxVcwKDfVYZ8TNm3s8dwh3c1-YJelDQv8wfadPAdcvhjNn4rR-oYzgmymbOYg/exec';
+
+  // ================= CONTROL DE INGRESO SECURITY =================
+  (function autenticar() {
+    if (sessionStorage.getItem('adminLogged')) return;
+    const correo = prompt("🔐 Módulo de Seguridad Centralizado\nPor favor ingrese su correo de Administrador:");
+    if (!correo) { redireccionar(); throw new Error(); }
+    const password = prompt("Ingrese su contraseña maestra:");
+    if (!password) { redireccionar(); throw new Error(); }
+    
+    fetch(`${API_URL}?action=adminLogin&correo=${encodeURIComponent(correo)}&password=${encodeURIComponent(password)}`)
+      .then(r => r.json())
+      .then(data => {
+        if (data.success) {
+          sessionStorage.setItem('adminLogged', 'true');
+        } else {
+          alert("❌ Credenciales inválidas o sin privilegios de Super Administrador.");
+          redireccionar();
+        }
+      })
+      .catch(err => { alert("Error crítico de red."); redireccionar(); });
+  })();
+
+  function redireccionar() { window.location.href = 'login.html'; }
+
+  // ================= ASYNC API FETCH ENGINE =================
+  async function apiRequest(action, params = {}) {
+    const query = new URLSearchParams({ action, ...params }).toString();
+    const response = await fetch(`${API_URL}?${query}`, { method: 'GET', mode: 'cors' });
+    if (!response.ok) throw new Error(`HTTP Error Status: ${response.status}`);
+    return await response.json();
+  }
+
+  let todasLasSedes = [];
+  let paginaActual = 1;
+  const porPagina = 10;
+  let estadoSistemaActual = "BLOQUEADO";
+
+  // ================= COMPONENT RENDERS =================
+  async function cargarSedes() {
+    try {
+      const res = await apiRequest('getSedes');
+      if (res.success && res.sedes) {
+        todasLasSedes = res.sedes;
+        actualizarResumen();
+        renderizarTabla();
+      } else {
+        document.getElementById('sedesTableBody').innerHTML = '<tr><td colspan="5" class="text-center py-10 text-rose-500 font-semibold">Fallo al estructurar los datos del servidor.</td></tr>';
       }
+    } catch (err) {
+      console.error(err);
+      document.getElementById('sedesTableBody').innerHTML = '<tr><td colspan="5" class="text-center py-10 text-rose-500 font-semibold">Error de comunicación de datos de Google Sheets.</td></tr>';
     }
+  }
 
-    // === CARGAR USUARIOS ACTIVOS ===
-    async function loadActiveUsers() {
-      const container = document.getElementById('activeUsersList');
-      try {
-        const res = await apiRequest('getUsersList');
-        const active = res.users.filter(u => u.estado === 'activo');
-        if (active.length === 0) {
-          container.innerHTML = '<p class="text-gray-500 text-center py-4">No hay usuarios con plan activo.</p>';
-          return;
-        }
-        container.innerHTML = `
-          <table class="min-w-full border-collapse">
-            <thead class="bg-gray-100">
-              <tr><th class="p-2 text-left">Nombre</th><th class="p-2 text-left">Plan</th><th class="p-2 text-left">Vence el</th><th class="p-2 text-left">Estado</th></tr>
-            </thead>
-            <tbody>
-              ${active.map(u => `
-                <tr class="border-t">
-                  <td class="p-2">${escapeHtml(u.nombre)}</td>
-                  <td class="p-2">${u.plan}</td>
-                  <td class="p-2">${new Date(u.fecha_fin).toLocaleDateString()}</td>
-                  <td class="p-2"><span class="bg-green-100 text-green-800 px-2 py-0.5 rounded-full text-xs">Activo</span></td>
-                </tr>
-              `).join('')}
-            </tbody>
-          </table>
-        `;
-      } catch (err) { console.error(err); }
+  function actualizarResumen() {
+    const total = todasLasSedes.length;
+    const activas = todasLasSedes.filter(s => s.estado === 'activa').length;
+    const pendientes = todasLasSedes.filter(s => s.estado !== 'activa').length;
+    document.getElementById('totalSedes').innerText = total;
+    document.getElementById('sedesActivas').innerText = activas;
+    document.getElementById('sedesPendientes').innerText = pendientes;
+  }
+
+  function renderizarTabla() {
+    const busqueda = document.getElementById('searchInput')?.value.toLowerCase() || '';
+    const filtradas = todasLasSedes.filter(sede => 
+      sede.nombre.toLowerCase().includes(busqueda) || 
+      sede.administrador.toLowerCase().includes(busqueda)
+    );
+    const start = (paginaActual - 1) * porPagina;
+    const paginadas = filtradas.slice(start, start + porPagina);
+    const tbody = document.getElementById('sedesTableBody');
+    
+    if (paginadas.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="5" class="text-center py-12 text-slate-400 font-medium">Ninguna sucursal coincide con la búsqueda actual</td></tr>';
+      document.getElementById('paginationInfo').innerHTML = '0 registros encontrados';
+      return;
     }
+    
+    tbody.innerHTML = paginadas.map(sede => `
+      <tr class="hover:bg-slate-50/70 transition-colors">
+        <td class="px-5 py-4">
+          <div class="font-semibold text-slate-900">${escapeHtml(sede.nombre)}</div>
+          <div class="text-xs text-slate-500 mt-0.5 flex items-center gap-1">
+            <span class="material-symbols-outlined text-[12px]">location_on</span>${escapeHtml(sede.direccion)}
+          </div>
+        </td>
+        <td class="px-5 py-4">
+          <div class="flex items-center gap-2.5">
+            <div class="w-7 h-7 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-xs border border-blue-100/30">${(sede.administrador?.charAt(0) || '?').toUpperCase()}</div>
+            <span class="font-medium text-slate-700">${escapeHtml(sede.administrador)}</span>
+          </div>
+        </td>
+        <td class="px-5 py-4 text-center">
+          <span class="inline-flex px-2.5 py-1 rounded-lg text-xs font-bold tracking-wide uppercase
+            ${sede.estado === 'activa' ? 'bg-emerald-50 text-emerald-700 border border-emerald-100' : (sede.estado === 'pendiente' ? 'bg-amber-50 text-amber-700 border border-amber-100' : 'bg-rose-50 text-rose-700 border border-rose-100')}">
+            ${sede.estado}
+          </span>
+        </td>
+        <td class="px-5 py-4 text-center">
+          <button class="toggle-access px-3 py-1.5 rounded-xl text-xs font-bold border transition-smooth shadow-sm
+            ${sede.acceso === 'autorizado' ? 'bg-blue-600 text-white border-blue-600 hover:bg-blue-700' : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'}"
+            data-id="${sede.id}" data-acceso="${sede.acceso}">
+            ${sede.acceso === 'autorizado' ? 'Autorizado' : 'Restringido'}
+          </button>
+        </td>
+        <td class="px-5 py-4 text-right">
+          <button class="key-btn p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-smooth" data-id="${sede.id}" data-nombre="${sede.nombre}" title="Desplegar Token">
+            <span class="material-symbols-outlined text-lg">vpn_key</span>
+          </button>
+        </td>
+      </tr>
+    `).join('');
+    
+    document.getElementById('paginationInfo').innerHTML = `Mostrando del <b>${start+1}</b> al <b>${Math.min(start+porPagina, filtradas.length)}</b> de <b>${filtradas.length}</b> ópticas registradas`;
+    document.getElementById('prevPage').disabled = paginaActual === 1;
+    document.getElementById('nextPage').disabled = start + porPagina >= filtradas.length;
+  }
 
-    // === CARGAR SEDES ===
-    async function loadSedes() {
-      const container = document.getElementById('sedesTable');
-      try {
-        const res = await apiRequest('getSedes');
-        if (!res.success || res.sedes.length === 0) {
-          container.innerHTML = '<p class="text-gray-500 text-center py-4">No hay sedes registradas.</p>';
-          return;
-        }
-        container.innerHTML = `
-          <table class="min-w-full border-collapse">
-            <thead class="bg-gray-100">
-              <tr><th class="p-2 text-left">Nombre</th><th class="p-2 text-left">Administrador</th><th class="p-2 text-left">Dirección</th><th class="p-2 text-left">Acceso</th><th class="p-2 text-left">Acciones</th></tr>
-            </thead>
-            <tbody>
-              ${res.sedes.map(s => `
-                <tr class="border-t">
-                  <td class="p-2">${escapeHtml(s.nombre)}</td>
-                  <td class="p-2">${escapeHtml(s.administrador)}</td>
-                  <td class="p-2">${escapeHtml(s.direccion)}</td>
-                  <td class="p-2">
-                    <button class="toggle-access px-3 py-1 rounded-lg text-sm ${s.acceso === 'autorizado' ? 'bg-green-500 text-white' : 'bg-gray-400 text-white'}" data-id="${s.id}" data-acceso="${s.acceso}">
-                      ${s.acceso === 'autorizado' ? 'Autorizado' : 'Pendiente'}
-                    </button>
-                  </td>
-                  <td class="p-2">
-                    <button class="key-btn text-blue-600 hover:underline" data-id="${s.id}" data-nombre="${s.nombre}">🔑 Llave</button>
-                  </td>
-                </tr>
-              `).join('')}
-            </tbody>
-          </table>
-        `;
-        // Eventos dinámicos para botones de acceso y llave
-        document.querySelectorAll('.toggle-access').forEach(btn => {
-          btn.addEventListener('click', async () => {
-            const id = btn.dataset.id;
-            const nuevo = btn.dataset.acceso === 'autorizado' ? 'pendiente' : 'autorizado';
-            await apiRequest('updateSedeAccess', { id, acceso: nuevo });
-            loadSedes();
-          });
+  // ================= FILTROS Y EVENTOS CONTROL =================
+  document.getElementById('searchInput')?.addEventListener('input', () => { paginaActual = 1; renderizarTabla(); });
+  document.getElementById('prevPage')?.addEventListener('click', () => { if(paginaActual > 1) { paginaActual--; renderizarTabla(); } });
+  document.getElementById('nextPage')?.addEventListener('click', () => { if(paginaActual * porPagina < todasLasSedes.length) { paginaActual++; renderizarTabla(); } });
+
+  async function cambiarAcceso(id, accesoActual) {
+    const nuevoAcceso = accesoActual === 'autorizado' ? 'pendiente' : 'autorizado';
+    await apiRequest('updateSedeAccess', { id, acceso: nuevoAcceso });
+    cargarSedes();
+  }
+
+  async function crearSede() {
+    const nombre = prompt("Nombre Comercial de la Sede/Óptica:");
+    if (!nombre) return;
+    const administrador = prompt("Nombre completo del Especialista / Administrador responsable:");
+    if (!administrador) return;
+    const direccion = prompt("Dirección física de la Sucursal:");
+    const telefono = prompt("Teléfono de contacto corporativo:");
+    await apiRequest('createSede', { nombre, administrador, direccion, telefono });
+    cargarSedes();
+  }
+
+  // ================= FLUJO DE PLANES DE CLIENTES =================
+  async function cargarSolicitudesPendientes() {
+    try {
+      const res = await apiRequest('getPendingRequests');
+      const container = document.getElementById('pendingRequestsList');
+      if (!res.success || !res.pendientes || res.pendientes.length === 0) {
+        container.className = "w-full text-center py-6 text-sm text-slate-400 font-medium";
+        container.innerHTML = 'No existen solicitudes o renovaciones pendientes de pago.';
+        return;
+      }
+      container.className = "grid grid-cols-1 md:grid-cols-2 gap-4";
+      container.innerHTML = res.pendientes.map(p => `
+        <div class="border border-slate-200/80 rounded-2xl p-4 flex justify-between items-center gap-3 bg-slate-50/50 hover:bg-white transition-smooth">
+          <div>
+            <div class="font-bold text-slate-900">${escapeHtml(p.nombre)}</div>
+            <div class="text-xs text-slate-500 font-medium mt-0.5">${p.correo}</div>
+            <div class="inline-flex mt-2 items-center gap-1.5 px-2 py-0.5 rounded-md bg-blue-50 border border-blue-100 text-[11px] font-bold text-blue-700 uppercase">
+              ${p.plan} • $${p.monto}
+            </div>
+          </div>
+          <div class="flex flex-col sm:flex-row gap-2">
+            <button class="approve-btn bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-xl text-xs font-bold shadow-sm transition-smooth" data-correo="${p.correo}" data-accion="aprobar">Aprobar</button>
+            <button class="reject-btn bg-white hover:bg-rose-50 text-slate-500 hover:text-rose-600 border border-slate-200 hover:border-rose-100 px-3 py-1.5 rounded-xl text-xs font-bold transition-smooth" data-correo="${p.correo}" data-accion="rechazar">Declinar</button>
+          </div>
+        </div>
+      `).join('');
+      
+      document.querySelectorAll('.approve-btn, .reject-btn').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          const correo = btn.dataset.correo;
+          const accion = btn.dataset.accion;
+          const result = await apiRequest('approvePlan', { correo, accion });
+          alert(result.mensaje || (result.success ? 'Estado modificado con éxito.' : 'Fallo en la operación.'));
+          cargarSolicitudesPendientes();
         });
-        document.querySelectorAll('.key-btn').forEach(btn => {
-          btn.addEventListener('click', () => {
-            alert(`🔑 Llave de acceso para ${btn.dataset.nombre}\nID: ${btn.dataset.id}\nToken: GM-${btn.dataset.id}-${Math.random().toString(36).substr(2,8).toUpperCase()}`);
-          });
-        });
-      } catch (err) { console.error(err); }
+      });
+    } catch(err) { console.error(err); }
+  }
+
+  // ================= MIDDLEWARE MAESTRO GLOBAL (TOGGLE SWITCH) =================
+  async function cargarEstadoGlobal() {
+    try {
+      const res = await apiRequest('getSystemStatus');
+      const toggleBtn = document.getElementById('masterToggleBtn');
+      const toggleCircle = document.getElementById('masterToggleCircle');
+      const statusTxt = document.getElementById('globalStatusTxt');
+      const iconContainer = document.getElementById('switchIconContainer');
+      const icon = document.getElementById('switchIcon');
+      
+      if (!toggleBtn || !toggleCircle || !statusTxt) return;
+
+      if (res.activo) {
+        estadoSistemaActual = "ACTIVO";
+        statusTxt.innerText = 'SISTEMA ONLINE';
+        statusTxt.className = 'text-xs font-bold uppercase tracking-wider text-emerald-600 pl-2';
+        
+        toggleBtn.className = 'relative inline-flex h-7 w-14 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none bg-blue-600 shadow-sm shadow-blue-500/20';
+        toggleCircle.className = 'pointer-events-none inline-block h-6 w-6 transform rounded-full bg-white shadow-md ring-0 transition duration-200 ease-in-out translate-x-7';
+        
+        iconContainer.className = 'w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center transition-smooth shadow-sm';
+        icon.innerText = 'cloud_done';
+      } else {
+        estadoSistemaActual = "BLOQUEADO";
+        statusTxt.innerText = 'SISTEMA SUSPENDIDO';
+        statusTxt.className = 'text-xs font-bold uppercase tracking-wider text-rose-600 pl-2';
+        
+        toggleBtn.className = 'relative inline-flex h-7 w-14 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none bg-slate-300';
+        toggleCircle.className = 'pointer-events-none inline-block h-6 w-6 transform rounded-full bg-white shadow-md ring-0 transition duration-200 ease-in-out translate-x-0';
+        
+        iconContainer.className = 'w-12 h-12 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center transition-smooth shadow-sm';
+        icon.innerText = 'cloud_off';
+      }
+    } catch(err) { console.error(err); }
+  }
+
+  async function alternarEstadoSistema() {
+    const nuevoEstado = (estadoSistemaActual === "ACTIVO") ? "BLOQUEADO" : "ACTIVO";
+    const advertencia = `⚠️ ADVERTENCIA DE CONTROL MAESTRO\n\n¿Está seguro de cambiar el estado global a [${nuevoEstado}]?\n` + 
+                        (nuevoEstado === "BLOQUEADO" ? "Esto bloqueará el inicio de sesión de todas las ópticas de forma inmediata." : "Esto restablecerá el acceso normal a las sucursales autorizadas.");
+    
+    if (!confirm(advertencia)) return;
+
+    const statusTxt = document.getElementById('globalStatusTxt');
+    if (statusTxt) statusTxt.innerText = "ACTUALIZANDO...";
+
+    try {
+      await apiRequest('setSystemStatus', { status: nuevoEstado });
+    } catch (err) {
+      alert("Fallo al conectar con el servidor central.");
     }
+    await cargarEstadoGlobal();
+  }
 
-    // === ESTADO GLOBAL ===
-    async function loadGlobalStatus() {
-      try {
-        const res = await apiRequest('getSystemStatus');
-        const badge = document.getElementById('globalStatusBadge');
-        badge.innerText = res.activo ? 'ACTIVO' : 'BLOQUEADO';
-        badge.className = `px-4 py-1.5 rounded-full text-sm font-bold ${res.activo ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`;
-      } catch (err) { console.error(err); }
+  function escapeHtml(str) { return String(str || '').replace(/[&<>]/g, m => m === '&' ? '&amp;' : m === '<' ? '&lt;' : '&gt;'); }
+
+  // ================= DISPARADORES DE EVENTOS =================
+  document.getElementById('newSedeBtn')?.addEventListener('click', crearSede);
+  document.getElementById('masterToggleBtn')?.addEventListener('click', alternarEstadoSistema);
+  document.getElementById('logoutBtn')?.addEventListener('click', () => {
+    sessionStorage.removeItem('adminLogged');
+    redireccionar();
+  });
+
+  document.body.addEventListener('click', async (e) => {
+    if (e.target.classList.contains('toggle-access')) {
+      const id = e.target.dataset.id;
+      const accesoActual = e.target.dataset.acceso;
+      await cambiarAcceso(id, accesoActual);
     }
-    async function setGlobalStatus(status) {
-      await apiRequest('setSystemStatus', { status });
-      loadGlobalStatus();
+    if (e.target.closest('.key-btn')) {
+      const btn = e.target.closest('.key-btn');
+      alert(`🔑 CREDENCIAL ENCRIPTADA DE SUCURSAL\n\nEstablecimiento: ${btn.dataset.nombre}\nID Interno: ${btn.dataset.id}\nToken de Enlace API: GM-${btn.dataset.id}-${Math.random().toString(36).substr(2,8).toUpperCase()}`);
     }
+  });
 
-    // === CREAR SEDE ===
-    async function nuevaSede() {
-      const nombre = prompt("Nombre de la nueva sede:");
-      if (!nombre) return;
-      const admin = prompt("Nombre del administrador:");
-      if (!admin) return;
-      const direccion = prompt("Dirección:");
-      const telefono = prompt("Teléfono:");
-      await apiRequest('createSede', { nombre, administrador: admin, direccion, telefono });
-      loadSedes();
-    }
-
-    function escapeHtml(str) { return String(str || '').replace(/[&<>]/g, m => m === '&' ? '&amp;' : m === '<' ? '&lt;' : '&gt;'); }
-
-    // Eventos
-    document.getElementById('btnActivarGlobal').onclick = () => setGlobalStatus('ACTIVO');
-    document.getElementById('btnBloquearGlobal').onclick = () => setGlobalStatus('BLOQUEADO');
-    document.getElementById('newSedeBtn').onclick = nuevaSede;
-    document.getElementById('logoutBtn').onclick = () => {
-      sessionStorage.removeItem('adminLogged');
-      window.location.href = 'login.html';
-    };
-
-    loadPending();
-    loadActiveUsers();
-    loadSedes();
-    loadGlobalStatus();
-  </script>
+  // ================= INITIALIZER =================
+  cargarSedes();
+  cargarEstadoGlobal();
+  cargarSolicitudesPendientes();
+</script>
 </body>
 </html>
+
+```
