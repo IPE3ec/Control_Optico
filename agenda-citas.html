@@ -6,60 +6,59 @@
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
             theme: {
                 extend: {
                     "colors": {
-                        "tertiary-fixed": "#e0e3e6",
-                        "on-primary-fixed": "#001a40",
-                        "tertiary-container": "#55595c",
-                        "secondary-fixed-dim": "#bfc8d0",
-                        "tertiary-fixed-dim": "#c4c7ca",
-                        "on-surface": "#181c20",
-                        "surface-dim": "#d7dadf",
-                        "on-error": "#ffffff",
-                        "on-primary-fixed-variant": "#004491",
-                        "outline": "#727784",
-                        "on-tertiary": "#ffffff",
-                        "inverse-surface": "#2d3135",
-                        "error-container": "#ffdad6",
-                        "on-secondary": "#ffffff",
-                        "on-surface-variant": "#424752",
-                        "secondary-container": "#d8e1ea",
-                        "on-secondary-container": "#5b646b",
-                        "background": "#f7f9ff",
-                        "on-secondary-fixed": "#141d23",
-                        "surface-container-highest": "#e0e3e8",
-                        "surface-variant": "#e0e3e8",
-                        "on-tertiary-container": "#ccd0d3",
-                        "surface-container-high": "#e5e8ee",
+                        "tertiary-fixed-dim": "#96ccff",
                         "error": "#ba1a1a",
-                        "primary-fixed-dim": "#acc7ff",
-                        "on-secondary-fixed-variant": "#3f484f",
+                        "secondary-fixed-dim": "#88d982",
+                        "tertiary-fixed": "#cee5ff",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "inverse-primary": "#deb7ff",
+                        "surface-tint": "#8136c4",
+                        "outline": "#7e7384",
+                        "surface-container-highest": "#e4e2e1",
+                        "surface-container": "#f0eded",
                         "on-error-container": "#93000a",
-                        "on-primary": "#ffffff",
-                        "on-background": "#181c20",
-                        "surface-bright": "#f7f9ff",
-                        "on-primary-container": "#bbd0ff",
-                        "inverse-on-surface": "#eef1f6",
-                        "primary-fixed": "#d7e2ff",
-                        "primary-container": "#0056b3",
-                        "outline-variant": "#c2c6d4",
-                        "on-tertiary-fixed": "#181c1e",
-                        "surface-tint": "#115cb9",
-                        "primary": "#003f87",
+                        "surface-bright": "#fbf9f8",
+                        "primary-fixed-dim": "#deb7ff",
+                        "on-tertiary-container": "#a9d4ff",
+                        "on-surface-variant": "#4c4353",
                         "surface-container-lowest": "#ffffff",
-                        "surface-container-low": "#f1f4f9",
-                        "inverse-primary": "#acc7ff",
-                        "tertiary": "#3e4244",
-                        "surface-container": "#ebeef3",
-                        "surface": "#f7f9ff",
-                        "secondary": "#575f67",
-                        "on-tertiary-fixed-variant": "#43474a",
-                        "secondary-fixed": "#dbe4ed"
+                        "secondary": "#1b6d24",
+                        "secondary-container": "#a0f399",
+                        "on-tertiary-fixed": "#001d32",
+                        "surface-variant": "#e4e2e1",
+                        "surface-dim": "#dcd9d9",
+                        "tertiary-container": "#005d91",
+                        "surface": "#fbf9f8",
+                        "error-container": "#ffdad6",
+                        "on-primary-fixed-variant": "#6712aa",
+                        "on-surface": "#1b1c1c",
+                        "on-secondary-fixed-variant": "#005312",
+                        "outline-variant": "#cfc2d5",
+                        "inverse-on-surface": "#f2f0f0",
+                        "primary-container": "#7b2fbe",
+                        "primary": "#6204a5",
+                        "primary-fixed": "#f0dbff",
+                        "on-secondary-container": "#217128",
+                        "on-error": "#ffffff",
+                        "on-tertiary-fixed-variant": "#004a75",
+                        "on-primary": "#ffffff",
+                        "secondary-fixed": "#a3f69c",
+                        "inverse-surface": "#303030",
+                        "on-primary-container": "#e4c4ff",
+                        "tertiary": "#00456d",
+                        "surface-container-high": "#eae8e7",
+                        "surface-container-low": "#f5f3f3",
+                        "on-background": "#1b1c1c",
+                        "on-secondary-fixed": "#002204",
+                        "background": "#fbf9f8",
+                        "on-primary-fixed": "#2c0050"
                     },
                     "borderRadius": {
                         "DEFAULT": "0.25rem",
@@ -69,36 +68,34 @@
                     },
                     "spacing": {
                         "xl": "32px",
-                        "margin-mobile": "16px",
-                        "xs": "4px",
-                        "sm": "8px",
-                        "lg": "24px",
                         "md": "16px",
-                        "margin-desktop": "48px",
+                        "margin-mobile": "16px",
+                        "sm": "8px",
+                        "gutter": "24px",
+                        "lg": "24px",
+                        "xs": "4px",
                         "base": "4px",
-                        "gutter": "20px"
+                        "margin-desktop": "48px"
                     },
                     "fontFamily": {
                         "headline-lg": ["Inter"],
-                        "label-md": ["Inter"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "headline-sm": ["Inter"],
                         "headline-md": ["Inter"],
                         "label-sm": ["Inter"],
-                        "headline-lg-mobile": ["Inter"],
-                        "body-md": ["Inter"],
-                        "body-sm": ["Inter"],
-                        "body-lg": ["Inter"],
-                        "display-lg": ["Inter"]
+                        "label-md": ["Inter"]
                     },
                     "fontSize": {
-                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
-                        "label-md": ["14px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
                         "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
-                        "label-sm": ["12px", {"lineHeight": "14px", "letterSpacing": "0.02em", "fontWeight": "500"}],
-                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
-                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
-                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
-                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
-                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+                        "label-sm": ["11px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}]
                     }
                 },
             },
@@ -112,11 +109,11 @@
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 <style>
-    body {
-      min-height: max(884px, 100dvh);
-    }
-  </style>
-  </head>
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+</head>
 <body class="bg-background text-on-background min-h-screen font-body-md">
 <!-- Navigation Drawer (Desktop) -->
 <aside class="hidden md:flex flex-col py-lg bg-surface h-full w-80 fixed left-0 top-0 border-r border-outline-variant shadow-md z-40">
@@ -125,7 +122,7 @@
 <span class="font-headline-md text-primary font-bold">Ópticas GM</span>
 </div>
 <div class="px-md mb-xl flex items-center gap-md">
-<div class="w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center overflow-hidden">
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center overflow-hidden border border-outline-variant">
 <img alt="Dr. Practitioner" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_sABC3yoyzm3Q3zpI83uuJb_ogu5b0klSIsxxXzlH4rdZR8xLOU9eIId-wBG5yhxXkDjfvc0zRDQRp5I7am2tOpJwVNMvcAsM9OaCncp-p8d7yLHgeDo5i9F7hXwUtcg7dI1SjfJ6yAjeLtCZnaZ7jlFIW3zR_mxl2zlWUHqxAtCb-shXCb2liQM4DoO8yUN9UweLrKXWpuPaXcu3y4LWMJKUQxfLAHkXqqKM-0f2F-q_upRNXfpl5MpkA1ZQzTVZXw6BcarYmHI"/>
 </div>
 <div>
@@ -142,7 +139,7 @@
 <span class="material-symbols-outlined">groups</span>
 <span class="font-body-md">Patients</span>
 </a>
-<a class="flex items-center gap-md px-lg py-3 bg-secondary-container text-on-secondary-container font-bold rounded-r-full mr-4" href="#">
+<a class="flex items-center gap-md px-lg py-3 bg-primary-container text-on-primary-container font-bold rounded-r-full mr-4 shadow-sm" href="#">
 <span class="material-symbols-outlined">event</span>
 <span class="font-body-md">Agenda</span>
 </a>
@@ -184,11 +181,11 @@
 <p class="text-body-sm text-on-surface-variant">Gestiona las consultas diarias y semanales de tus pacientes.</p>
 </div>
 <div class="flex gap-sm">
-<button class="flex items-center gap-xs bg-surface-container-high text-primary px-md py-sm rounded-lg font-label-md hover:bg-secondary-container transition-colors active:scale-95">
+<button class="flex items-center gap-xs bg-surface-container-high text-primary px-md py-sm rounded-lg font-label-md hover:bg-primary-fixed transition-colors active:scale-95">
 <span class="material-symbols-outlined text-[20px]">person_add</span>
                         Waiting List
                     </button>
-<button class="flex items-center gap-xs bg-primary text-on-primary px-md py-sm rounded-lg font-label-md hover:opacity-90 transition-all active:scale-95 shadow-md">
+<button class="flex items-center gap-xs bg-primary-container text-on-primary-container px-md py-sm rounded-lg font-label-md hover:brightness-110 transition-all active:scale-95 shadow-md">
 <span class="material-symbols-outlined text-[20px]">add</span>
                         New Appointment
                     </button>
@@ -245,7 +242,7 @@
 <div class="flex-1 w-px bg-outline-variant my-xs"></div>
 </div>
 <div class="flex-1 bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-md shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-md relative overflow-hidden">
-<div class="absolute left-0 top-0 bottom-0 w-1.5 bg-primary"></div>
+<div class="absolute left-0 top-0 bottom-0 w-1.5 bg-primary-container"></div>
 <div class="flex items-center gap-md">
 <div class="w-12 h-12 rounded-full overflow-hidden bg-surface-container-high border-2 border-primary-fixed">
 <img alt="Ana García" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAyscdUmnpeRnRAab09MU_yolQHuzBdqUNCGINior2IP3Fbh8vlPlv0lqATJ38Vz8oXWGciYrFgempkzUjpAK9yapsjp2BYtUfWIeHRNWo-lxD4YRGkPehaOKj7I15vOO0DLh7uNo4Ca6mpZzc11CKSKGIfS_ZOxBdCM4MPiTASbAm60bzHkuRtUFRGxRhTmYPOjVp8_H-qHeN8IOObtUzpGBRrMsE_faV75ye1J2RQrNP1xF9WEWXpnUR2P_8mvyOqK-n7J6bZV40"/>
@@ -256,7 +253,7 @@
 </div>
 </div>
 <div class="flex items-center gap-md">
-<span class="px-sm py-xs rounded bg-blue-50 text-blue-700 text-label-sm font-bold border border-blue-100 uppercase">Confirmed</span>
+<span class="px-sm py-xs rounded bg-primary-fixed text-primary text-label-sm font-bold border border-primary-fixed-dim uppercase">Confirmed</span>
 <div class="flex gap-xs opacity-0 group-hover:opacity-100 transition-opacity">
 <button class="p-xs text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined">edit</span></button>
 <button class="p-xs text-on-surface-variant hover:text-error transition-colors"><span class="material-symbols-outlined">delete</span></button>
@@ -273,7 +270,7 @@
 <div class="flex-1 bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-md shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-md relative overflow-hidden">
 <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-secondary"></div>
 <div class="flex items-center gap-md">
-<div class="w-12 h-12 rounded-full overflow-hidden bg-surface-container-high">
+<div class="w-12 h-12 rounded-full overflow-hidden bg-surface-container-high border border-outline-variant">
 <img alt="Juan López" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBtmJfIIggNu4eaEIWhiTqxqaUAplm1NvQujRlQDJlMiDkU4WYCjWIL4paTVOgljdWNxW5WEd1JdULwv0Av8G0qX_4cY4HC6kLEkaf1VjIadc2Hwf3A8n2Hhps7-z7vMyctt-oRg678V6cN-a8jshfVbk85C0E-YmMiR1YzeQZvBdkVPOpCrD7ZXAq1gtjeTY33nvQUR92xVRuz_8W0TJKwIRo8B_r9lkAlN0j18B5rKrAYaX6orRkJJTufxZtcuf_1Zn_ANvldgNQ"/>
 </div>
 <div>
@@ -312,7 +309,7 @@
 <div class="flex-1 bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-md shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-md relative overflow-hidden">
 <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-error"></div>
 <div class="flex items-center gap-md">
-<div class="w-12 h-12 rounded-full overflow-hidden bg-surface-container-high">
+<div class="w-12 h-12 rounded-full overflow-hidden bg-surface-container-high border border-outline-variant">
 <img alt="Claudia M." class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBGbkKbbq04Uf6kSubITW_hvxZOqZO_ZA90PdlcO5x4UWcX1-hVHc8n9VJlwO-4-RQ296qETNPN77UM-7AAuKuLP8boDA648awiRmd7e0OmWqbLEvhnBEpbFmNCQJ5aZSMgJz-N4k2HusDUs5j9x0geAo7jqiZUqXpO1u90VetT0UxU8yRN0Fv8fcUJy-bFJPUpdxuJpDvs-WvhXxyRiTyXOhUJIX_RVgxzGFt0lICs28C_dKUDyDi3uZUzYOPiD9Vqk7GI47MdrW8"/>
 </div>
 <div>
@@ -323,7 +320,7 @@
 <div class="flex items-center gap-md">
 <span class="px-sm py-xs rounded bg-error-container text-on-error-container text-label-sm font-bold border border-error/20 uppercase">Pending</span>
 <div class="flex gap-xs">
-<button class="p-sm bg-primary-container text-on-primary-container rounded-lg hover:brightness-110 transition-all"><span class="material-symbols-outlined text-[20px]">check</span></button>
+<button class="p-sm bg-primary-container text-on-primary-container rounded-lg hover:brightness-110 transition-all shadow-sm"><span class="material-symbols-outlined text-[20px]">check</span></button>
 <button class="p-sm bg-surface-container-high text-on-surface-variant rounded-lg hover:bg-error/10 hover:text-error transition-all"><span class="material-symbols-outlined text-[20px]">close</span></button>
 </div>
 </div>
@@ -357,7 +354,7 @@
 <span class="material-symbols-outlined">person</span>
 <span class="font-label-sm text-label-sm">Patients</span>
 </a>
-<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-4 py-1 active:scale-90 transition-all" href="#">
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-4 py-1 active:scale-90 transition-all shadow-sm" href="#">
 <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">calendar_month</span>
 <span class="font-label-sm text-label-sm">Agenda</span>
 </a>
@@ -367,16 +364,20 @@
 </a>
 </nav>
 <!-- FAB (Mobile Only - Primary Action) -->
-<button class="md:hidden fixed bottom-24 right-margin-mobile bg-primary text-on-primary w-14 h-14 rounded-full shadow-xl flex items-center justify-center active:scale-90 transition-transform">
+<button class="md:hidden fixed bottom-24 right-margin-mobile bg-primary-container text-on-primary-container w-14 h-14 rounded-full shadow-xl flex items-center justify-center active:scale-90 transition-transform">
 <span class="material-symbols-outlined text-[28px]">add</span>
 </button>
 <script>
         // Simple Interaction logic for demo
         document.querySelectorAll('.cursor-pointer').forEach(item => {
             item.addEventListener('click', () => {
-                item.classList.toggle('bg-primary-container');
-                item.classList.toggle('text-on-primary-container');
-                item.classList.toggle('hover:bg-surface-container-low');
+                if (item.classList.contains('bg-primary-container')) {
+                    item.classList.remove('bg-primary-container', 'text-on-primary-container', 'shadow-md');
+                    item.classList.add('hover:bg-surface-container-low');
+                } else {
+                    item.classList.add('bg-primary-container', 'text-on-primary-container', 'shadow-md');
+                    item.classList.remove('hover:bg-surface-container-low');
+                }
             });
         });
     </script>
