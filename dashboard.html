@@ -1,415 +1,338 @@
 <!DOCTYPE html>
 
-<html class="light" lang="es"><head>
+<html class="light" lang="pt-br"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Control Maestro - Ópticas GM</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <style>
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
         }
-        .clinical-shadow {
-            box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.05);
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f9ff;
         }
-        .glass-header {
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 20px;
+        }
+        .glass-card {
             background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(12px);
-        }
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #F8F9FA;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #CED4DA;
-            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
     </style>
 <script id="tailwind-config">
         tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    "colors": {
-                        "primary": "#6204a5",
-                        "primary-container": "#7b2fbe",
-                        "on-primary": "#ffffff",
-                        "on-primary-container": "#e4c4ff",
-                        "secondary": "#1b6d24",
-                        "secondary-container": "#a0f399",
-                        "on-secondary": "#ffffff",
-                        "on-secondary-container": "#217128",
-                        "tertiary": "#00456d",
-                        "tertiary-container": "#005d91",
-                        "background": "#fbf9f8",
-                        "on-background": "#1b1c1c",
-                        "surface": "#fbf9f8",
-                        "on-surface": "#1b1c1c",
-                        "surface-variant": "#e4e2e1",
-                        "on-surface-variant": "#4c4353",
-                        "outline": "#7e7384",
-                        "outline-variant": "#cfc2d5",
-                        "surface-container-lowest": "#ffffff",
-                        "surface-container-low": "#f5f3f3",
-                        "surface-container": "#f0eded",
-                        "surface-container-high": "#eae8e7",
-                        "surface-container-highest": "#e4e2e1",
-                        "primary-fixed": "#f0dbff",
-                        "primary-fixed-dim": "#deb7ff",
-                        "on-primary-fixed": "#2c0050",
-                        "secondary-fixed": "#a3f69c",
-                        "secondary-fixed-dim": "#88d982",
-                        "on-secondary-fixed": "#002204",
-                        "error": "#ba1a1a",
-                        "error-container": "#ffdad6",
-                        "on-error": "#ffffff",
-                        "on-error-container": "#93000a"
-                    },
-                    "borderRadius": {
-                        "DEFAULT": "0.25rem",
-                        "lg": "0.5rem",
-                        "xl": "0.75rem",
-                        "full": "9999px"
-                    },
-                    "spacing": {
-                        "margin-mobile": "16px",
-                        "gutter": "24px",
-                        "base": "4px",
-                        "sm": "8px",
-                        "xs": "4px",
-                        "xl": "32px",
-                        "md": "16px",
-                        "lg": "24px",
-                        "margin-desktop": "48px"
-                    },
-                    "fontFamily": {
-                        "headline-lg-mobile": ["Inter"],
-                        "body-sm": ["Inter"],
-                        "label-sm": ["Inter"],
-                        "body-lg": ["Inter"],
-                        "display-lg": ["Inter"],
-                        "headline-lg": ["Inter"],
-                        "label-md": ["Inter"],
-                        "headline-md": ["Inter"],
-                        "body-md": ["Inter"]
-                    },
-                    "fontSize": {
-                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
-                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
-                        "label-sm": ["12px", {"lineHeight": "14px", "letterSpacing": "0.02em", "fontWeight": "500"}],
-                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
-                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
-                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
-                        "label-md": ["14px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "600"}],
-                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
-                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
-                    }
-                },
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "tertiary-fixed": "#e0e3e6",
+                      "on-primary-fixed": "#1d0033",
+                      "tertiary-container": "#55595c",
+                      "secondary-fixed-dim": "#bfc8d0",
+                      "tertiary-fixed-dim": "#c4c7ca",
+                      "on-surface": "#181c20",
+                      "surface-dim": "#d7dadf",
+                      "on-error": "#ffffff",
+                      "on-primary-fixed-variant": "#5800a0",
+                      "outline": "#727784",
+                      "on-tertiary": "#ffffff",
+                      "inverse-surface": "#2d3135",
+                      "error-container": "#ffdad6",
+                      "on-secondary": "#ffffff",
+                      "on-surface-variant": "#424752",
+                      "secondary-container": "#e9def5",
+                      "on-secondary-container": "#2a0052",
+                      "background": "#fbf8ff",
+                      "on-secondary-fixed": "#1d0033",
+                      "surface-container-highest": "#e6e1e6",
+                      "surface-variant": "#e7e0eb",
+                      "on-tertiary-container": "#ccd0d3",
+                      "surface-container-high": "#ebe6eb",
+                      "error": "#ba1a1a",
+                      "primary-fixed-dim": "#d9b9ff",
+                      "on-secondary-fixed-variant": "#623b8f",
+                      "on-error-container": "#93000a",
+                      "on-primary": "#ffffff",
+                      "on-background": "#1d1a1d",
+                      "surface-bright": "#fbf8ff",
+                      "on-primary-container": "#2a0052",
+                      "inverse-on-surface": "#f5eff4",
+                      "primary-fixed": "#f0dbff",
+                      "primary-container": "#7B2FBE",
+                      "outline-variant": "#c9c4cf",
+                      "on-tertiary-fixed": "#181c1e",
+                      "surface-tint": "#7B2FBE",
+                      "primary": "#7B2FBE",
+                      "secondary-brand": "#2E7D32",
+                      "surface-container-lowest": "#ffffff",
+                      "surface-container-low": "#f6f2f7",
+                      "inverse-primary": "#d9b9ff",
+                      "tertiary": "#3e4244",
+                      "surface-container": "#f0ebf0",
+                      "surface": "#fbf8ff",
+                      "secondary": "#2E7D32",
+                      "on-tertiary-fixed-variant": "#43474a",
+                      "secondary-fixed": "#e9def5"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "xl": "32px",
+                      "margin-mobile": "16px",
+                      "xs": "4px",
+                      "sm": "8px",
+                      "lg": "24px",
+                      "md": "16px",
+                      "margin-desktop": "48px",
+                      "base": "4px",
+                      "gutter": "20px"
+              },
+              "fontFamily": {
+                      "headline-lg": ["Inter"],
+                      "label-md": ["Inter"],
+                      "headline-md": ["Inter"],
+                      "label-sm": ["Inter"],
+                      "headline-lg-mobile": ["Inter"],
+                      "body-md": ["Inter"],
+                      "body-sm": ["Inter"],
+                      "body-lg": ["Inter"],
+                      "display-lg": ["Inter"]
+              },
+              "fontSize": {
+                      "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "label-md": ["14px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                      "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                      "label-sm": ["12px", {"lineHeight": "14px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                      "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                      "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+              }
             },
+          },
         }
     </script>
 <style>
         body {
             min-height: max(884px, 100dvh);
+            background-color: #fbf8ff;
         }
     </style>
 </head>
-<body class="bg-background text-on-background font-body-md min-h-screen">
-<!-- Top Navigation Bar -->
-<header class="w-full top-0 sticky z-50 glass-header border-b border-outline-variant shadow-sm flex justify-between items-center px-margin-mobile md:px-margin-desktop h-16">
-<div class="flex items-center gap-3">
-<span class="material-symbols-outlined text-primary" data-icon="visibility">visibility</span>
-<h1 class="font-headline-md text-headline-md font-bold text-primary">Ópticas GM</h1>
+<body class="bg-background text-on-surface pb-32 md:pb-0 md:pl-80">
+<aside class="hidden md:flex flex-col py-lg bg-surface dark:bg-surface-dim text-primary dark:text-primary-fixed-dim font-body-md text-body-md h-full w-80 fixed left-0 top-0 border-r border-outline-variant dark:border-outline shadow-md">
+<div class="px-lg mb-xl">
+<h1 class="font-headline-md text-headline-md text-primary">Ópticas GM</h1>
+<div class="mt-md flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container">
+<span class="material-symbols-outlined" data-icon="person">person</span>
 </div>
-<div class="flex items-center gap-4">
-<div class="hidden md:flex flex-col items-end">
-<span class="font-label-md text-on-surface">Admin Principal</span>
-<span class="font-label-sm text-on-surface-variant">Super Administrator</span>
+<div>
+<p class="font-bold">Dr. Practitioner</p>
+<p class="text-label-sm">Ópticas GM Admin</p>
 </div>
-<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-on-primary font-bold">
-                AD
-            </div>
+</div>
+</div>
+<nav class="flex-1">
+<a class="bg-primary-container text-white font-bold rounded-r-full mr-4 px-4 py-3 flex items-center gap-md transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span> Dashboard
+        </a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high px-4 py-3 flex items-center gap-md transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="groups">groups</span> Patients
+        </a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high px-4 py-3 flex items-center gap-md transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="description">description</span> Clinical History
+        </a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high px-4 py-3 flex items-center gap-md transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="medical_services">medical_services</span> Prescriptions
+        </a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high px-4 py-3 flex items-center gap-md transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="event">event</span> Agenda
+        </a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high px-4 py-3 flex items-center gap-md transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span> Billing
+        </a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high px-4 py-3 flex items-center gap-md transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span> Inventory
+        </a>
+</nav>
+</aside>
+<header class="bg-surface dark:bg-surface-dim text-primary dark:text-primary-fixed-dim font-headline-md text-headline-md w-full top-0 sticky border-b border-outline-variant dark:border-outline shadow-sm flex justify-between items-center px-margin-mobile md:px-margin-desktop h-16 w-full z-40">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined" data-icon="visibility">visibility</span>
+<span class="font-bold">Ópticas GM</span>
+</div>
+<div class="flex items-center gap-md">
+<button class="material-symbols-outlined text-on-surface-variant hover:bg-surface-container-low transition-colors p-2 rounded-full" data-icon="notifications">notifications</button>
+<img alt="Clinic Logo" class="w-8 h-8 rounded-full border border-outline-variant" data-alt="A professional medical clinic administrator or doctor's profile avatar." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUJglcOY7JOO6_XaivicYtlsakrxzrFcjoTq5zZoQEzL-ZDlDylbe6Sd8ZXnSaU1MDWTQ0zROuDic9-fHSB7olnkFwMZXQu_6y7SXqJVEetoTltUxp8AiNpocoXoDZo23NQFwJhJcOm1qcysfGHPH_FR5-M2-GD72Ou-MszuCwHaSfXUuioYudm1zkJ14x6dv5booQj5-W7SN3XcWENf5NwiO1FVZboikTahgUeCJ2_je7rrkIKbCkCYs-HkNJUdQsITjl_HDOge0"/>
 </div>
 </header>
-<div class="flex">
-<!-- Sidebar Desktop -->
-<aside class="hidden md:flex flex-col py-lg h-[calc(100vh-64px)] w-80 fixed left-0 top-16 bg-surface border-r border-outline-variant shadow-md">
-<nav class="flex flex-col gap-1">
-<a class="flex items-center gap-4 px-6 py-3 text-on-surface-variant hover:bg-surface-container transition-colors" href="#">
-<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
-<span class="font-body-md">Dashboard</span>
-</a>
-<a class="flex items-center gap-4 bg-primary-container text-on-primary font-bold rounded-r-full mr-4 px-6 py-3 transition-colors" href="#">
-<span class="material-symbols-outlined" data-icon="groups">groups</span>
-<span class="font-body-md">Sedes</span>
-</a>
-<a class="flex items-center gap-4 px-6 py-3 text-on-surface-variant hover:bg-surface-container transition-colors" href="#">
-<span class="material-symbols-outlined" data-icon="description">description</span>
-<span class="font-body-md">Clinical History</span>
-</a>
-<a class="flex items-center gap-4 px-6 py-3 text-on-surface-variant hover:bg-surface-container transition-colors" href="#">
-<span class="material-symbols-outlined" data-icon="event">event</span>
-<span class="font-body-md">Agenda</span>
-</a>
-<a class="flex items-center gap-4 px-6 py-3 text-on-surface-variant hover:bg-surface-container transition-colors" href="#">
-<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
-<span class="font-body-md">Billing</span>
-</a>
-<a class="flex items-center gap-4 px-6 py-3 text-on-surface-variant hover:bg-surface-container transition-colors" href="#">
-<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
-<span class="font-body-md">Inventory</span>
-</a>
-</nav>
-<div class="mt-auto px-6">
-<div class="p-4 rounded-xl bg-surface-container-low border border-outline-variant">
-<p class="font-label-sm text-on-surface-variant mb-2">Soporte Técnico</p>
-<button class="w-full py-2 bg-primary text-on-primary rounded-lg font-label-md flex items-center justify-center gap-2 shadow-sm hover:opacity-90 active:scale-95 transition-all">
-<span class="material-symbols-outlined text-[18px]" data-icon="support_agent">support_agent</span>
-                        Contactar
-                    </button>
-</div>
-</div>
-</aside>
-<!-- Main Content -->
-<main class="w-full md:ml-80 p-margin-mobile md:p-margin-desktop pb-32">
-<div class="max-w-6xl mx-auto">
-<div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-xl gap-4">
+<main class="p-margin-mobile md:p-margin-desktop space-y-lg">
+<section class="flex flex-col md:flex-row md:items-center justify-between gap-md">
 <div>
-<h2 class="font-headline-lg text-headline-lg text-on-background">Control Maestro - Sedes</h2>
-<p class="text-on-surface-variant font-body-md">Gestiona la autorización y acceso global de las sucursales.</p>
+<h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface">Dashboard Gerencial</h2>
+<p class="text-body-md text-on-surface-variant">Bem-vindo, Dr. Practitioner. Veja o desempenho da clínica hoje.</p>
 </div>
-<button class="flex items-center gap-2 bg-primary-container text-on-primary px-lg py-3 rounded-xl shadow-md hover:opacity-90 active:scale-95 transition-all font-label-md">
-<span class="material-symbols-outlined" data-icon="add">add</span>
-                        Nueva Sede
-                    </button>
-</div>
-<!-- Summary Section (Bento Style) -->
-<section class="grid grid-cols-1 md:grid-cols-3 gap-lg mb-xl">
-<div class="bg-surface-container-lowest p-lg rounded-2xl clinical-shadow border border-outline-variant flex items-center gap-4">
-<div class="w-14 h-14 rounded-full bg-primary-fixed flex items-center justify-center text-primary">
-<span class="material-symbols-outlined text-[32px]" data-icon="store">store</span>
-</div>
-<div>
-<p class="text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider">Total Ópticas</p>
-<h3 class="text-headline-lg font-headline-lg text-on-surface">24</h3>
-</div>
-</div>
-<div class="bg-surface-container-lowest p-lg rounded-2xl clinical-shadow border border-outline-variant flex items-center gap-4">
-<div class="w-14 h-14 rounded-full bg-secondary-container flex items-center justify-center text-secondary">
-<span class="material-symbols-outlined text-[32px]" data-icon="check_circle">check_circle</span>
-</div>
-<div>
-<p class="text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider">Sedes Activas</p>
-<h3 class="text-headline-lg font-headline-lg text-on-surface">18</h3>
+<button class="bg-primary text-white px-lg py-md rounded-xl flex items-center gap-sm hover:opacity-90 transition-all active:scale-95 shadow-md">
+<span class="material-symbols-outlined" data-icon="campaign">campaign</span>
+<span class="font-label-md">Send WhatsApp Campaign</span>
+</button>
+</section>
+<section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-md">
+<div class="bg-surface-container-lowest p-lg rounded-xl shadow-sm border border-outline-variant hover:shadow-md transition-shadow">
+<p class="text-label-sm text-on-surface-variant flex items-center gap-xs">
+<span class="material-symbols-outlined text-primary" data-icon="group_add">group_add</span> New Patients
+            </p>
+<div class="flex items-end justify-between mt-sm">
+<h3 class="text-headline-md font-bold">142</h3>
+<span class="text-label-sm text-secondary-brand bg-green-100 px-2 py-0.5 rounded-full font-bold">+12%</span>
 </div>
 </div>
-<div class="bg-surface-container-lowest p-lg rounded-2xl clinical-shadow border border-outline-variant flex items-center gap-4">
-<div class="w-14 h-14 rounded-full bg-amber-100 flex items-center justify-center text-amber-700">
-<span class="material-symbols-outlined text-[32px]" data-icon="pending">pending</span>
+<div class="bg-surface-container-lowest p-lg rounded-xl shadow-sm border border-outline-variant hover:shadow-md transition-shadow">
+<p class="text-label-sm text-on-surface-variant flex items-center gap-xs">
+<span class="material-symbols-outlined text-primary" data-icon="payments">payments</span> Monthly Sales
+            </p>
+<div class="flex items-end justify-between mt-sm">
+<h3 class="text-headline-md font-bold">$12.5k</h3>
+<span class="text-label-sm text-primary bg-primary-fixed px-2 py-0.5 rounded-full">Target 85%</span>
 </div>
-<div>
-<p class="text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider">Pendientes</p>
-<h3 class="text-headline-lg font-headline-lg text-on-surface">6</h3>
+</div>
+<div class="bg-surface-container-lowest p-lg rounded-xl shadow-sm border border-outline-variant hover:shadow-md transition-shadow">
+<p class="text-label-sm text-on-surface-variant flex items-center gap-xs">
+<span class="material-symbols-outlined text-primary" data-icon="event_available">event_available</span> Appointments Attended
+            </p>
+<div class="flex items-end justify-between mt-sm">
+<h3 class="text-headline-md font-bold">48</h3>
+<span class="text-label-sm text-on-surface-variant">Today</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-lg rounded-xl shadow-sm border border-outline-variant hover:shadow-md transition-shadow">
+<p class="text-label-sm text-on-surface-variant flex items-center gap-xs">
+<span class="material-symbols-outlined text-error" data-icon="event_busy">event_busy</span> Missed Appointments
+            </p>
+<div class="flex items-end justify-between mt-sm">
+<h3 class="text-headline-md font-bold">4</h3>
+<span class="text-label-sm text-error bg-error-container px-2 py-0.5 rounded-full">-8%</span>
 </div>
 </div>
 </section>
-<!-- Filter and Search Bar -->
-<div class="bg-surface-container-lowest p-md rounded-xl clinical-shadow border border-outline-variant mb-lg flex flex-col md:flex-row gap-4 items-center">
-<div class="relative w-full">
-<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant" data-icon="search">search</span>
-<input class="w-full pl-10 pr-4 py-2 bg-background border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary font-body-sm transition-all" placeholder="Buscar por nombre de sede o administrador..." type="text"/>
+<section class="bento-grid">
+<div class="col-span-12 lg:col-span-8 bg-surface-container-lowest p-lg rounded-xl border border-outline-variant shadow-sm flex flex-col gap-lg">
+<div class="flex items-center justify-between">
+<h3 class="text-headline-md font-bold flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary" data-icon="insights">insights</span> Commercial Intelligence
+                </h3>
+<button class="text-primary font-label-md hover:underline">View All Intelligence</button>
 </div>
-<div class="flex gap-2 w-full md:w-auto">
-<button class="flex items-center gap-2 px-4 py-2 border border-outline-variant rounded-lg hover:bg-surface-container-low transition-colors font-label-md text-on-surface-variant">
-<span class="material-symbols-outlined text-[20px]" data-icon="filter_list">filter_list</span>
-                            Filtros
-                        </button>
-<button class="flex items-center gap-2 px-4 py-2 border border-outline-variant rounded-lg hover:bg-surface-container-low transition-colors font-label-md text-on-surface-variant">
-<span class="material-symbols-outlined text-[20px]" data-icon="sort">sort</span>
-                            Ordenar
-                        </button>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+<div class="bg-primary-fixed/30 p-md rounded-lg border-l-4 border-primary flex items-start gap-md">
+<span class="material-symbols-outlined text-primary mt-1" data-icon="medical_information">medical_information</span>
+<div>
+<h4 class="font-bold text-body-md">Retention Alert</h4>
+<p class="text-body-sm text-on-surface-variant">15 Patients due for annual check-up in the next 7 days.</p>
+<button class="mt-sm text-primary font-label-md flex items-center gap-xs">Automate Outreach <span class="material-symbols-outlined text-[16px]" data-icon="chevron_right">chevron_right</span></button>
 </div>
 </div>
-<!-- Optics List Table -->
-<div class="bg-surface-container-lowest rounded-2xl clinical-shadow border border-outline-variant overflow-hidden">
-<div class="overflow-x-auto">
-<table class="w-full text-left border-collapse">
-<thead>
-<tr class="bg-surface-container border-b border-outline-variant">
-<th class="px-lg py-4 font-label-md text-on-surface-variant">Información de Sede</th>
-<th class="px-lg py-4 font-label-md text-on-surface-variant">Administrador</th>
-<th class="px-lg py-4 font-label-md text-on-surface-variant text-center">Estado</th>
-<th class="px-lg py-4 font-label-md text-on-surface-variant text-center">Acceso</th>
-<th class="px-lg py-4 font-label-md text-on-surface-variant text-right">Acciones</th>
-</tr>
-</thead>
-<tbody class="divide-y divide-outline-variant">
-<!-- Row 1 -->
-<tr class="hover:bg-surface-container-low transition-colors">
-<td class="px-lg py-5">
-<div class="flex flex-col">
-<span class="font-label-md text-on-surface">Ópticas GM - Centro</span>
-<span class="text-label-sm text-on-surface-variant">Av. Reforma #452, CDMX</span>
-</div>
-</td>
-<td class="px-lg py-5">
-<div class="flex items-center gap-2">
-<div class="w-8 h-8 rounded-full bg-secondary-container flex items-center justify-center text-secondary font-bold text-[12px]">RM</div>
-<span class="font-body-md text-on-surface">Ricardo Mendoza</span>
-</div>
-</td>
-<td class="px-lg py-5 text-center">
-<span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-secondary-container text-secondary">
-                                            Activa
-                                        </span>
-</td>
-<td class="px-lg py-5">
-<div class="flex justify-center">
-<button class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none bg-primary" onclick="this.classList.toggle('bg-primary'); this.classList.toggle('bg-gray-200');">
-<span class="translate-x-5 pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out" id="toggle-circle"></span>
-</button>
-</div>
-</td>
-<td class="px-lg py-5 text-right">
-<div class="flex justify-end gap-3">
-<button class="p-2 hover:bg-surface-container rounded-full text-on-surface-variant transition-all" title="Ver Llaves de Acceso">
-<span class="material-symbols-outlined" data-icon="vpn_key">vpn_key</span>
-</button>
-<button class="p-2 hover:bg-surface-container rounded-full text-on-surface-variant transition-all">
-<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
-</button>
-</div>
-</td>
-</tr>
-<!-- Row 2 -->
-<tr class="hover:bg-surface-container-low transition-colors">
-<td class="px-lg py-5">
-<div class="flex flex-col">
-<span class="font-label-md text-on-surface">Ópticas GM - Norte</span>
-<span class="text-label-sm text-on-surface-variant">Plaza Satélite, Local 12</span>
-</div>
-</td>
-<td class="px-lg py-5">
-<div class="flex items-center gap-2">
-<div class="w-8 h-8 rounded-full bg-secondary-container flex items-center justify-center text-secondary font-bold text-[12px]">LC</div>
-<span class="font-body-md text-on-surface">Laura Chávez</span>
-</div>
-</td>
-<td class="px-lg py-5 text-center">
-<span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-700">
-                                            Pendiente
-                                        </span>
-</td>
-<td class="px-lg py-5">
-<div class="flex justify-center">
-<button class="bg-primary text-on-primary px-4 py-1.5 rounded-lg font-label-sm hover:opacity-90 active:scale-95 transition-all shadow-sm">
-                                                Autorizar
-                                            </button>
-</div>
-</td>
-<td class="px-lg py-5 text-right">
-<div class="flex justify-end gap-3">
-<button class="p-2 hover:bg-surface-container rounded-full text-on-surface-variant transition-all">
-<span class="material-symbols-outlined" data-icon="vpn_key">vpn_key</span>
-</button>
-<button class="p-2 hover:bg-surface-container rounded-full text-on-surface-variant transition-all">
-<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
-</button>
-</div>
-</td>
-</tr>
-<!-- Row 3 -->
-<tr class="hover:bg-surface-container-low transition-colors opacity-75">
-<td class="px-lg py-5">
-<div class="flex flex-col">
-<span class="font-label-md text-on-surface">Ópticas GM - Vallarta</span>
-<span class="text-label-sm text-on-surface-variant">Malecón Marina, Pto. Vallarta</span>
-</div>
-</td>
-<td class="px-lg py-5">
-<div class="flex items-center gap-2">
-<div class="w-8 h-8 rounded-full bg-secondary-container flex items-center justify-center text-secondary font-bold text-[12px]">JG</div>
-<span class="font-body-md text-on-surface">Jorge Garza</span>
-</div>
-</td>
-<td class="px-lg py-5 text-center">
-<span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-red-100 text-red-700">
-                                            Inactiva
-                                        </span>
-</td>
-<td class="px-lg py-5">
-<div class="flex justify-center">
-<button class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none bg-gray-200" onclick="this.classList.toggle('bg-primary'); this.classList.toggle('bg-gray-200');">
-<span class="translate-x-0 pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"></span>
-</button>
-</div>
-</td>
-<td class="px-lg py-5 text-right">
-<div class="flex justify-end gap-3">
-<button class="p-2 hover:bg-surface-container rounded-full text-on-surface-variant transition-all opacity-50">
-<span class="material-symbols-outlined" data-icon="vpn_key">vpn_key</span>
-</button>
-<button class="p-2 hover:bg-surface-container rounded-full text-on-surface-variant transition-all">
-<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
-</button>
-</div>
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="bg-surface-container p-4 flex justify-between items-center border-t border-outline-variant">
-<span class="text-label-sm text-on-surface-variant">Mostrando 3 de 24 sedes</span>
-<div class="flex gap-2">
-<button class="p-2 hover:bg-surface-container-high rounded-lg text-on-surface-variant disabled:opacity-30" disabled="">
-<span class="material-symbols-outlined" data-icon="chevron_left">chevron_left</span>
-</button>
-<button class="p-2 hover:bg-surface-container-high rounded-lg text-on-surface-variant">
-<span class="material-symbols-outlined" data-icon="chevron_right">chevron_right</span>
-</button>
+<div class="bg-error-container/20 p-md rounded-lg border-l-4 border-error flex items-start gap-md">
+<span class="material-symbols-outlined text-error mt-1" data-icon="inventory">inventory</span>
+<div>
+<h4 class="font-bold text-body-md">Inventory Risk</h4>
+<p class="text-body-sm text-on-surface-variant">8 Lenses near expiration or below safety stock levels.</p>
+<button class="mt-sm text-error font-label-md flex items-center gap-xs">Review Stock <span class="material-symbols-outlined text-[16px]" data-icon="chevron_right">chevron_right</span></button>
 </div>
 </div>
 </div>
+<div class="h-48 w-full bg-surface-container rounded-lg overflow-hidden relative">
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+<p class="text-label-sm text-on-surface-variant font-bold uppercase tracking-wider">Predictive Sales Growth Chart</p>
 </div>
+<div class="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-primary/10 to-transparent"></div>
+</div>
+</div>
+<div class="col-span-12 lg:col-span-4 bg-surface-container-lowest p-lg rounded-xl border border-outline-variant shadow-sm">
+<h3 class="text-headline-md font-bold mb-lg flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary" data-icon="star">star</span> Top Products
+            </h3>
+<div class="space-y-md">
+<div class="flex items-center gap-md p-sm hover:bg-surface-container rounded-lg transition-colors cursor-pointer group">
+<div class="w-12 h-12 bg-secondary-container rounded-lg flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-on-secondary-container" data-icon="eyeglasses">eyeglasses</span>
+</div>
+<div class="flex-1">
+<p class="font-bold text-body-md group-hover:text-primary transition-colors">Ray-Ban Wayfarer Classic</p>
+<p class="text-label-sm text-on-surface-variant">Frames • 42 units sold</p>
+</div>
+<span class="material-symbols-outlined text-secondary-brand" data-icon="trending_up">trending_up</span>
+</div>
+<div class="flex items-center gap-md p-sm hover:bg-surface-container rounded-lg transition-colors cursor-pointer group border-t border-outline-variant pt-md">
+<div class="w-12 h-12 bg-secondary-container rounded-lg flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-on-secondary-container" data-icon="blur_circular">blur_circular</span>
+</div>
+<div class="flex-1">
+<p class="font-bold text-body-md group-hover:text-primary transition-colors">Varilux Comfort Max</p>
+<p class="text-label-sm text-on-surface-variant">Lenses • 38 pairs sold</p>
+</div>
+<span class="material-symbols-outlined text-secondary-brand" data-icon="trending_up">trending_up</span>
+</div>
+<div class="flex items-center gap-md p-sm hover:bg-surface-container rounded-lg transition-colors cursor-pointer group border-t border-outline-variant pt-md">
+<div class="w-12 h-12 bg-secondary-container rounded-lg flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-on-secondary-container" data-icon="eyeglasses">eyeglasses</span>
+</div>
+<div class="flex-1">
+<p class="font-bold text-body-md group-hover:text-primary transition-colors">Oakley Holbrook Prizm</p>
+<p class="text-label-sm text-on-surface-variant">Frames • 29 units sold</p>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="trending_flat">trending_flat</span>
+</div>
+<div class="flex items-center gap-md p-sm hover:bg-surface-container rounded-lg transition-colors cursor-pointer group border-t border-outline-variant pt-md">
+<div class="w-12 h-12 bg-secondary-container rounded-lg flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-on-secondary-container" data-icon="visibility">visibility</span>
+</div>
+<div class="flex-1">
+<p class="font-bold text-body-md group-hover:text-primary transition-colors">Acuvue Oasys 1-Day</p>
+<p class="text-label-sm text-on-surface-variant">Contacts • 24 boxes sold</p>
+</div>
+<span class="material-symbols-outlined text-secondary-brand" data-icon="trending_up">trending_up</span>
+</div>
+</div>
+<button class="w-full mt-lg border border-primary text-primary py-sm rounded-lg font-label-md hover:bg-primary-fixed transition-colors">View Inventory Stats</button>
+</div>
+</section>
 </main>
-</div>
-<!-- Mobile Navigation Bar -->
-<nav class="md:hidden fixed bottom-0 w-full z-50 bg-surface border-t border-outline-variant shadow-lg flex justify-around items-center h-20 pb-safe px-2">
-<a class="flex flex-col items-center justify-center text-on-surface-variant" href="#">
+<nav class="md:hidden fixed bottom-0 w-full z-50 bg-surface dark:bg-surface-dim font-label-sm text-label-sm border-t border-outline-variant dark:border-outline shadow-lg flex justify-around items-center h-20 pb-safe px-2">
+<a class="flex flex-col items-center justify-center bg-primary text-white rounded-full px-4 py-1 active:scale-90 transition-all" href="#">
 <span class="material-symbols-outlined" data-icon="home">home</span>
-<span class="font-label-sm text-label-sm">Home</span>
+<span>Home</span>
 </a>
-<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary rounded-full px-4 py-1" href="#">
-<span class="material-symbols-outlined" data-icon="groups">groups</span>
-<span class="font-label-sm text-label-sm">Sedes</span>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-secondary-container/50 active:scale-90 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span>Patients</span>
 </a>
-<a class="flex flex-col items-center justify-center text-on-surface-variant" href="#">
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-secondary-container/50 active:scale-90 transition-all" href="#">
 <span class="material-symbols-outlined" data-icon="calendar_month">calendar_month</span>
-<span class="font-label-sm text-label-sm">Agenda</span>
+<span>Agenda</span>
 </a>
-<a class="flex flex-col items-center justify-center text-on-surface-variant" href="#">
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-secondary-container/50 active:scale-90 transition-all" href="#">
 <span class="material-symbols-outlined" data-icon="payments">payments</span>
-<span class="font-label-sm text-label-sm">Sales</span>
+<span>Sales</span>
 </a>
 </nav>
-<!-- FAB for Mobile -->
-<button class="md:hidden fixed bottom-24 right-6 w-14 h-14 bg-primary text-on-primary rounded-full shadow-lg flex items-center justify-center active:scale-90 transition-transform">
-<span class="material-symbols-outlined" data-icon="add">add</span>
-</button>
 <script>
-        // Simple Interaction logic for toggles
-        document.querySelectorAll('button[onclick]').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                const circle = btn.querySelector('span');
-                if(btn.classList.contains('bg-primary')) {
-                    circle.style.transform = 'translateX(20px)';
-                } else {
-                    circle.style.transform = 'translateX(0px)';
-                }
-            });
-        });
-    </script>
+    document.querySelectorAll('.active\\:scale-95').forEach(button => {
+        button.addEventListener('mousedown', () => button.classList.add('scale-95'));
+        button.addEventListener('mouseup', () => button.classList.remove('scale-95'));
+        button.addEventListener('mouseleave', () => button.classList.remove('scale-95'));
+    });
+</script>
 </body></html>
