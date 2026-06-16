@@ -3,74 +3,186 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Control >Óptico - Bienvenido</title>
+  <title>Control Óptico - Bienvenido</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+  
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
+    
     body {
       min-height: 100vh;
-      background: linear-gradient(135deg, #003f87 0%, #0056b3 100%);
+      background: radial-gradient(circle at center, #003f87 0%, #001f42 100%);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      overflow: hidden;
+      position: relative;
     }
+
+    body::before, body::after {
+      content: '';
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      border-radius: 50%;
+      background: rgba(0, 86, 179, 0.15);
+      filter: blur(80px);
+      z-index: 1;
+      animation: floatBg 8s infinite alternate ease-in-out;
+    }
+    body::before { top: -10%; left: -10%; }
+    body::after { bottom: -10%; right: -10%; animation-delay: -4s; }
+
     .animation-container {
       text-align: center;
-      animation: fadeInScale 1.2s cubic-bezier(0.2, 0.9, 0.4, 1.1) forwards;
+      z-index: 2;
+      animation: fadeInScale 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
     }
+
+    /* Contenedor del Logo */
     .logo {
-      width: 120px;
-      height: 120px;
-      background: white;
-      border-radius: 30px;
+      width: 130px;
+      height: 130px;
+      background: linear-gradient(135deg, #ffffff 0%, #f4f7fe 100%);
+      border-radius: 35px;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin: 0 auto 24px;
-      box-shadow: 0 20px 35px -10px rgba(0,0,0,0.3);
-      animation: pulse 1.5s infinite alternate;
+      margin: 0 auto 28px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4), 
+                  inset 0 -4px 10px rgba(0, 63, 135, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      position: relative;
     }
-    .logo span {
-      font-size: 64px;
+
+    /* Línea estática que simula el ojo cerrado en el guiño total */
+    .logo::after {
+      content: '';
+      position: absolute;
+      width: 46px;
+      height: 5px;
+      background-color: #003f87;
+      border-radius: 10px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scaleX(0);
+      animation: lineShow 2.8s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+    }
+
+    /* Icono del ojo con animación de recorte */
+    .eye-icon {
+      font-size: 68px;
       color: #003f87;
+      display: inline-block;
+      animation: clipBlink 2.8s cubic-bezier(0.19, 1, 0.22, 1) forwards;
     }
+
     h1 {
       color: white;
-      font-size: 2.5rem;
-      letter-spacing: -0.5px;
-      font-weight: 700;
-      margin-bottom: 8px;
+      font-size: 2.8rem;
+      letter-spacing: -1px;
+      font-weight: 800;
+      margin-bottom: 10px;
+      background: linear-gradient(to right, #ffffff, #dbeafe);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
+
     p {
-      color: rgba(255,255,255,0.9);
-      font-size: 1.1rem;
+      color: #93c5fd;
+      font-size: 1.05rem;
+      font-weight: 500;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      opacity: 0.9;
     }
+
+    /* Barra de carga */
+    .loader-bar {
+      width: 140px;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      margin: 32px auto 0;
+      overflow: hidden;
+      position: relative;
+    }
+    .loader-bar::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      width: 0;
+      background: linear-gradient(to right, #3b82f6, #60a5fa);
+      border-radius: 10px;
+      animation: loadProgress 2.5s linear forwards; /* Carga en 2.5 segundos */
+    }
+
+    /* --- ANIMACIONES SINCRONIZADAS --- */
+
+    /* Animación del Ojo: Se oculta por completo al final (segundo 2.4 al 2.6) */
+    @keyframes clipBlink {
+      0%, 82% {
+        clip-path: inset(0% 0% 0% 0%); /* Ojo abierto al 100% */
+      }
+      88%, 93% {
+        clip-path: inset(50% 0% 50% 0%); /* Cierre horizontal perfecto y total */
+      }
+      98%, 100% {
+        clip-path: inset(0% 0% 0% 0%); /* Vuelve a abrir justo antes del redireccionamiento */
+      }
+    }
+
+    /* Animación de la línea del guiño: se expande cuando el ojo se corta */
+    @keyframes lineShow {
+      0%, 82% {
+        transform: translate(-50%, -50%) scaleX(0);
+      }
+      88%, 93% {
+        transform: translate(-50%, -50%) scaleX(1); /* Muestra la línea del ojo cerrado */
+      }
+      98%, 100% {
+        transform: translate(-50%, -50%) scaleX(0);
+      }
+    }
+
+    @keyframes loadProgress {
+      0% { width: 0%; }
+      100% { width: 100%; } /* Finaliza exactamente coincidiendo con el guiño */
+    }
+
     @keyframes fadeInScale {
-      0% { opacity: 0; transform: scale(0.95); }
-      100% { opacity: 1; transform: scale(1); }
+      0% { opacity: 0; transform: scale(0.92) translateY(10px); }
+      100% { opacity: 1; transform: scale(1) translateY(0); }
     }
-    @keyframes pulse {
-      0% { transform: scale(1); box-shadow: 0 20px 35px -10px rgba(0,0,0,0.3); }
-      100% { transform: scale(1.02); box-shadow: 0 30px 40px -12px rgba(0,0,0,0.4); }
+
+    @keyframes floatBg {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(30px, 20px) scale(1.1); }
     }
   </style>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1" rel="stylesheet">
 </head>
 <body>
+
   <div class="animation-container">
     <div class="logo">
-      <span class="material-symbols-outlined">visibility</span>
+      <span class="material-symbols-outlined eye-icon">visibility</span>
     </div>
     <h1>Control Óptico</h1>
-    <p>Sistema de Gestión Optométrica Y Oftalmológica</p>
+    <p>Sistema de Gestión Optométrica y Oftalmológica</p>
+    
+    <div class="loader-bar"></div>
   </div>
 
   <script>
+    // Se ejecuta el cambio de página a los 2.8 segundos (dando margen al guiño final)
     setTimeout(() => {
       window.location.href = 'login.html';
     }, 2800);
