@@ -3,34 +3,35 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Control Óptico - Acceso</title>
+  <title>Ópticas GM - Acceso</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
   <style>
     body { font-family: 'Inter', sans-serif; background: #f7f9ff; }
   </style>
 </head>
-<body class="bg-background flex items-center justify-center min-h-screen p-4">
+<body class="flex items-center justify-center min-h-screen p-4">
   <div class="max-w-md w-full bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
     <div class="bg-primary px-6 py-4 text-white" style="background-color: #003f87;">
       <div class="flex items-center gap-2">
         <span class="material-symbols-outlined">visibility</span>
-        <span class="font-bold text-xl">ontrol Óptico </span>
+        <span class="font-bold text-xl">Ópticas GM</span>
       </div>
-      <p class="text-sm opacity-90 mt-1">Accede o regístrate para continuar</p>
+      <p class="text-sm opacity-90 mt-1">Accede con tu cuenta</p>
     </div>
-    <div id="appContent" class="p-6"></div>
+    <div id="appContent" class="p-6">
+      <!-- El contenido será renderizado por JavaScript -->
+    </div>
   </div>
 
   <script>
-    // ================= URL DE TU WEB APP =================
-    const API_URL = 'https://script.google.com/macros/s/AKfycbxNoEDimpF46CdTyknov4ZvRwt53x4DU1zR4OnxhaTnz8cJbES352kV-104hAd_Bscc/exec';
+    // ⚠️ REEMPLAZA ESTA URL CON LA DE TU WEB APP DE APPS SCRIPT
+    const API_URL = 'https://script.google.com/macros/s/TU_ID_AQUI/exec';
 
     let currentView = 'login'; // 'login', 'register', 'plans'
     let currentUserEmail = null;
 
-    // ============= FUNCIÓN API =============
     async function apiRequest(action, params = {}) {
       const query = new URLSearchParams({ action, ...params }).toString();
       const url = `${API_URL}?${query}`;
@@ -39,7 +40,6 @@
       return await response.json();
     }
 
-    // ============= VISTAS =============
     function renderLogin() {
       return `
         <h2 class="text-2xl font-bold text-gray-800 mb-2">Iniciar sesión</h2>
@@ -47,13 +47,13 @@
         <div class="space-y-4">
           <div>
             <label class="block text-sm font-medium text-gray-700">Correo electrónico</label>
-            <input type="email" id="loginEmail" class="mt-1 w-full border border-gray-300 rounded-lg px-3 py-2" placeholder="admin@opticasm.com">
+            <input type="email" id="loginEmail" class="mt-1 w-full border border-gray-300 rounded-lg px-3 py-2">
           </div>
           <div>
             <label class="block text-sm font-medium text-gray-700">Contraseña</label>
-            <input type="password" id="loginPassword" class="mt-1 w-full border border-gray-300 rounded-lg px-3 py-2" placeholder="••••••">
+            <input type="password" id="loginPassword" class="mt-1 w-full border border-gray-300 rounded-lg px-3 py-2">
           </div>
-          <button id="doLoginBtn" class="w-full bg-primary text-white py-2 rounded-lg font-semibold hover:bg-opacity-90" style="background-color:#003f87">Ingresar</button>
+          <button id="doLoginBtn" class="w-full bg-primary text-white py-2 rounded-lg font-semibold" style="background-color:#003f87">Ingresar</button>
           <p class="text-center text-sm text-gray-500">¿No tienes cuenta? <button id="goToRegister" class="text-primary font-medium">Regístrate aquí</button></p>
         </div>
       `;
@@ -103,7 +103,6 @@
       `;
     }
 
-    // Eventos dinámicos
     function attachEvents() {
       if (currentView === 'login') {
         document.getElementById('doLoginBtn')?.addEventListener('click', async () => {
@@ -112,9 +111,13 @@
           try {
             const result = await apiRequest('login', { correo, password });
             if (result.success) {
-              currentUserEmail = correo;
-              currentView = 'plans';
-              renderApp();
+              if (result.rol === 'admin') {
+                window.location.href = 'admin_panel.html';
+              } else {
+                currentUserEmail = correo;
+                currentView = 'plans';
+                renderApp();
+              }
             } else {
               alert('Credenciales incorrectas o usuario no existe');
             }
@@ -159,7 +162,6 @@
             try {
               const result = await apiRequest('savePlan', { correo: currentUserEmail, plan, monto, duracionDias });
               if (result.success) {
-                // Redirigir al dashboard (debes tener dashboard.html en la misma carpeta)
                 window.location.href = 'dashboard.html?email=' + encodeURIComponent(currentUserEmail);
               } else {
                 alert('Error al guardar el plan: ' + result.error);
