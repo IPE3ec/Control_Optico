@@ -2,268 +2,156 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>Control Óptico - Acceso</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel Admin - Control Óptico</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Material+Symbols+Outlined" rel="stylesheet">
   <style>
-    body {
-      font-family: 'Inter', sans-serif;
-      background: linear-gradient(135deg, #f0f4ff 0%, #e6edf8 100%);
-    }
-    .btn-scale:active {
-      transform: scale(0.96);
-      transition: transform 0.1s ease;
-    }
-    .transition-smooth {
-      transition: all 0.2s ease;
-    }
-    input:focus {
-      outline: none;
-      ring: 2px solid #003f87;
-      border-color: #003f87;
-    }
-    .animate-pulse-light {
-      animation: pulseLight 1.5s infinite;
-    }
-    @keyframes pulseLight {
-      0% { opacity: 0.7; }
-      50% { opacity: 1; }
-      100% { opacity: 0.7; }
-    }
+    body { font-family: 'Inter', sans-serif; background: #f0f4ff; }
+    .card-hover:hover { transform: translateY(-2px); transition: all 0.2s; }
   </style>
 </head>
-<body class="flex items-center justify-center min-h-screen p-4">
-
-  <div class="max-w-md w-full bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-100 transform transition-all duration-300 hover:shadow-xl">
-    <!-- Header con nombre del sistema -->
-    <div class="bg-gradient-to-r from-[#002d5e] to-[#003f87] px-6 py-5 text-white">
-      <div class="flex items-center gap-3">
-        <span class="material-symbols-outlined text-3xl">visibility</span>
-        <div>
-          <span class="font-extrabold text-2xl tracking-tight">Control Óptico</span>
-          <p class="text-xs text-blue-100 mt-0.5">Gestión profesional para ópticas</p>
-        </div>
-      </div>
-      <p class="text-sm text-blue-50 mt-2 opacity-90">Accede o regístrate para administrar tu óptica</p>
+<body class="p-6">
+  <div class="max-w-7xl mx-auto">
+    <div class="flex justify-between items-center mb-6 bg-white p-4 rounded-2xl shadow">
+      <div class="flex items-center gap-3"><span class="material-symbols-outlined text-3xl text-primary">admin_panel_settings</span><h1 class="text-2xl font-bold">Panel de Control Maestro</h1></div>
+      <button id="logoutBtn" class="bg-red-500 text-white px-4 py-2 rounded-xl flex items-center gap-2">Cerrar sesión</button>
     </div>
 
-    <div id="appContent" class="p-6">
-      <!-- Contenido dinámico renderizado por JS -->
+    <!-- Estado global -->
+    <div class="bg-white rounded-2xl shadow p-5 mb-6">
+      <h2 class="font-bold text-xl mb-3">🔒 Control global de acceso</h2>
+      <div class="flex flex-wrap gap-4 items-center">
+        <span class="text-gray-600">Estado actual:</span>
+        <span id="globalStatusBadge" class="px-4 py-1.5 rounded-full text-sm font-bold">--</span>
+        <button id="btnActivarGlobal" class="bg-green-600 text-white px-4 py-2 rounded-lg">Activar sistema</button>
+        <button id="btnBloquearGlobal" class="bg-red-600 text-white px-4 py-2 rounded-lg">Bloquear sistema</button>
+      </div>
+    </div>
+
+    <!-- Solicitudes pendientes de aprobación -->
+    <div class="bg-white rounded-2xl shadow p-5 mb-6">
+      <h2 class="font-bold text-xl mb-3">⏳ Solicitudes de planes pendientes</h2>
+      <div id="pendingRequestsList" class="space-y-3">Cargando...</div>
+    </div>
+
+    <!-- Usuarios activos (con fecha de vencimiento) -->
+    <div class="bg-white rounded-2xl shadow p-5 mb-6">
+      <h2 class="font-bold text-xl mb-3">✅ Usuarios con plan activo</h2>
+      <div id="activeUsersList" class="overflow-x-auto">Cargando...</div>
+    </div>
+
+    <!-- Sedes (igual que antes) -->
+    <div class="bg-white rounded-2xl shadow p-5">
+      <div class="flex justify-between items-center mb-4"><h2 class="font-bold text-xl">🏢 Sucursales</h2><button id="newSedeBtn" class="bg-primary text-white px-3 py-1.5 rounded-lg text-sm">+ Nueva sede</button></div>
+      <div id="sedesTable" class="overflow-x-auto">Cargando...</div>
     </div>
   </div>
 
   <script>
-    // 🔁 REEMPLAZA ESTA URL CON LA DE TU WEB APP DE APPS SCRIPT (la última desplegada)
-    const API_URL = 'https://script.google.com/macros/s/AKfycbydrkD4E9bRcFZap1uHa_fPBcy-9Y6d3Wlh_MD7UduTX8T3S-U0wvqj1lEvHB4LzZ7qDw/exec';
+    const API_URL = 'https://script.google.com/macros/s/AKfycbydrkD4E9bRcFZap1uHa_fPBcy-9Y6d3Wlh_MD7UduTX8T3S-U0wvqj1lEvHB4LzZ7qDw/exec'; // REEMPLAZA
 
-    let currentView = 'login';    // 'login', 'register', 'plans'
-    let currentUserEmail = null;
+    if (!sessionStorage.getItem('adminLogged')) window.location.href = 'login.html';
 
-    // Función genérica para llamar a la API con prevención de envíos múltiples
-    async function apiRequest(action, params = {}, disableButton = null) {
-      if (disableButton) {
-        disableButton.disabled = true;
-        disableButton.classList.add('opacity-60', 'cursor-not-allowed');
-      }
-      try {
-        const query = new URLSearchParams({ action, ...params }).toString();
-        const url = `${API_URL}?${query}`;
-        const response = await fetch(url, { method: 'GET', mode: 'cors' });
-        if (!response.ok) throw new Error(`Error HTTP: ${response.status}`);
-        const data = await response.json();
-        return data;
-      } catch (err) {
-        console.error("API Error:", err);
-        throw new Error('No se pudo conectar con el servidor. Verifica tu conexión o contacta al administrador.');
-      } finally {
-        if (disableButton) {
-          disableButton.disabled = false;
-          disableButton.classList.remove('opacity-60', 'cursor-not-allowed');
-        }
-      }
+    async function apiRequest(action, params = {}) {
+      const query = new URLSearchParams({ action, ...params }).toString();
+      const res = await fetch(`${API_URL}?${query}`, { method: 'GET', mode: 'cors' });
+      if (!res.ok) throw new Error('Error');
+      return await res.json();
     }
 
-    // --- Vistas con mejor UX y ejemplos ---
-    function renderLogin() {
-      return `
-        <h2 class="text-2xl font-bold text-gray-800 mb-2">🔐 Iniciar sesión</h2>
-        <p class="text-gray-500 text-sm mb-5">Ingresa tu correo electrónico y contraseña</p>
-        <div class="space-y-4">
-          <div>
-            <label class="block text-sm font-medium text-gray-700">Correo electrónico</label>
-            <input type="email" id="loginEmail" class="mt-1 w-full border border-gray-300 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-[#003f87] focus:border-[#003f87] transition-smooth" placeholder="ejemplo@opticagm.com">
-          </div>
-          <div>
-            <label class="block text-sm font-medium text-gray-700">Contraseña</label>
-            <input type="password" id="loginPassword" class="mt-1 w-full border border-gray-300 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-[#003f87] focus:border-[#003f87]" placeholder="••••••••">
-          </div>
-          <button id="doLoginBtn" class="w-full bg-[#003f87] text-white py-2.5 rounded-xl font-semibold shadow-md btn-scale transition-smooth hover:bg-[#002d5e] flex items-center justify-center gap-2">
-            <span class="material-symbols-outlined text-xl">login</span> Ingresar
-          </button>
-          <p class="text-center text-sm text-gray-500">¿No tienes cuenta? <button id="goToRegister" class="text-[#003f87] font-semibold hover:underline">Regístrate aquí</button></p>
-        </div>
-      `;
-    }
-
-    function renderRegister() {
-      return `
-        <h2 class="text-2xl font-bold text-gray-800 mb-1">📝 Registro de óptica</h2>
-        <p class="text-gray-500 text-sm mb-4">Completa todos los campos para crear tu cuenta</p>
-        <div class="space-y-3 max-h-[460px] overflow-y-auto pr-1 custom-scroll">
-          <div><label class="block text-sm font-medium text-gray-700">Nombre de la óptica / Doctor</label><input id="regNombre" class="w-full border border-gray-300 rounded-xl px-4 py-2.5" placeholder="Ej: Ópticas GM Centro"></div>
-          <div><label class="block text-sm font-medium text-gray-700">Ciudad</label><input id="regCiudad" class="w-full border border-gray-300 rounded-xl px-4 py-2.5" placeholder="Quito, Guayaquil, Cuenca..."></div>
-          <div><label class="block text-sm font-medium text-gray-700">RUC / Identificación</label><input id="regRuc" class="w-full border border-gray-300 rounded-xl px-4 py-2.5" placeholder="1790012345001"></div>
-          <div><label class="block text-sm font-medium text-gray-700">Dirección</label><input id="regDireccion" class="w-full border border-gray-300 rounded-xl px-4 py-2.5" placeholder="Av. Amazonas y Naciones Unidas"></div>
-          <div><label class="block text-sm font-medium text-gray-700">Teléfono / WhatsApp</label><input id="regTelefono" class="w-full border border-gray-300 rounded-xl px-4 py-2.5" placeholder="09991234567"></div>
-          <div><label class="block text-sm font-medium text-gray-700">Correo electrónico</label><input type="email" id="regCorreo" class="w-full border border-gray-300 rounded-xl px-4 py-2.5" placeholder="contacto@opticagm.com"></div>
-          <div><label class="block text-sm font-medium text-gray-700">Contraseña</label><input type="password" id="regPassword" class="w-full border border-gray-300 rounded-xl px-4 py-2.5" placeholder="Mínimo 6 caracteres"></div>
-          <button id="doRegisterBtn" class="w-full bg-[#003f87] text-white py-2.5 rounded-xl font-semibold btn-scale transition-smooth hover:bg-[#002d5e] flex items-center justify-center gap-2">
-            <span class="material-symbols-outlined">how_to_reg</span> Registrarse
-          </button>
-          <p class="text-center text-sm">¿Ya tienes cuenta? <button id="goToLogin" class="text-[#003f87] font-semibold hover:underline">Inicia sesión</button></p>
-        </div>
-      `;
-    }
-
-    function renderPlans() {
-      return `
-        <h2 class="text-2xl font-bold text-gray-800">💎 Elige tu plan</h2>
-        <p class="text-sm text-gray-500 mb-4">Selecciona la suscripción que mejor se adapte a tu negocio</p>
-        <div class="space-y-3">
-          <div class="border-2 rounded-xl p-4 flex justify-between items-center hover:bg-gray-50 cursor-pointer transition-all hover:shadow-md" data-plan="gratis">
-            <div><span class="font-bold text-lg">Plan Gratis</span><span class="text-xs block text-gray-500">7 días de prueba • Acceso completo</span></div>
-            <span class="text-green-600 font-bold text-xl">$0</span>
-          </div>
-          <div class="border-2 rounded-xl p-4 flex justify-between items-center hover:bg-gray-50 cursor-pointer transition-all hover:shadow-md" data-plan="mensual">
-            <div><span class="font-bold text-lg">Plan Mensual</span><span class="text-xs block text-gray-500">Facturación mes a mes</span></div>
-            <span class="text-[#003f87] font-bold text-xl">$20</span>
-          </div>
-          <div class="border-2 rounded-xl p-4 flex justify-between items-center hover:bg-gray-50 cursor-pointer transition-all hover:shadow-md" data-plan="semestral">
-            <div><span class="font-bold text-lg">Plan Semestral</span><span class="text-xs block text-gray-500">6 meses • Ahorra $10</span></div>
-            <span class="text-[#003f87] font-bold text-xl">$110</span>
-          </div>
-          <div class="border-2 rounded-xl p-4 flex justify-between items-center hover:bg-gray-50 cursor-pointer transition-all hover:shadow-md" data-plan="anual">
-            <div><span class="font-bold text-lg">Plan Anual</span><span class="text-xs block text-gray-500">12 meses • Ahorra $40</span></div>
-            <span class="text-[#003f87] font-bold text-xl">$200</span>
+    async function loadPending() {
+      const res = await apiRequest('getPendingRequests');
+      const container = document.getElementById('pendingRequestsList');
+      if (!res.success || res.pendientes.length === 0) { container.innerHTML = '<p class="text-gray-500">No hay solicitudes pendientes.</p>'; return; }
+      container.innerHTML = res.pendientes.map(p => `
+        <div class="border rounded-xl p-4 flex flex-wrap justify-between items-center gap-3">
+          <div><strong>${escapeHtml(p.nombre)}</strong><br><span class="text-sm text-gray-500">${p.correo}</span><br>Plan: ${p.plan} - $${p.monto}</div>
+          <div class="flex gap-2">
+            <button class="approve-btn bg-green-600 text-white px-4 py-1.5 rounded-lg" data-correo="${p.correo}" data-accion="aprobar">Aprobar</button>
+            <button class="reject-btn bg-red-600 text-white px-4 py-1.5 rounded-lg" data-correo="${p.correo}" data-accion="rechazar">Rechazar</button>
           </div>
         </div>
-        <div class="mt-6 text-center text-xs text-gray-400 bg-gray-50 p-2 rounded-lg">🔒 Pago seguro mediante transferencia o enlace de pago.</div>
-      `;
-    }
-
-    // --- Manejo de eventos con prevención de doble clic ---
-    function attachEvents() {
-      if (currentView === 'login') {
-        const loginBtn = document.getElementById('doLoginBtn');
-        if (loginBtn) {
-          loginBtn.addEventListener('click', async (e) => {
-            e.preventDefault();
-            const correo = document.getElementById('loginEmail').value.trim();
-            const password = document.getElementById('loginPassword').value;
-            if (!correo || !password) { alert('❌ Por favor ingresa correo y contraseña'); return; }
-            try {
-              loginBtn.disabled = true;
-              loginBtn.innerHTML = `<span class="material-symbols-outlined animate-spin">progress_activity</span> Verificando...`;
-              const result = await apiRequest('login', { correo, password });
-              if (result.success) {
-                if (result.rol === 'admin') {
-                  window.location.href = 'admin_panel.html';
-                } else {
-                  currentUserEmail = correo;
-                  currentView = 'plans';
-                  renderApp();
-                }
-              } else {
-                alert('⚠️ ' + (result.error || 'Credenciales incorrectas'));
-              }
-            } catch (err) { alert('🚫 Error: ' + err.message); }
-            finally {
-              loginBtn.disabled = false;
-              loginBtn.innerHTML = `<span class="material-symbols-outlined text-xl">login</span> Ingresar`;
-            }
-          });
-        }
-        document.getElementById('goToRegister')?.addEventListener('click', () => { currentView = 'register'; renderApp(); });
-      }
-      else if (currentView === 'register') {
-        const regBtn = document.getElementById('doRegisterBtn');
-        if (regBtn) {
-          regBtn.addEventListener('click', async (e) => {
-            e.preventDefault();
-            const nombre = document.getElementById('regNombre').value.trim();
-            const ciudad = document.getElementById('regCiudad').value.trim();
-            const ruc = document.getElementById('regRuc').value.trim();
-            const direccion = document.getElementById('regDireccion').value.trim();
-            const telefono = document.getElementById('regTelefono').value.trim();
-            const correo = document.getElementById('regCorreo').value.trim();
-            const password = document.getElementById('regPassword').value;
-            if (!nombre || !ciudad || !correo || !password) {
-              alert('❌ Por favor completa todos los campos obligatorios (*)');
-              return;
-            }
-            try {
-              regBtn.disabled = true;
-              regBtn.innerHTML = `<span class="material-symbols-outlined animate-spin">progress_activity</span> Registrando...`;
-              const result = await apiRequest('register', { nombre, ciudad, ruc, direccion, telefono, correo, password });
-              if (result.success) {
-                currentUserEmail = correo;
-                currentView = 'plans';
-                renderApp();
-              } else {
-                alert('❌ Error: ' + (result.error || 'No se pudo registrar. Intenta de nuevo.'));
-              }
-            } catch (err) { alert('🚫 Error de conexión: ' + err.message); }
-            finally {
-              regBtn.disabled = false;
-              regBtn.innerHTML = `<span class="material-symbols-outlined">how_to_reg</span> Registrarse`;
-            }
-          });
-        }
-        document.getElementById('goToLogin')?.addEventListener('click', () => { currentView = 'login'; renderApp(); });
-      }
-      else if (currentView === 'plans') {
-        const planCards = document.querySelectorAll('[data-plan]');
-        planCards.forEach(card => {
-          card.addEventListener('click', async (e) => {
-            const plan = card.getAttribute('data-plan');
-            let monto = 0, duracionDias = 0;
-            switch(plan) {
-              case 'gratis': monto = 0; duracionDias = 7; break;
-              case 'mensual': monto = 20; duracionDias = 30; break;
-              case 'semestral': monto = 110; duracionDias = 180; break;
-              case 'anual': monto = 200; duracionDias = 365; break;
-            }
-            if (!currentUserEmail) { alert('Error: usuario no identificado'); return; }
-            // Deshabilitar todas las tarjetas mientras se procesa para evitar doble selección
-            planCards.forEach(c => c.style.pointerEvents = 'none');
-            try {
-              const result = await apiRequest('savePlan', { correo: currentUserEmail, plan, monto, duracionDias });
-              if (result.success) {
-                window.location.href = 'dashboard.html?email=' + encodeURIComponent(currentUserEmail);
-              } else {
-                alert('⚠️ Error al guardar el plan: ' + (result.error || 'Intenta nuevamente'));
-              }
-            } catch (err) { alert('🚫 Error: ' + err.message); }
-            finally {
-              planCards.forEach(c => c.style.pointerEvents = 'auto');
-            }
-          });
+      `).join('');
+      document.querySelectorAll('.approve-btn, .reject-btn').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          const correo = btn.dataset.correo;
+          const accion = btn.classList.contains('approve-btn') ? 'aprobar' : 'rechazar';
+          const result = await apiRequest('approvePlan', { correo, accion });
+          alert(result.mensaje || (result.success ? 'Hecho' : 'Error'));
+          loadPending();
+          loadActiveUsers();
         });
-      }
+      });
     }
 
-    function renderApp() {
-      let html = '';
-      if (currentView === 'login') html = renderLogin();
-      else if (currentView === 'register') html = renderRegister();
-      else if (currentView === 'plans') html = renderPlans();
-      document.getElementById('appContent').innerHTML = html;
-      attachEvents();
+    async function loadActiveUsers() {
+      const res = await apiRequest('getUsersList');
+      const active = res.users.filter(u => u.estado === 'activo');
+      const container = document.getElementById('activeUsersList');
+      if (active.length === 0) { container.innerHTML = '<p class="text-gray-500">No hay usuarios activos.</p>'; return; }
+      container.innerHTML = `
+        <table class="min-w-full border">
+          <thead class="bg-gray-100"><tr><th class="p-2">Nombre</th><th>Plan</th><th>Vence</th><th>Estado</th></tr></thead>
+          <tbody>${active.map(u => `<tr><td class="p-2">${escapeHtml(u.nombre)}</td><td>${u.plan}</td><td>${new Date(u.fecha_fin).toLocaleDateString()}</td><td><span class="px-2 py-1 bg-green-100 rounded-full text-xs">Activo</span></td></tr>`).join('')}</tbody>
+        </table>
+      `;
     }
 
-    renderApp();
+    async function loadSedes() {
+      const res = await apiRequest('getSedes');
+      const container = document.getElementById('sedesTable');
+      if (!res.success) { container.innerHTML = '<p>Error cargando sedes</p>'; return; }
+      container.innerHTML = `
+        <table class="min-w-full border">
+          <thead><tr><th>Nombre</th><th>Administrador</th><th>Dirección</th><th>Acceso</th><th></th></tr></thead>
+          <tbody>${res.sedes.map(s => `
+            <tr><td class="p-2">${escapeHtml(s.nombre)}</td><td>${escapeHtml(s.administrador)}</td><td>${escapeHtml(s.direccion)}</td>
+            <td><button class="toggle-access px-3 py-1 rounded-lg text-sm ${s.acceso === 'autorizado' ? 'bg-green-500' : 'bg-gray-400'}" data-id="${s.id}" data-acceso="${s.acceso}">${s.acceso === 'autorizado' ? 'Autorizado' : 'Pendiente'}</button></td>
+            <td><button class="key-btn text-blue-600" data-id="${s.id}" data-nombre="${s.nombre}">🔑 Llave</button></td></tr>
+          `).join('')}</tbody>
+        </table>
+      `;
+      document.querySelectorAll('.toggle-access').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          const id = btn.dataset.id;
+          const nuevo = btn.dataset.acceso === 'autorizado' ? 'pendiente' : 'autorizado';
+          await apiRequest('updateSedeAccess', { id, acceso: nuevo });
+          loadSedes();
+        });
+      });
+      document.querySelectorAll('.key-btn').forEach(btn => {
+        btn.addEventListener('click', () => alert(`🔑 Llave para ${btn.dataset.nombre}: GM-${btn.dataset.id}-${Math.random().toString(36).substr(2,6)}`));
+      });
+    }
+
+    async function loadGlobalStatus() {
+      const res = await apiRequest('getSystemStatus');
+      const badge = document.getElementById('globalStatusBadge');
+      if (res.activo) { badge.innerText = 'ACTIVO'; badge.className = 'px-4 py-1.5 rounded-full bg-green-100 text-green-800 font-bold'; }
+      else { badge.innerText = 'BLOQUEADO'; badge.className = 'px-4 py-1.5 rounded-full bg-red-100 text-red-800 font-bold'; }
+    }
+
+    async function setGlobalStatus(status) { await apiRequest('setSystemStatus', { status }); loadGlobalStatus(); }
+
+    function escapeHtml(str) { return String(str).replace(/[&<>]/g, m => m === '&' ? '&amp;' : m === '<' ? '&lt;' : '&gt;'); }
+
+    document.getElementById('btnActivarGlobal').onclick = () => setGlobalStatus('ACTIVO');
+    document.getElementById('btnBloquearGlobal').onclick = () => setGlobalStatus('BLOQUEADO');
+    document.getElementById('logoutBtn').onclick = () => { sessionStorage.removeItem('adminLogged'); window.location.href = 'login.html'; };
+    document.getElementById('newSedeBtn').onclick = async () => {
+      const nombre = prompt('Nombre de la sede'); if(!nombre) return;
+      const admin = prompt('Administrador'); if(!admin) return;
+      const direccion = prompt('Dirección');
+      const telefono = prompt('Teléfono');
+      await apiRequest('createSede', { nombre, administrador: admin, direccion, telefono });
+      loadSedes();
+    };
+
+    loadPending();
+    loadActiveUsers();
+    loadSedes();
+    loadGlobalStatus();
   </script>
 </body>
 </html>
