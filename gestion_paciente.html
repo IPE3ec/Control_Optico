@@ -8,112 +8,43 @@
     </script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
-    <script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: {
-                        "tertiary-fixed": "#e0e3e6",
-                        "on-primary-fixed": "#001a40",
-                        "tertiary-container": "#55595c",
-                        "secondary-fixed-dim": "#bfc8d0",
-                        "tertiary-fixed-dim": "#c4c7ca",
-                        "on-surface": "#181c20",
-                        "surface-dim": "#d7dadf",
-                        "on-error": "#ffffff",
-                        "on-primary-fixed-variant": "#004491",
-                        "outline": "#727784",
-                        "on-tertiary": "#ffffff",
-                        "inverse-surface": "#2d3135",
-                        "error-container": "#ffdad6",
-                        "on-secondary": "#ffffff",
-                        "on-surface-variant": "#424752",
-                        "secondary-container": "#d8e1ea",
-                        "on-secondary-container": "#5b646b",
-                        "background": "#f7f9ff",
-                        "on-secondary-fixed": "#141d23",
-                        "surface-container-highest": "#e0e3e8",
-                        "surface-variant": "#e0e3e8",
-                        "on-tertiary-container": "#ccd0d3",
-                        "surface-container-high": "#e5e8ee",
-                        "error": "#ba1a1a",
-                        "primary-fixed-dim": "#acc7ff",
-                        "on-secondary-fixed-variant": "#3f484f",
-                        "on-error-container": "#93000a",
-                        "on-primary": "#ffffff",
-                        "on-background": "#181c20",
-                        "surface-bright": "#f7f9ff",
-                        "on-primary-container": "#bbd0ff",
-                        "inverse-on-surface": "#eef1f6",
-                        "primary-fixed": "#d7e2ff",
-                        "primary-container": "#0056b3",
-                        "outline-variant": "#c2c6d4",
-                        "on-tertiary-fixed": "#181c1e",
-                        "surface-tint": "#115cb9",
-                        "primary": "#003f87",
-                        "surface-container-lowest": "#ffffff",
-                        "surface-container-low": "#f1f4f9",
-                        "inverse-primary": "#acc7ff",
-                        "tertiary": "#3e4244",
-                        "surface-container": "#ebeef3",
-                        "surface": "#f7f9ff",
-                        "secondary": "#575f67",
-                        "on-tertiary-fixed-variant": "#43474a",
-                        "secondary-fixed": "#dbe4ed"
-                    },
-                    borderRadius: {
-                        DEFAULT: "0.25rem",
-                        lg: "0.5rem",
-                        xl: "0.75rem",
-                        full: "9999px"
-                    },
-                    spacing: {
-                        xl: "32px",
-                        "margin-mobile": "16px",
-                        xs: "4px",
-                        sm: "8px",
-                        lg: "24px",
-                        md: "16px",
-                        "margin-desktop": "48px",
-                        base: "4px",
-                        gutter: "20px"
-                    },
-                    fontFamily: {
-                        "headline-lg": ["Inter"],
-                        "label-md": ["Inter"],
-                        "headline-md": ["Inter"],
-                        "label-sm": ["Inter"],
-                        "headline-lg-mobile": ["Inter"],
-                        "body-md": ["Inter"],
-                        "body-sm": ["Inter"],
-                        "body-lg": ["Inter"],
-                        "display-lg": ["Inter"]
-                    },
-                    fontSize: {
-                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
-                        "label-md": ["14px", { "lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "600" }],
-                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
-                        "label-sm": ["12px", { "lineHeight": "14px", "letterSpacing": "0.02em", "fontWeight": "500" }],
-                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
-                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
-                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
-                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
-                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }]
-                    }
-                }
-            }
-        }
-    </script>
     <style>
+        /* ─── PALETA DE COLORES: BLANCO · VERDE · VIOLETA ─── */
+        :root {
+            --primary: #7B2FBE;
+            /* Violeta principal */
+            --primary-light: #9D5CDB;
+            --primary-dark: #5B1A8A;
+            --primary-container: #F3E8FF;
+            --primary-container-dark: #E1D0F5;
+            --on-primary: #FFFFFF;
+            --on-primary-container: #3D1A5C;
+            --secondary: #2E7D32;
+            /* Verde */
+            --secondary-light: #4CAF50;
+            --secondary-container: #E8F5E9;
+            --on-secondary-container: #1B5E20;
+            --surface: #FFFFFF;
+            --surface-container: #F5F5F5;
+            --surface-container-lowest: #FFFFFF;
+            --on-surface: #1C1B1F;
+            --on-surface-variant: #49454F;
+            --outline: #79747E;
+            --outline-variant: #CAC4D0;
+            --shadow: rgba(123, 47, 190, 0.15);
+        }
+
         body {
             font-family: 'Inter', sans-serif;
+            background-color: #FAF8FF;
         }
+
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
             display: inline-block;
             vertical-align: middle;
         }
+
         .hide-scrollbar::-webkit-scrollbar {
             display: none;
         }
@@ -121,12 +52,15 @@
             -ms-overflow-style: none;
             scrollbar-width: none;
         }
+
         body {
             min-height: max(884px, 100dvh);
         }
+
+        /* ─── NAVEGACIÓN ─── */
         .nav-link.active {
-            background-color: #d8e1ea;
-            color: #181c20;
+            background-color: var(--primary-container);
+            color: var(--on-primary-container);
             font-weight: 600;
             border-radius: 0 9999px 9999px 0;
             margin-right: 1rem;
@@ -134,79 +68,164 @@
         .nav-link.active .material-symbols-outlined {
             font-variation-settings: 'FILL' 1;
         }
+
         .bottom-nav-link.active {
-            color: #003f87;
+            color: var(--primary);
         }
         .bottom-nav-link.active .material-symbols-outlined {
             font-variation-settings: 'FILL' 1;
         }
+
         .pb-safe {
             padding-bottom: env(safe-area-inset-bottom, 8px);
         }
-        /* Transiciones suaves para modales */
+
+        /* ─── TARJETAS ─── */
+        .patient-card {
+            border-color: var(--outline-variant);
+            transition: all 0.2s ease;
+        }
+        .patient-card:hover {
+            border-color: var(--primary-light);
+            box-shadow: 0 8px 24px var(--shadow);
+        }
+
+        .status-badge {
+            background-color: var(--primary-container);
+            color: var(--primary);
+        }
+
+        /* ─── BOTONES ─── */
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+        .btn-outline-primary {
+            border: 1.5px solid var(--primary);
+            color: var(--primary);
+        }
+        .btn-outline-primary:hover {
+            background-color: var(--primary-container);
+        }
+        .btn-secondary {
+            background-color: var(--secondary);
+            color: white;
+        }
+        .btn-secondary:hover {
+            background-color: var(--secondary-light);
+        }
+
+        .bg-primary-container {
+            background-color: var(--primary-container);
+        }
+        .text-primary {
+            color: var(--primary);
+        }
+        .text-on-primary-container {
+            color: var(--on-primary-container);
+        }
+        .border-primary {
+            border-color: var(--primary);
+        }
+
+        /* ─── MODAL ─── */
         .modal-backdrop {
-            transition: opacity 0.2s ease;
+            transition: opacity 0.25s ease;
         }
         .modal-card {
-            transition: transform 0.2s ease, opacity 0.2s ease;
+            transition: transform 0.25s ease, opacity 0.25s ease;
+        }
+        .modal-backdrop.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .modal-backdrop:not(.hidden) {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .modal-card.hidden {
+            transform: scale(0.95) translateY(20px);
+            opacity: 0;
+        }
+        .modal-card:not(.hidden) {
+            transform: scale(1) translateY(0);
+            opacity: 1;
+        }
+
+        /* ─── FILTROS ACTIVOS ─── */
+        .filter-btn.active {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        .filter-btn:not(.active) {
+            background-color: var(--surface);
+            border: 1px solid var(--outline-variant);
+            color: var(--on-surface-variant);
+        }
+        .filter-btn:not(.active):hover {
+            background-color: var(--surface-container);
         }
     </style>
 </head>
-<body class="bg-background text-on-surface min-h-screen pb-24 md:pb-0 md:pl-80">
+<body class="bg-[#FAF8FF] text-on-surface min-h-screen pb-24 md:pb-0 md:pl-80">
 
     <!-- ===== HEADER ===== -->
-    <header class="w-full top-0 sticky bg-surface shadow-sm border-b border-outline-variant z-40 h-16 flex justify-between items-center px-margin-mobile md:px-margin-desktop">
+    <header class="w-full top-0 sticky bg-white shadow-sm border-b border-[#E8E0F0] z-40 h-16 flex justify-between items-center px-margin-mobile md:px-margin-desktop">
         <div class="flex items-center gap-sm">
-            <span class="material-symbols-outlined text-primary font-headline-md text-headline-md">visibility</span>
-            <h1 class="font-headline-md text-headline-md font-bold text-primary">Ópticas GM</h1>
+            <span class="material-symbols-outlined text-[#7B2FBE] font-headline-md text-headline-md">visibility</span>
+            <h1 class="font-headline-md text-headline-md font-bold text-[#7B2FBE]">Ópticas GM</h1>
         </div>
         <div class="flex items-center gap-md">
-            <button id="notifBtn" class="p-2 rounded-full hover:bg-surface-container-low transition-colors active:scale-95 transition-transform" title="Notificaciones">
-                <span class="material-symbols-outlined text-on-surface-variant">notifications</span>
+            <button id="notifBtn" class="p-2 rounded-full hover:bg-[#F3E8FF] transition-colors active:scale-95" title="Notificaciones">
+                <span class="material-symbols-outlined text-[#49454F]">notifications</span>
             </button>
-            <div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center overflow-hidden border border-outline-variant">
+            <div class="w-10 h-10 rounded-full bg-[#E8F5E9] flex items-center justify-center overflow-hidden border border-[#CAC4D0]">
                 <img alt="Avatar de la doctora" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDbKDXRUahkWrNQbd97-RBArWJzWNnUom6mWQoim2o4wkFqDF8mYTX5KfIfvrboc5UReop4URGaorZXDJBKZ5o1UUscC4WufMA51N4NK9QLYADT2x0EYyAjsUtlfkaskO5Fz2IKp2CHswUrbil4hT4J4FJsHhav64MJH7IAuTO44iGVFwvza8ksPdNh7aT62E0WQu64shjZXPV7hQeDo2dTDA7JXr0nmECWMh67kFXCcdaTO-LqXdpOYkXnscSiJDMNYNqiSEKw_Dw" />
             </div>
         </div>
     </header>
 
     <!-- ===== SIDEBAR (escritorio) ===== -->
-    <aside class="hidden md:flex flex-col py-lg h-full w-80 fixed left-0 top-0 bg-surface shadow-md border-r border-outline-variant z-50">
+    <aside class="hidden md:flex flex-col py-lg h-full w-80 fixed left-0 top-0 bg-white shadow-md border-r border-[#E8E0F0] z-50">
         <div class="px-6 mb-8 flex items-center gap-4">
-            <div class="w-12 h-12 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center">
+            <div class="w-12 h-12 rounded-full bg-[#F3E8FF] text-[#7B2FBE] flex items-center justify-center">
                 <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">medical_services</span>
             </div>
             <div>
-                <p class="font-headline-md text-body-md font-bold text-primary">Dr. Practitioner</p>
-                <p class="text-on-surface-variant text-label-sm">Ópticas GM Admin</p>
+                <p class="font-headline-md text-body-md font-bold text-[#7B2FBE]">Dr. Practitioner</p>
+                <p class="text-[#49454F] text-label-sm">Ópticas GM Admin</p>
             </div>
         </div>
         <nav class="flex-1 space-y-1">
-            <a class="nav-link flex items-center px-4 py-3 text-on-surface-variant hover:bg-surface-container transition-colors duration-200 font-body-md text-body-md" href="#" data-page="dashboard">
+            <a class="nav-link flex items-center px-4 py-3 text-[#49454F] hover:bg-[#F5F5F5] transition-colors duration-200 font-body-md text-body-md" href="#" data-page="dashboard">
                 <span class="material-symbols-outlined mr-4">dashboard</span>
                 <span>Dashboard</span>
             </a>
-            <a class="nav-link active flex items-center px-4 py-3 text-on-surface-variant hover:bg-surface-container transition-colors duration-200 font-body-md text-body-md" href="#" data-page="pacientes">
+            <a class="nav-link active flex items-center px-4 py-3 text-[#49454F] hover:bg-[#F5F5F5] transition-colors duration-200 font-body-md text-body-md" href="#" data-page="pacientes">
                 <span class="material-symbols-outlined mr-4" style="font-variation-settings: 'FILL' 1;">groups</span>
                 <span>Pacientes</span>
             </a>
-            <a class="nav-link flex items-center px-4 py-3 text-on-surface-variant hover:bg-surface-container transition-colors duration-200 font-body-md text-body-md" href="#" data-page="historia">
+            <a class="nav-link flex items-center px-4 py-3 text-[#49454F] hover:bg-[#F5F5F5] transition-colors duration-200 font-body-md text-body-md" href="#" data-page="historia">
                 <span class="material-symbols-outlined mr-4">description</span>
                 <span>Historia Clínica</span>
             </a>
-            <a class="nav-link flex items-center px-4 py-3 text-on-surface-variant hover:bg-surface-container transition-colors duration-200 font-body-md text-body-md" href="#" data-page="prescripciones">
+            <a class="nav-link flex items-center px-4 py-3 text-[#49454F] hover:bg-[#F5F5F5] transition-colors duration-200 font-body-md text-body-md" href="#" data-page="recetas">
                 <span class="material-symbols-outlined mr-4">medical_services</span>
                 <span>Recetas</span>
             </a>
-            <a class="nav-link flex items-center px-4 py-3 text-on-surface-variant hover:bg-surface-container transition-colors duration-200 font-body-md text-body-md" href="#" data-page="agenda">
+            <a class="nav-link flex items-center px-4 py-3 text-[#49454F] hover:bg-[#F5F5F5] transition-colors duration-200 font-body-md text-body-md" href="#" data-page="agenda">
                 <span class="material-symbols-outlined mr-4">event</span>
                 <span>Agenda</span>
             </a>
-            <a class="nav-link flex items-center px-4 py-3 text-on-surface-variant hover:bg-surface-container transition-colors duration-200 font-body-md text-body-md" href="#" data-page="facturacion">
+            <a class="nav-link flex items-center px-4 py-3 text-[#49454F] hover:bg-[#F5F5F5] transition-colors duration-200 font-body-md text-body-md" href="#" data-page="facturacion">
                 <span class="material-symbols-outlined mr-4">receipt_long</span>
                 <span>Facturación</span>
             </a>
-            <a class="nav-link flex items-center px-4 py-3 text-on-surface-variant hover:bg-surface-container transition-colors duration-200 font-body-md text-body-md" href="#" data-page="inventario">
+            <a class="nav-link flex items-center px-4 py-3 text-[#49454F] hover:bg-[#F5F5F5] transition-colors duration-200 font-body-md text-body-md" href="#" data-page="inventario">
                 <span class="material-symbols-outlined mr-4">inventory_2</span>
                 <span>Inventario</span>
             </a>
@@ -218,44 +237,44 @@
         <!-- Encabezado y búsqueda -->
         <div class="mb-lg flex flex-col md:flex-row md:items-center justify-between gap-md">
             <div>
-                <h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface">Gestión de Pacientes</h2>
-                <p class="text-on-surface-variant font-body-md text-body-md">Administra tu base de datos de pacientes y su historial clínico.</p>
+                <h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-[#1C1B1F]">Gestión de Pacientes</h2>
+                <p class="text-[#49454F] font-body-md text-body-md">Administra tu base de datos de pacientes y su historial clínico.</p>
             </div>
             <div class="relative group w-full md:w-96">
-                <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline group-focus-within:text-primary transition-colors">search</span>
-                <input id="searchInput" class="w-full pl-12 pr-4 py-3 bg-surface border border-outline-variant rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all font-body-md text-body-md" placeholder="Buscar por nombre, DNI o teléfono..." type="text" />
+                <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-[#79747E] group-focus-within:text-[#7B2FBE] transition-colors">search</span>
+                <input id="searchInput" class="w-full pl-12 pr-4 py-3 bg-white border border-[#CAC4D0] rounded-xl focus:outline-none focus:border-[#7B2FBE] focus:ring-2 focus:ring-[#7B2FBE]/20 transition-all font-body-md text-body-md" placeholder="Buscar por nombre, DNI o teléfono..." type="text" />
             </div>
         </div>
 
         <!-- Filtros rápidos -->
         <div class="flex gap-sm overflow-x-auto hide-scrollbar mb-lg pb-2">
-            <button class="filter-btn px-md py-xs bg-primary-container text-on-primary-container rounded-full font-label-md text-label-md" data-filter="all">Todos</button>
-            <button class="filter-btn px-md py-xs bg-surface border border-outline-variant text-on-surface-variant rounded-full font-label-md text-label-md hover:bg-surface-container-low transition-colors" data-filter="recent">Recientes</button>
-            <button class="filter-btn px-md py-xs bg-surface border border-outline-variant text-on-surface-variant rounded-full font-label-md text-label-md hover:bg-surface-container-low transition-colors" data-filter="turno">Con Turno</button>
-            <button class="filter-btn px-md py-xs bg-surface border border-outline-variant text-on-surface-variant rounded-full font-label-md text-label-md hover:bg-surface-container-low transition-colors" data-filter="inactivo">Inactivos</button>
+            <button class="filter-btn active px-md py-xs rounded-full font-label-md text-label-md" data-filter="all">Todos</button>
+            <button class="filter-btn px-md py-xs rounded-full font-label-md text-label-md" data-filter="recent">Recientes</button>
+            <button class="filter-btn px-md py-xs rounded-full font-label-md text-label-md" data-filter="turno">Con Turno</button>
+            <button class="filter-btn px-md py-xs rounded-full font-label-md text-label-md" data-filter="inactivo">Inactivos</button>
         </div>
 
         <!-- Lista de pacientes en tarjetas (grid) -->
         <div id="patientGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter">
             <!-- Paciente 1 -->
-            <div class="patient-card bg-surface-container-lowest border border-outline-variant rounded-xl p-lg shadow-sm hover:shadow-md transition-shadow group" data-name="Juan Pérez" data-status="active">
+            <div class="patient-card bg-white border rounded-xl p-lg shadow-sm transition-shadow group" data-name="Juan Pérez" data-status="active">
                 <div class="flex justify-between items-start mb-md">
-                    <div class="w-16 h-16 rounded-full overflow-hidden border-2 border-primary-fixed ring-4 ring-background">
+                    <div class="w-16 h-16 rounded-full overflow-hidden border-2 border-[#9D5CDB] ring-4 ring-[#FAF8FF]">
                         <img alt="Juan Pérez" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCgPnKvi9aHyBFhyB4w1r_SUny9TURhzl6syWHw3lQ0dCNPpvmySIrTY6brnLsk1n8HswdKA8LYqOMQJ4W0zYp4tSdp65Ti0uIQBmZZM46YAWaXZWwRAXFSe6t8UOYbb-WkkIE8ruFvUq6m2sdZztuUo9prEjjnDqEA6WnHqczt3EhbyvU0WcyGo3WazNhjXxUSI-w3p5ViSGnJX-q3XqgNUMbb_Rw65ok0xOrxnvqisS-fPet8GpMoCnEmMw_dDBZQfB8AKuTFgmE" />
                     </div>
-                    <span class="status-badge bg-primary/10 text-primary px-3 py-1 rounded-full font-label-sm text-label-sm">Activo</span>
+                    <span class="status-badge px-3 py-1 rounded-full font-label-sm text-label-sm">Activo</span>
                 </div>
-                <h3 class="font-headline-md text-body-lg font-bold text-on-surface mb-xs">Juan Pérez</h3>
-                <div class="flex items-center gap-xs text-on-surface-variant font-label-sm text-label-sm mb-lg">
+                <h3 class="font-headline-md text-body-lg font-bold text-[#1C1B1F] mb-xs">Juan Pérez</h3>
+                <div class="flex items-center gap-xs text-[#49454F] font-label-sm text-label-sm mb-lg">
                     <span class="material-symbols-outlined text-[18px]">history</span>
                     <span>Última visita: 12 Oct 2023</span>
                 </div>
                 <div class="grid grid-cols-2 gap-sm">
-                    <button class="view-btn flex items-center justify-center gap-xs bg-secondary-container text-on-secondary-container py-2 rounded-lg font-label-md text-label-md hover:bg-secondary-container/80 transition-colors active:scale-95" data-patient="Juan Pérez">
+                    <button class="view-btn flex items-center justify-center gap-xs bg-[#F3E8FF] text-[#7B2FBE] py-2 rounded-lg font-label-md text-label-md hover:bg-[#E1D0F5] transition-colors active:scale-95" data-patient="Juan Pérez">
                         <span class="material-symbols-outlined text-[20px]">visibility</span>
                         <span>Ficha</span>
                     </button>
-                    <button class="whatsapp-btn flex items-center justify-center gap-xs bg-[#25D366]/10 text-[#075E54] py-2 rounded-lg font-label-md text-label-md hover:bg-[#25D366]/20 transition-colors active:scale-95" data-patient="Juan Pérez" data-phone="+5491112345678">
+                    <button class="whatsapp-btn flex items-center justify-center gap-xs bg-[#E8F5E9] text-[#1B5E20] py-2 rounded-lg font-label-md text-label-md hover:bg-[#C8E6C9] transition-colors active:scale-95" data-patient="Juan Pérez" data-phone="+5491112345678">
                         <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.72.94 3.659 1.437 5.634 1.437h.005c6.558 0 11.897-5.335 11.9-11.894a11.83 11.83 0 00-3.415-8.421z"/></svg>
                         <span>Mensaje</span>
                     </button>
@@ -263,24 +282,24 @@
             </div>
 
             <!-- Paciente 2 -->
-            <div class="patient-card bg-surface-container-lowest border border-outline-variant rounded-xl p-lg shadow-sm hover:shadow-md transition-shadow group" data-name="Elena García" data-status="active">
+            <div class="patient-card bg-white border rounded-xl p-lg shadow-sm transition-shadow group" data-name="Elena García" data-status="active">
                 <div class="flex justify-between items-start mb-md">
-                    <div class="w-16 h-16 rounded-full overflow-hidden border-2 border-primary-fixed ring-4 ring-background">
+                    <div class="w-16 h-16 rounded-full overflow-hidden border-2 border-[#9D5CDB] ring-4 ring-[#FAF8FF]">
                         <img alt="Elena García" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFIdK5kD1C9rdn9STDWSj-C04nlGlplzFPNdpetVzeZ7RGxfe4TagN1cSeXAo3EBF2r3bcSDrl0aZJ9b8Gmgd9d6i2suuwW_2UO3yWBwj76_3XHcza_OpfEDeEVy1-zdDvLUeCxBlYwRKUjxfqAdaTgsVAA_wfiUQB8XZKyNsgGUYLDf3ulVLPINjpQjiaYqXtSFtT7dfKuDgygyPKlW-KPkbtham0VkI2vE9qhOxMzAWHPsucxijdWNTmINcITvyeqINMah-ekZY" />
                     </div>
-                    <span class="status-badge bg-primary/10 text-primary px-3 py-1 rounded-full font-label-sm text-label-sm">Activo</span>
+                    <span class="status-badge px-3 py-1 rounded-full font-label-sm text-label-sm">Activo</span>
                 </div>
-                <h3 class="font-headline-md text-body-lg font-bold text-on-surface mb-xs">Elena García</h3>
-                <div class="flex items-center gap-xs text-on-surface-variant font-label-sm text-label-sm mb-lg">
+                <h3 class="font-headline-md text-body-lg font-bold text-[#1C1B1F] mb-xs">Elena García</h3>
+                <div class="flex items-center gap-xs text-[#49454F] font-label-sm text-label-sm mb-lg">
                     <span class="material-symbols-outlined text-[18px]">history</span>
                     <span>Última visita: 05 Nov 2023</span>
                 </div>
                 <div class="grid grid-cols-2 gap-sm">
-                    <button class="view-btn flex items-center justify-center gap-xs bg-secondary-container text-on-secondary-container py-2 rounded-lg font-label-md text-label-md hover:bg-secondary-container/80 transition-colors active:scale-95" data-patient="Elena García">
+                    <button class="view-btn flex items-center justify-center gap-xs bg-[#F3E8FF] text-[#7B2FBE] py-2 rounded-lg font-label-md text-label-md hover:bg-[#E1D0F5] transition-colors active:scale-95" data-patient="Elena García">
                         <span class="material-symbols-outlined text-[20px]">visibility</span>
                         <span>Ficha</span>
                     </button>
-                    <button class="whatsapp-btn flex items-center justify-center gap-xs bg-[#25D366]/10 text-[#075E54] py-2 rounded-lg font-label-md text-label-md hover:bg-[#25D366]/20 transition-colors active:scale-95" data-patient="Elena García" data-phone="+5491123456789">
+                    <button class="whatsapp-btn flex items-center justify-center gap-xs bg-[#E8F5E9] text-[#1B5E20] py-2 rounded-lg font-label-md text-label-md hover:bg-[#C8E6C9] transition-colors active:scale-95" data-patient="Elena García" data-phone="+5491123456789">
                         <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.72.94 3.659 1.437 5.634 1.437h.005c6.558 0 11.897-5.335 11.9-11.894a11.83 11.83 0 00-3.415-8.421z"/></svg>
                         <span>Mensaje</span>
                     </button>
@@ -288,24 +307,24 @@
             </div>
 
             <!-- Paciente 3 -->
-            <div class="patient-card bg-surface-container-lowest border border-outline-variant rounded-xl p-lg shadow-sm hover:shadow-md transition-shadow group" data-name="Carlos Méndez" data-status="active">
+            <div class="patient-card bg-white border rounded-xl p-lg shadow-sm transition-shadow group" data-name="Carlos Méndez" data-status="active">
                 <div class="flex justify-between items-start mb-md">
-                    <div class="w-16 h-16 rounded-full overflow-hidden border-2 border-primary-fixed ring-4 ring-background">
+                    <div class="w-16 h-16 rounded-full overflow-hidden border-2 border-[#9D5CDB] ring-4 ring-[#FAF8FF]">
                         <img alt="Carlos Méndez" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB5xho1NCIr26hpuPBgFfw2ETdAGEPNsdx5ulaDxXx4i5InsSdqItPVNOnOcYNFryt2SRl-aCMZWE22eoutp6FANU6ff9R15BHND664X974eMpITgQeIJfp7lzq9yLL2RiYBNeq8F3MHZHm8WGovfq09pXVBy7vE8RkeosjZE1lEHgHk46Ho1-W_iMIwtWmUp7tS4wkpjqtdB_G9UyFhJu7LnyeP4XGpxPEus_jxpO4PGOPBtkFRXyACEcI-UIhswkGoyEMObokMkI" />
                     </div>
-                    <span class="status-badge bg-primary/10 text-primary px-3 py-1 rounded-full font-label-sm text-label-sm">Activo</span>
+                    <span class="status-badge px-3 py-1 rounded-full font-label-sm text-label-sm">Activo</span>
                 </div>
-                <h3 class="font-headline-md text-body-lg font-bold text-on-surface mb-xs">Carlos Méndez</h3>
-                <div class="flex items-center gap-xs text-on-surface-variant font-label-sm text-label-sm mb-lg">
+                <h3 class="font-headline-md text-body-lg font-bold text-[#1C1B1F] mb-xs">Carlos Méndez</h3>
+                <div class="flex items-center gap-xs text-[#49454F] font-label-sm text-label-sm mb-lg">
                     <span class="material-symbols-outlined text-[18px]">history</span>
                     <span>Última visita: 28 Oct 2023</span>
                 </div>
                 <div class="grid grid-cols-2 gap-sm">
-                    <button class="view-btn flex items-center justify-center gap-xs bg-secondary-container text-on-secondary-container py-2 rounded-lg font-label-md text-label-md hover:bg-secondary-container/80 transition-colors active:scale-95" data-patient="Carlos Méndez">
+                    <button class="view-btn flex items-center justify-center gap-xs bg-[#F3E8FF] text-[#7B2FBE] py-2 rounded-lg font-label-md text-label-md hover:bg-[#E1D0F5] transition-colors active:scale-95" data-patient="Carlos Méndez">
                         <span class="material-symbols-outlined text-[20px]">visibility</span>
                         <span>Ficha</span>
                     </button>
-                    <button class="whatsapp-btn flex items-center justify-center gap-xs bg-[#25D366]/10 text-[#075E54] py-2 rounded-lg font-label-md text-label-md hover:bg-[#25D366]/20 transition-colors active:scale-95" data-patient="Carlos Méndez" data-phone="+5491134567890">
+                    <button class="whatsapp-btn flex items-center justify-center gap-xs bg-[#E8F5E9] text-[#1B5E20] py-2 rounded-lg font-label-md text-label-md hover:bg-[#C8E6C9] transition-colors active:scale-95" data-patient="Carlos Méndez" data-phone="+5491134567890">
                         <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.72.94 3.659 1.437 5.634 1.437h.005c6.558 0 11.897-5.335 11.9-11.894a11.83 11.83 0 00-3.415-8.421z"/></svg>
                         <span>Mensaje</span>
                     </button>
@@ -313,24 +332,24 @@
             </div>
 
             <!-- Paciente 4 -->
-            <div class="patient-card bg-surface-container-lowest border border-outline-variant rounded-xl p-lg shadow-sm hover:shadow-md transition-shadow group" data-name="Sofía Ruiz" data-status="active">
+            <div class="patient-card bg-white border rounded-xl p-lg shadow-sm transition-shadow group" data-name="Sofía Ruiz" data-status="active">
                 <div class="flex justify-between items-start mb-md">
-                    <div class="w-16 h-16 rounded-full overflow-hidden border-2 border-primary-fixed ring-4 ring-background">
+                    <div class="w-16 h-16 rounded-full overflow-hidden border-2 border-[#9D5CDB] ring-4 ring-[#FAF8FF]">
                         <img alt="Sofía Ruiz" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuArndGNaPesI0tDkjuiOWu5nPWJH80bH9-uL9P5NmywZpCk3yWy8ICXy8BPFpEV9vpRZ5GteShmtzl_Ks1mAaDOfJyxQInHMBE3lDL55sLNdVVLPexNqmtDBaPNrX5QcrC3P8LNNoCnkKZrHScyuy8khAy9EbXYU6rjrEZCC-e_h6o-QJU6kO4VpmDs2FhUr41oVuU0YTJE9sPO-rl_CIdBJXHZEjqLgk27QUNriRrOlogk6ekF-XRns0ncBZEvL-2NdBwNWMgcOjg" />
                     </div>
-                    <span class="status-badge bg-primary/10 text-primary px-3 py-1 rounded-full font-label-sm text-label-sm">Activo</span>
+                    <span class="status-badge px-3 py-1 rounded-full font-label-sm text-label-sm">Activo</span>
                 </div>
-                <h3 class="font-headline-md text-body-lg font-bold text-on-surface mb-xs">Sofía Ruiz</h3>
-                <div class="flex items-center gap-xs text-on-surface-variant font-label-sm text-label-sm mb-lg">
+                <h3 class="font-headline-md text-body-lg font-bold text-[#1C1B1F] mb-xs">Sofía Ruiz</h3>
+                <div class="flex items-center gap-xs text-[#49454F] font-label-sm text-label-sm mb-lg">
                     <span class="material-symbols-outlined text-[18px]">history</span>
                     <span>Última visita: 15 Nov 2023</span>
                 </div>
                 <div class="grid grid-cols-2 gap-sm">
-                    <button class="view-btn flex items-center justify-center gap-xs bg-secondary-container text-on-secondary-container py-2 rounded-lg font-label-md text-label-md hover:bg-secondary-container/80 transition-colors active:scale-95" data-patient="Sofía Ruiz">
+                    <button class="view-btn flex items-center justify-center gap-xs bg-[#F3E8FF] text-[#7B2FBE] py-2 rounded-lg font-label-md text-label-md hover:bg-[#E1D0F5] transition-colors active:scale-95" data-patient="Sofía Ruiz">
                         <span class="material-symbols-outlined text-[20px]">visibility</span>
                         <span>Ficha</span>
                     </button>
-                    <button class="whatsapp-btn flex items-center justify-center gap-xs bg-[#25D366]/10 text-[#075E54] py-2 rounded-lg font-label-md text-label-md hover:bg-[#25D366]/20 transition-colors active:scale-95" data-patient="Sofía Ruiz" data-phone="+5491123456790">
+                    <button class="whatsapp-btn flex items-center justify-center gap-xs bg-[#E8F5E9] text-[#1B5E20] py-2 rounded-lg font-label-md text-label-md hover:bg-[#C8E6C9] transition-colors active:scale-95" data-patient="Sofía Ruiz" data-phone="+5491123456790">
                         <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.72.94 3.659 1.437 5.634 1.437h.005c6.558 0 11.897-5.335 11.9-11.894a11.83 11.83 0 00-3.415-8.421z"/></svg>
                         <span>Mensaje</span>
                     </button>
@@ -340,27 +359,83 @@
     </main>
 
     <!-- ===== BOTÓN FLOTANTE (FAB) ===== -->
-    <button id="fabBtn" class="fixed bottom-24 right-6 md:bottom-10 md:right-10 w-14 h-14 bg-primary-container text-on-primary-container rounded-2xl shadow-xl flex items-center justify-center transition-all hover:scale-110 active:scale-95 z-50 group">
+    <button id="fabBtn" class="fixed bottom-24 right-6 md:bottom-10 md:right-10 w-14 h-14 bg-[#7B2FBE] text-white rounded-2xl shadow-xl flex items-center justify-center transition-all hover:scale-110 active:scale-95 z-50 group hover:bg-[#5B1A8A]">
         <span class="material-symbols-outlined text-[28px]" style="font-variation-settings: 'FILL' 1;">person_add</span>
-        <span class="absolute right-full mr-4 bg-primary text-white px-4 py-2 rounded-lg text-label-md opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none shadow-lg">Registrar Paciente</span>
+        <span class="absolute right-full mr-4 bg-[#7B2FBE] text-white px-4 py-2 rounded-lg text-label-md opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none shadow-lg">Registrar Paciente</span>
     </button>
 
+    <!-- ===== MODAL: FORMULARIO DE REGISTRO ===== -->
+    <div id="registerModal" class="modal-backdrop hidden fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
+        <div class="modal-card hidden bg-white rounded-2xl shadow-2xl w-full max-w-lg p-6 md:p-8 max-h-[90vh] overflow-y-auto">
+            <!-- Cabecera del modal -->
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-xl font-bold text-[#1C1B1F] flex items-center gap-2">
+                    <span class="material-symbols-outlined text-[#7B2FBE]">person_add</span>
+                    Registrar Nuevo Paciente
+                </h3>
+                <button id="closeModalBtn" class="p-2 rounded-full hover:bg-[#F5F5F5] transition-colors">
+                    <span class="material-symbols-outlined text-[#49454F]">close</span>
+                </button>
+            </div>
+
+            <!-- Formulario -->
+            <form id="registerForm" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-[#49454F] mb-1">Nombre completo *</label>
+                    <input type="text" id="regName" required class="w-full px-4 py-3 bg-white border border-[#CAC4D0] rounded-xl focus:outline-none focus:border-[#7B2FBE] focus:ring-2 focus:ring-[#7B2FBE]/20 transition-all" placeholder="Ej: María López" />
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-[#49454F] mb-1">Teléfono</label>
+                        <input type="tel" id="regPhone" class="w-full px-4 py-3 bg-white border border-[#CAC4D0] rounded-xl focus:outline-none focus:border-[#7B2FBE] focus:ring-2 focus:ring-[#7B2FBE]/20 transition-all" placeholder="+54 11 2345-6789" />
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-[#49454F] mb-1">DNI</label>
+                        <input type="text" id="regDni" class="w-full px-4 py-3 bg-white border border-[#CAC4D0] rounded-xl focus:outline-none focus:border-[#7B2FBE] focus:ring-2 focus:ring-[#7B2FBE]/20 transition-all" placeholder="40.123.456" />
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-[#49454F] mb-1">Correo electrónico</label>
+                    <input type="email" id="regEmail" class="w-full px-4 py-3 bg-white border border-[#CAC4D0] rounded-xl focus:outline-none focus:border-[#7B2FBE] focus:ring-2 focus:ring-[#7B2FBE]/20 transition-all" placeholder="paciente@email.com" />
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-[#49454F] mb-1">Fecha de nacimiento</label>
+                    <input type="date" id="regBirth" class="w-full px-4 py-3 bg-white border border-[#CAC4D0] rounded-xl focus:outline-none focus:border-[#7B2FBE] focus:ring-2 focus:ring-[#7B2FBE]/20 transition-all" />
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-[#49454F] mb-1">Observaciones</label>
+                    <textarea id="regNotes" rows="2" class="w-full px-4 py-3 bg-white border border-[#CAC4D0] rounded-xl focus:outline-none focus:border-[#7B2FBE] focus:ring-2 focus:ring-[#7B2FBE]/20 transition-all" placeholder="Alergias, antecedentes, etc."></textarea>
+                </div>
+
+                <div class="flex gap-3 pt-2">
+                    <button type="submit" class="flex-1 btn-primary py-3 rounded-xl font-semibold transition-all active:scale-95">
+                        <span class="material-symbols-outlined align-middle mr-1">save</span>
+                        Guardar Paciente
+                    </button>
+                    <button type="button" id="cancelModalBtn" class="flex-1 btn-outline-primary py-3 rounded-xl font-semibold transition-all active:scale-95 bg-white">
+                        Cancelar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- ===== NAVEGACIÓN INFERIOR (móvil) ===== -->
-    <footer class="md:hidden fixed bottom-0 w-full z-50 bg-surface shadow-lg border-t border-outline-variant">
+    <footer class="md:hidden fixed bottom-0 w-full z-50 bg-white shadow-lg border-t border-[#E8E0F0]">
         <nav class="flex justify-around items-center w-full h-20 pb-safe px-2">
-            <a class="bottom-nav-link flex flex-col items-center justify-center text-on-surface-variant hover:bg-secondary-container/50 px-4 py-1 rounded-full transition-all active:scale-90" href="#" data-page="dashboard">
+            <a class="bottom-nav-link flex flex-col items-center justify-center text-[#49454F] hover:bg-[#F3E8FF] px-4 py-1 rounded-full transition-all active:scale-90" href="#" data-page="dashboard">
                 <span class="material-symbols-outlined text-[24px]">home</span>
                 <span class="font-label-sm text-label-sm mt-1">Inicio</span>
             </a>
-            <a class="bottom-nav-link active flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-6 py-1 transition-all active:scale-90" href="#" data-page="pacientes">
+            <a class="bottom-nav-link active flex flex-col items-center justify-center bg-[#F3E8FF] text-[#7B2FBE] rounded-full px-6 py-1 transition-all active:scale-90" href="#" data-page="pacientes">
                 <span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 1;">person</span>
                 <span class="font-label-sm text-label-sm mt-1">Pacientes</span>
             </a>
-            <a class="bottom-nav-link flex flex-col items-center justify-center text-on-surface-variant hover:bg-secondary-container/50 px-4 py-1 rounded-full transition-all active:scale-90" href="#" data-page="agenda">
+            <a class="bottom-nav-link flex flex-col items-center justify-center text-[#49454F] hover:bg-[#F3E8FF] px-4 py-1 rounded-full transition-all active:scale-90" href="#" data-page="agenda">
                 <span class="material-symbols-outlined text-[24px]">calendar_month</span>
                 <span class="font-label-sm text-label-sm mt-1">Agenda</span>
             </a>
-            <a class="bottom-nav-link flex flex-col items-center justify-center text-on-surface-variant hover:bg-secondary-container/50 px-4 py-1 rounded-full transition-all active:scale-90" href="#" data-page="ventas">
+            <a class="bottom-nav-link flex flex-col items-center justify-center text-[#49454F] hover:bg-[#F3E8FF] px-4 py-1 rounded-full transition-all active:scale-90" href="#" data-page="ventas">
                 <span class="material-symbols-outlined text-[24px]">payments</span>
                 <span class="font-label-sm text-label-sm mt-1">Ventas</span>
             </a>
@@ -372,14 +447,93 @@
         (function() {
             'use strict';
 
+            // ---- Elementos del modal ----
+            const modal = document.getElementById('registerModal');
+            const modalCard = modal.querySelector('.modal-card');
+            const fabBtn = document.getElementById('fabBtn');
+            const closeModalBtn = document.getElementById('closeModalBtn');
+            const cancelModalBtn = document.getElementById('cancelModalBtn');
+            const registerForm = document.getElementById('registerForm');
+
+            // ---- Abrir modal ----
+            function openModal() {
+                modal.classList.remove('hidden');
+                // Pequeño retraso para que la transición funcione
+                requestAnimationFrame(() => {
+                    modalCard.classList.remove('hidden');
+                });
+                document.body.style.overflow = 'hidden';
+            }
+
+            // ---- Cerrar modal ----
+            function closeModal() {
+                modalCard.classList.add('hidden');
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                    document.body.style.overflow = '';
+                }, 250);
+            }
+
+            // ---- Eventos del modal ----
+            fabBtn.addEventListener('click', openModal);
+            closeModalBtn.addEventListener('click', closeModal);
+            cancelModalBtn.addEventListener('click', closeModal);
+
+            // Cerrar al hacer clic fuera del modal
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            });
+
+            // Cerrar con tecla ESC
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+                    closeModal();
+                }
+            });
+
+            // ---- Envío del formulario ----
+            registerForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                const name = document.getElementById('regName').value.trim();
+                if (!name) {
+                    alert('⚠️ Por favor, ingresa el nombre del paciente.');
+                    return;
+                }
+
+                // Recoger datos
+                const phone = document.getElementById('regPhone').value.trim() || 'No especificado';
+                const dni = document.getElementById('regDni').value.trim() || 'No especificado';
+                const email = document.getElementById('regEmail').value.trim() || 'No especificado';
+                const birth = document.getElementById('regBirth').value || 'No especificado';
+                const notes = document.getElementById('regNotes').value.trim() || 'Sin observaciones';
+
+                // Mostrar mensaje de éxito
+                alert('✅ Paciente registrado con éxito:\n\n' +
+                    '👤 ' + name + '\n' +
+                    '📞 ' + phone + '\n' +
+                    '🆔 ' + dni + '\n' +
+                    '📧 ' + email + '\n' +
+                    '🎂 ' + birth + '\n' +
+                    '📝 ' + notes);
+
+                // Aquí se enviarían los datos a la API (ejemplo)
+                // fetch(API_URL, { method: 'POST', body: JSON.stringify({ ... }) });
+
+                // Cerrar modal y resetear formulario
+                closeModal();
+                registerForm.reset();
+            });
+
             // ---- Navegación ----
             function navigateTo(page) {
-                // Simula redirección a otras páginas (en un sistema real, window.location.href = page + '.html')
                 const pageNames = {
                     dashboard: 'Panel de control',
                     pacientes: 'Gestión de pacientes',
                     historia: 'Historia clínica',
-                    prescripciones: 'Recetas médicas',
+                    recetas: 'Recetas médicas',
                     agenda: 'Agenda de citas',
                     facturacion: 'Facturación',
                     inventario: 'Inventario',
@@ -387,16 +541,15 @@
                 };
                 const name = pageNames[page] || page;
                 alert('🔁 Navegando a: ' + name + '\n(Redirigiría a ' + page + '.html)');
-                // window.location.href = page + '.html'; // Descomentar para producción
+                // window.location.href = page + '.html';
             }
 
-            // Sidebar enlaces
+            // Sidebar
             document.querySelectorAll('.nav-link').forEach(link => {
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
                     const page = this.dataset.page;
                     if (page) {
-                        // Remover active de todos
                         document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
                         this.classList.add('active');
                         navigateTo(page);
@@ -404,7 +557,7 @@
                 });
             });
 
-            // Bottom nav enlaces
+            // Bottom nav
             document.querySelectorAll('.bottom-nav-link').forEach(link => {
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
@@ -417,89 +570,61 @@
                 });
             });
 
-            // ---- Botón de notificaciones ----
+            // ---- Notificaciones ----
             document.getElementById('notifBtn').addEventListener('click', function() {
                 alert('🔔 No tienes notificaciones nuevas.');
             });
 
-            // ---- Botón FAB (Registrar Paciente) ----
-            document.getElementById('fabBtn').addEventListener('click', function() {
-                alert('📝 Abrir formulario para registrar un nuevo paciente.');
-                // Aquí se podría mostrar un modal o redirigir a una página de registro.
-            });
-
-            // ---- Filtros ----
-            const filterBtns = document.querySelectorAll('.filter-btn');
-            const patientCards = document.querySelectorAll('.patient-card');
-
-            filterBtns.forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const filter = this.dataset.filter;
-                    // Actualizar estilo de botones
-                    filterBtns.forEach(b => {
-                        b.classList.remove('bg-primary-container', 'text-on-primary-container');
-                        b.classList.add('bg-surface', 'border', 'border-outline-variant', 'text-on-surface-variant');
-                    });
-                    this.classList.remove('bg-surface', 'border', 'border-outline-variant', 'text-on-surface-variant');
-                    this.classList.add('bg-primary-container', 'text-on-primary-container');
-
-                    // Filtrar tarjetas (ejemplo simple: todos muestran, otros no implementados)
-                    patientCards.forEach(card => {
-                        if (filter === 'all') {
-                            card.style.display = 'block';
-                        } else {
-                            // Simulación: solo "Todos" muestra todo; otros filtros no implementados
-                            card.style.display = 'none';
-                        }
-                    });
-                    // Restaurar búsqueda si está activa
-                    const searchVal = document.getElementById('searchInput').value.trim().toLowerCase();
-                    if (searchVal !== '') {
-                        applySearch(searchVal);
-                    }
-                });
-            });
-
             // ---- Búsqueda ----
             const searchInput = document.getElementById('searchInput');
+            const patientCards = document.querySelectorAll('.patient-card');
 
             function applySearch(query) {
                 patientCards.forEach(card => {
                     const name = card.dataset.name.toLowerCase();
-                    if (name.includes(query)) {
-                        card.style.display = 'block';
-                    } else {
-                        card.style.display = 'none';
-                    }
+                    card.style.display = name.includes(query) ? 'block' : 'none';
                 });
             }
 
             searchInput.addEventListener('input', function(e) {
                 const query = e.target.value.trim().toLowerCase();
                 if (query === '') {
-                    // Mostrar todos (respetando filtro actual)
-                    const activeFilter = document.querySelector('.filter-btn.bg-primary-container');
-                    if (activeFilter && activeFilter.dataset.filter === 'all') {
-                        patientCards.forEach(card => card.style.display = 'block');
-                    } else if (activeFilter) {
-                        // Si hay un filtro activo que no sea 'all', aplicar ese filtro
-                        // Por simplicidad, mostramos todos
-                        patientCards.forEach(card => card.style.display = 'block');
-                    } else {
-                        patientCards.forEach(card => card.style.display = 'block');
-                    }
+                    patientCards.forEach(card => card.style.display = 'block');
                 } else {
                     applySearch(query);
                 }
             });
 
-            // ---- Botones "Ficha" (Ver paciente) ----
+            // ---- Filtros ----
+            const filterBtns = document.querySelectorAll('.filter-btn');
+
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+
+                    const filter = this.dataset.filter;
+                    patientCards.forEach(card => {
+                        if (filter === 'all') {
+                            card.style.display = 'block';
+                        } else {
+                            // Simulación: solo "Todos" muestra todo
+                            card.style.display = 'none';
+                        }
+                    });
+                    // Re-aplicar búsqueda si hay texto
+                    const query = searchInput.value.trim().toLowerCase();
+                    if (query !== '') {
+                        applySearch(query);
+                    }
+                });
+            });
+
+            // ---- Botones "Ficha" ----
             document.querySelectorAll('.view-btn').forEach(btn => {
                 btn.addEventListener('click', function(e) {
                     e.stopPropagation();
-                    const patientName = this.dataset.patient;
-                    alert('📋 Mostrando ficha completa de: ' + patientName + '\n(Abriría la historia clínica)');
-                    // Aquí se podría redirigir a historia_clinica.html?paciente=...
+                    alert('📋 Mostrando ficha completa de: ' + this.dataset.patient);
                 });
             });
 
@@ -507,13 +632,11 @@
             document.querySelectorAll('.whatsapp-btn').forEach(btn => {
                 btn.addEventListener('click', function(e) {
                     e.stopPropagation();
-                    const patientName = this.dataset.patient;
+                    const name = this.dataset.patient;
                     const phone = this.dataset.phone || '5491112345678';
-                    // Simular envío de mensaje
-                    const confirmMsg = confirm('📱 ¿Enviar mensaje por WhatsApp a ' + patientName + ' (' + phone + ')?');
-                    if (confirmMsg) {
-                        // En producción: window.open('https://wa.me/' + phone, '_blank');
-                        alert('✅ Mensaje enviado (simulado) a ' + patientName);
+                    if (confirm('📱 ¿Enviar mensaje por WhatsApp a ' + name + ' (' + phone + ')?')) {
+                        alert('✅ Mensaje enviado (simulado) a ' + name);
+                        // window.open('https://wa.me/' + phone, '_blank');
                     }
                 });
             });
@@ -521,14 +644,13 @@
             // ---- Hover en tarjetas ----
             patientCards.forEach(card => {
                 card.addEventListener('mouseenter', () => {
-                    card.classList.add('border-primary/50');
+                    card.classList.add('border-[#9D5CDB]');
                 });
                 card.addEventListener('mouseleave', () => {
-                    card.classList.remove('border-primary/50');
+                    card.classList.remove('border-[#9D5CDB]');
                 });
             });
 
-            // ---- Mensaje inicial ----
             console.log('Ópticas GM · Gestión de pacientes cargada correctamente.');
         })();
     </script>
