@@ -2,15 +2,28 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Control Óptico - Acceso</title>
+  <!-- Tailwind + fuentes -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+  <!-- PWA manifest y service worker (se crearán dinámicamente) -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#003f87">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <style>
     body { font-family: 'Plus Jakarta Sans', sans-serif; background: radial-gradient(circle at top right, #f8fafc 0%, #e0e7ff 100%); }
-    .skeleton { background: linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 50%, #e0e0e0 75%); background-size: 200% 100%; animation: loading 1.5s infinite; }
-    @keyframes loading { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+    .modal-backdrop {
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(4px);
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-up { animation: fadeInUp 0.3s ease-out; }
   </style>
 </head>
 <body class="flex items-center justify-center min-h-screen p-4 antialiased">
@@ -31,6 +44,24 @@
     <div id="appContent" class="p-8"></div>
   </div>
 
+  <!-- Modal personalizado (oculto al inicio) -->
+  <div id="thankyouModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 modal-backdrop" style="display: none;">
+    <div class="bg-white rounded-2xl max-w-sm w-full p-6 shadow-2xl animate-fade-up">
+      <div class="text-center">
+        <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+          <span class="material-symbols-outlined text-4xl text-green-600">check_circle</span>
+        </div>
+        <h3 class="text-xl font-bold text-gray-800">¡Gracias por elegir tu plan!</h3>
+        <p class="text-gray-500 mt-2 text-sm">
+          Hemos recibido tu solicitud. Nuestro equipo de soporte se pondrá en contacto contigo en las próximas horas para activar tu cuenta y resolver cualquier duda.
+        </p>
+        <button id="closeModalBtn" class="mt-5 w-full bg-[#003f87] hover:bg-[#002d5e] text-white py-2.5 rounded-xl font-semibold transition">
+          Aceptar
+        </button>
+      </div>
+    </div>
+  </div>
+
   <script>
     // ========== CONFIGURACIÓN ==========
     const API_URL = 'https://script.google.com/macros/s/AKfycbwoQT8umdEJBCrOTqVuMUwlJ9ZIzJWXIYkQuyRtIPnZlisGmx3TtaM44tlTXT-fdQ8N/exec';
@@ -39,6 +70,35 @@
     let currentView = 'login';
     let currentUserEmail = null;
     let currentUserName = '';
+    let deferredPrompt = null; // para PWA
+
+    // ========== PWA: capturar evento de instalación ==========
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      console.log('PWA instalable detectada');
+    });
+
+    function triggerPWAInstall() {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+          if (choiceResult.outcome === 'accepted') {
+            console.log('Usuario aceptó instalar PWA');
+          } else {
+            console.log('Usuario rechazó instalar PWA');
+            mostrarInstruccionesInstalacion();
+          }
+          deferredPrompt = null;
+        });
+      } else {
+        mostrarInstruccionesInstalacion();
+      }
+    }
+
+    function mostrarInstruccionesInstalacion() {
+      alert('Para instalar la app:\n• En Android: Abre el menú ⋮ y selecciona "Instalar aplicación"\n• En iOS: Comparte y luego "Añadir a pantalla de inicio"');
+    }
 
     // ========== API ==========
     async function apiRequest(action, params = {}, showSkeleton = false) {
@@ -72,7 +132,7 @@
       }
     }
 
-    // Función para iniciar sesión automática después del registro
+    // Auto login después de registro
     async function autoLoginAfterRegister(correo, password, nombreDoctor) {
       try {
         const result = await apiRequest('login', { correo, password }, true);
@@ -92,15 +152,14 @@
         const estadoPlan = result.estadoPlan;
 
         if (!planSeleccionado || estadoPlan === 'inactivo') {
-          // Mostrar pantalla de planes con mensaje de agradecimiento
           currentView = 'plans';
           renderApp();
-          // Mostrar mensaje flotante de agradecimiento (se mostrará en la pantalla de planes)
+          // Mostrar mensaje de bienvenida dentro de la vista de planes
           setTimeout(() => {
             const msgDiv = document.getElementById('mensajePlan');
             if (msgDiv) {
               msgDiv.classList.remove('hidden');
-              msgDiv.innerHTML = '<div class="bg-green-50 border border-green-200 rounded-xl p-3 text-green-700 text-sm">🎉 ¡Gracias por registrarte! Tu cuenta está en revisión. Elige un plan y nuestro soporte lo validará pronto.</div>';
+              msgDiv.innerHTML = '<div class="bg-blue-50 border border-blue-200 rounded-xl p-3 text-blue-700 text-sm">🎉 ¡Gracias por registrarte! Elige tu plan y nuestro soporte se pondrá en contacto contigo.</div>';
             }
           }, 100);
         } else if (estadoPlan === 'pendiente_aprobacion') {
@@ -191,19 +250,19 @@
           <h2 class="text-2xl font-bold text-gray-800">💎 Elige tu plan</h2>
           <p class="text-sm text-gray-500 mb-5">Selecciona la suscripción para tu óptica</p>
           <div id="planContainer" class="space-y-3">
-            <div data-plan="gratis" class="border-2 border-gray-100 rounded-2xl p-4 flex justify-between cursor-pointer hover:bg-blue-50/30">
+            <div data-plan="gratis" class="border-2 border-gray-100 rounded-2xl p-4 flex justify-between cursor-pointer hover:bg-blue-50/30 transition">
               <div><span class="font-bold">Plan Gratis</span><div class="text-xs text-gray-400">7 días de prueba</div></div>
               <span class="text-emerald-600 font-extrabold">Gratis</span>
             </div>
-            <div data-plan="mensual" class="border-2 border-gray-100 rounded-2xl p-4 flex justify-between cursor-pointer hover:bg-blue-50/30">
+            <div data-plan="mensual" class="border-2 border-gray-100 rounded-2xl p-4 flex justify-between cursor-pointer hover:bg-blue-50/30 transition">
               <div><span class="font-bold">Plan Mensual</span><div class="text-xs text-gray-400">$20/mes</div></div>
               <span class="text-[#003f87] font-extrabold">$20</span>
             </div>
-            <div data-plan="semestral" class="border-2 border-gray-100 rounded-2xl p-4 flex justify-between cursor-pointer hover:bg-blue-50/30">
+            <div data-plan="semestral" class="border-2 border-gray-100 rounded-2xl p-4 flex justify-between cursor-pointer hover:bg-blue-50/30 transition">
               <div><span class="font-bold">Plan Semestral</span><div class="text-xs text-blue-600">Ahorra $10</div></div>
               <span class="text-[#003f87] font-extrabold">$110</span>
             </div>
-            <div data-plan="anual" class="border-2 border-blue-500/30 bg-blue-50/10 rounded-2xl p-4 flex justify-between cursor-pointer relative">
+            <div data-plan="anual" class="border-2 border-blue-500/30 bg-blue-50/10 rounded-2xl p-4 flex justify-between cursor-pointer relative transition">
               <div class="absolute -top-2.5 right-4 bg-orange-500 text-white text-[10px] font-extrabold px-2 py-0.5 rounded-full">Mejor Valor</div>
               <div><span class="font-bold">Plan Anual</span><div class="text-xs text-emerald-600">Ahorra $40 🔥</div></div>
               <span class="text-[#003f87] font-extrabold">$200</span>
@@ -236,6 +295,24 @@
           <button id="volverLoginRejected" class="mt-3 text-sm text-gray-500 underline block mx-auto">Volver al login</button>
         </div>
       `;
+    }
+
+    // ========== MOSTRAR MODAL DE AGRADECIMIENTO ==========
+    function showThankYouModal() {
+      const modal = document.getElementById('thankyouModal');
+      modal.style.display = 'flex';
+      modal.classList.remove('hidden');
+      document.getElementById('closeModalBtn').onclick = () => {
+        modal.style.display = 'none';
+        modal.classList.add('hidden');
+        // Después de cerrar el modal, intentar instalar la PWA
+        triggerPWAInstall();
+        // Luego redirigir al login después de un breve momento
+        setTimeout(() => {
+          currentView = 'login';
+          renderApp();
+        }, 500);
+      };
     }
 
     // ========== LÓGICA PRINCIPAL ==========
@@ -276,7 +353,7 @@
     }
 
     function attachEvents() {
-      // Toggle password visibility en login
+      // Toggle password login
       const togglePassword = document.getElementById('togglePassword');
       const pwdField = document.getElementById('loginPassword');
       if (togglePassword && pwdField) {
@@ -298,7 +375,6 @@
         document.getElementById('goToRegister')?.addEventListener('click', () => { currentView = 'register'; renderApp(); });
       }
       else if (currentView === 'register') {
-        // Toggle password en registro
         const toggleReg = document.getElementById('toggleRegPassword');
         const regPwd = document.getElementById('regPassword');
         if (toggleReg && regPwd) {
@@ -324,9 +400,7 @@
           try {
             const result = await apiRequest('register', { nombre, doctor, ciudad, ruc, direccion, telefono, correo, password }, true);
             if (result.success) {
-              // Mostrar mensaje de agradecimiento
-              alert('🎉 ¡Gracias por registrarte! Tu cuenta ha sido creada. Ahora serás redirigido para elegir tu plan. Nuestro soporte técnico validará tu información pronto.');
-              // Iniciar sesión automáticamente
+              alert('🎉 ¡Gracias por registrarte! Tu cuenta ha sido creada. Ahora elige tu plan.');
               await autoLoginAfterRegister(correo, password, doctor);
             } else {
               alert('❌ Error: ' + (result.error || 'No se pudo registrar'));
@@ -357,10 +431,12 @@
               const result = await apiRequest('savePlan', { correo: currentUserEmail, plan, monto, duracionDias: dias });
               if (result.success) {
                 enviado = true;
-                msgDiv.innerHTML = '<span class="text-green-600">✅ Solicitud enviada. Redirigiendo...</span>';
+                msgDiv.innerHTML = '<span class="text-green-600">✅ Solicitud enviada correctamente</span>';
+                // Abrir WhatsApp como respaldo
                 const texto = `Hola, he seleccionado el plan ${plan.toUpperCase()} ($${monto})\nDoctor: ${currentUserName}\nCorreo: ${currentUserEmail}`;
                 window.open(`https://wa.me/${SOPORTE_WHATSAPP}?text=${encodeURIComponent(texto)}`, '_blank');
-                setTimeout(() => { currentView = 'login'; renderApp(); }, 3000);
+                // Mostrar modal de agradecimiento y luego PWA
+                showThankYouModal();
               } else { throw new Error(result.error); }
             } catch (err) {
               alert('Error: ' + err.message);
@@ -392,6 +468,45 @@
       attachEvents();
     }
     renderApp();
+
+    // Crear manifest.json y service worker dinámicamente (para PWA)
+    function setupPWA() {
+      const manifest = {
+        name: "Control Óptico",
+        short_name: "ControlOptico",
+        start_url: ".",
+        display: "standalone",
+        theme_color: "#003f87",
+        background_color: "#ffffff",
+        icons: [
+          {
+            src: "https://fonts.gstatic.com/s/i/materialicons/visibility/v24/24px.svg",
+            sizes: "192x192",
+            type: "image/svg+xml"
+          }
+        ]
+      };
+      if (!document.querySelector('link[rel="manifest"]')) {
+        const blob = new Blob([JSON.stringify(manifest)], {type: 'application/json'});
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('link');
+        link.rel = 'manifest';
+        link.href = url;
+        document.head.appendChild(link);
+      }
+      // Service worker básico (solo para que sea instalable)
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js').catch(err => console.log('SW no registrado:', err));
+        // Si no existe sw.js, crearlo básico
+        fetch('/sw.js').catch(() => {
+          const swCode = `self.addEventListener('fetch', event => {});`;
+          const swBlob = new Blob([swCode], {type: 'application/javascript'});
+          const swUrl = URL.createObjectURL(swBlob);
+          navigator.serviceWorker.register(swUrl);
+        });
+      }
+    }
+    setupPWA();
   </script>
 </body>
 </html>
