@@ -72,6 +72,56 @@
       }
     }
 
+    // Función para iniciar sesión automática después del registro
+    async function autoLoginAfterRegister(correo, password, nombreDoctor) {
+      try {
+        const result = await apiRequest('login', { correo, password }, true);
+        if (!result.success) {
+          alert('⚠️ No se pudo iniciar sesión automáticamente. Por favor, inicia sesión manualmente.');
+          currentView = 'login';
+          renderApp();
+          return;
+        }
+        if (result.rol === 'admin') {
+          window.location.href = 'admin_panel.html';
+          return;
+        }
+        currentUserEmail = correo;
+        currentUserName = nombreDoctor || result.doctor || 'Especialista';
+        const planSeleccionado = result.planSeleccionado;
+        const estadoPlan = result.estadoPlan;
+
+        if (!planSeleccionado || estadoPlan === 'inactivo') {
+          // Mostrar pantalla de planes con mensaje de agradecimiento
+          currentView = 'plans';
+          renderApp();
+          // Mostrar mensaje flotante de agradecimiento (se mostrará en la pantalla de planes)
+          setTimeout(() => {
+            const msgDiv = document.getElementById('mensajePlan');
+            if (msgDiv) {
+              msgDiv.classList.remove('hidden');
+              msgDiv.innerHTML = '<div class="bg-green-50 border border-green-200 rounded-xl p-3 text-green-700 text-sm">🎉 ¡Gracias por registrarte! Tu cuenta está en revisión. Elige un plan y nuestro soporte lo validará pronto.</div>';
+            }
+          }, 100);
+        } else if (estadoPlan === 'pendiente_aprobacion') {
+          currentView = 'pending';
+          renderApp();
+        } else if (estadoPlan === 'activo') {
+          window.location.href = 'dashboard.html';
+        } else if (estadoPlan === 'rechazado') {
+          currentView = 'rejected';
+          renderApp();
+        } else {
+          currentView = 'plans';
+          renderApp();
+        }
+      } catch (err) {
+        alert('🚫 Error al iniciar sesión: ' + err.message);
+        currentView = 'login';
+        renderApp();
+      }
+    }
+
     // ========== RENDER VISTAS ==========
     function renderLogin() {
       return `
@@ -200,7 +250,6 @@
           window.location.href = 'admin_panel.html';
           return;
         }
-        // Usuario normal
         currentUserEmail = correo;
         currentUserName = result.doctor || 'Especialista';
         const planSeleccionado = result.planSeleccionado;
@@ -213,7 +262,6 @@
           currentView = 'pending';
           renderApp();
         } else if (estadoPlan === 'activo') {
-          // Redirigir al dashboard
           window.location.href = 'dashboard.html';
         } else if (estadoPlan === 'rechazado') {
           currentView = 'rejected';
@@ -228,7 +276,7 @@
     }
 
     function attachEvents() {
-      // Toggle password visibility
+      // Toggle password visibility en login
       const togglePassword = document.getElementById('togglePassword');
       const pwdField = document.getElementById('loginPassword');
       if (togglePassword && pwdField) {
@@ -250,7 +298,7 @@
         document.getElementById('goToRegister')?.addEventListener('click', () => { currentView = 'register'; renderApp(); });
       }
       else if (currentView === 'register') {
-        // Toggle password in register
+        // Toggle password en registro
         const toggleReg = document.getElementById('toggleRegPassword');
         const regPwd = document.getElementById('regPassword');
         if (toggleReg && regPwd) {
@@ -276,9 +324,10 @@
           try {
             const result = await apiRequest('register', { nombre, doctor, ciudad, ruc, direccion, telefono, correo, password }, true);
             if (result.success) {
-              alert('✅ Registro exitoso. Ahora inicia sesión.');
-              currentView = 'login';
-              renderApp();
+              // Mostrar mensaje de agradecimiento
+              alert('🎉 ¡Gracias por registrarte! Tu cuenta ha sido creada. Ahora serás redirigido para elegir tu plan. Nuestro soporte técnico validará tu información pronto.');
+              // Iniciar sesión automáticamente
+              await autoLoginAfterRegister(correo, password, doctor);
             } else {
               alert('❌ Error: ' + (result.error || 'No se pudo registrar'));
             }
