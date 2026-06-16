@@ -1,0 +1,300 @@
+/* ===== style.css ===== */
+:root {
+  --primary: #7B2FBE;
+  --secondary: #2E7D32;
+  --tertiary: #0288D1;
+  --neutral: #424242;
+  --color-texto: #FFFFFF;
+  --color-fondo: #424242;
+  --font-family: 'Inter', sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  font-family: var(--font-family);
+  background-color: var(--color-fondo);
+  color: var(--color-texto);
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* ===== SPLASH / INDEX (animación de carga) ===== */
+.splash-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: var(--primary);
+  color: white;
+  text-align: center;
+  animation: fadeIn 1.5s ease-in-out;
+}
+.splash-screen .logo {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  animation: pulse 1.5s infinite;
+}
+.splash-screen h1 {
+  font-size: 2rem;
+  font-weight: 700;
+}
+.splash-screen .loader {
+  margin-top: 2rem;
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(255,255,255,0.3);
+  border-top: 4px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* ===== LOGIN ===== */
+.login-container {
+  max-width: 400px;
+  margin: 5rem auto;
+  padding: 2rem;
+  background: rgba(255,255,255,0.08);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+.login-container h1 {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: var(--primary);
+}
+.login-container label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+.login-container input {
+  width: 100%;
+  padding: 0.8rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background: rgba(255,255,255,0.05);
+  color: var(--color-texto);
+  font-size: 1rem;
+  margin-bottom: 1.2rem;
+}
+.login-container input:focus {
+  outline: 2px solid var(--primary);
+}
+.login-container button {
+  width: 100%;
+  padding: 0.8rem;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.login-container button:hover {
+  background: var(--secondary);
+}
+.login-container .error {
+  color: #ff6b6b;
+  text-align: center;
+  margin-top: 0.5rem;
+  display: none;
+}
+
+/* ===== HEADER ===== */
+header {
+  background-color: var(--primary);
+  padding: 0.8rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+#logoImg {
+  max-height: 40px;
+  border-radius: 4px;
+  display: none;
+}
+
+#brandName {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: white;
+  white-space: nowrap;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.header-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.6rem;
+  cursor: pointer;
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  transition: background 0.2s;
+  line-height: 1;
+}
+.header-btn:hover {
+  background: rgba(255,255,255,0.2);
+}
+.header-btn.badge {
+  position: relative;
+}
+.header-btn .badge-count {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: red;
+  color: white;
+  font-size: 0.6rem;
+  font-weight: 700;
+  border-radius: 50%;
+  padding: 0.1rem 0.4rem;
+  min-width: 18px;
+  text-align: center;
+}
+
+/* ===== CONTENIDO ===== */
+main {
+  flex: 1;
+  padding: 1rem;
+  max-width: 800px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* ===== FOOTER NAV ===== */
+footer {
+  background-color: var(--primary);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0.5rem 0;
+  position: sticky;
+  bottom: 0;
+  z-index: 100;
+  box-shadow: 0 -2px 8px rgba(0,0,0,0.2);
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: rgba(255,255,255,0.7);
+  text-decoration: none;
+  font-size: 0.7rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  transition: all 0.2s;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+.nav-item .nav-icon {
+  font-size: 1.6rem;
+  line-height: 1.2;
+}
+.nav-item .nav-label {
+  margin-top: 0.1rem;
+}
+.nav-item.active {
+  color: white;
+  background: rgba(255,255,255,0.2);
+}
+.nav-item:hover {
+  color: white;
+}
+
+/* ===== VISTA PREVIA (config) ===== */
+.preview-box {
+  margin-top: 2rem;
+  padding: 1rem;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  text-align: center;
+}
+.preview-box img {
+  max-height: 60px;
+  margin-bottom: 0.5rem;
+}
+.preview-box .name {
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+/* ===== UTILIDADES ===== */
+.text-center { text-align: center; }
+.mt-1 { margin-top: 1rem; }
+.mb-1 { margin-bottom: 1rem; }
+.hidden { display: none; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 480px) {
+  #brandName {
+    font-size: 1rem;
+  }
+  .header-btn {
+    font-size: 1.4rem;
+  }
+  .nav-item .nav-icon {
+    font-size: 1.4rem;
+  }
+  .nav-item .nav-label {
+    font-size: 0.6rem;
+  }
+  .splash-screen .logo {
+    font-size: 3rem;
+  }
+  .splash-screen h1 {
+    font-size: 1.5rem;
+  }
+  .login-container {
+    margin: 2rem 1rem;
+    padding: 1.5rem;
+  }
+}
