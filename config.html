@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Personalizar configuración</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f0f2f5;
+      padding: 2rem 1rem;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      font-weight: 700;
+      color: #1a1a1a;
+    }
+    .form-group {
+      margin-bottom: 1.2rem;
+      display: flex;
+      flex-direction: column;
+    }
+    .form-group label {
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+      font-size: 0.9rem;
+      color: #333;
+    }
+    .form-group input[type="text"],
+    .form-group input[type="url"],
+    .form-group input[type="file"] {
+      padding: 0.6rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+    .form-group input[type="color"] {
+      width: 60px;
+      height: 40px;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      background: none;
+    }
+    .color-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .color-row label {
+      min-width: 120px;
+    }
+    .form-group select {
+      padding: 0.6rem;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+    button {
+      background: #7B2FBE;
+      color: white;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 0.5rem;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+    button:hover {
+      background: #5a1f8a;
+    }
+    #message {
+      margin-top: 1rem;
+      text-align: center;
+      font-weight: 600;
+    }
+    .preview-box {
+      margin-top: 2rem;
+      padding: 1rem;
+      border-radius: 8px;
+      background: #f9f9f9;
+      border: 1px solid #ddd;
+      text-align: center;
+    }
+    .preview-box img {
+      max-height: 60px;
+      margin-bottom: 0.5rem;
+    }
+    .preview-box .name {
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+    .current-logo {
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎨 Personalizar configuración</h1>
+    <form id="configForm" enctype="multipart/form-data">
+      <!-- Nombre -->
+      <div class="form-group">
+        <label for="nombre">Nombre de la óptica</label>
+        <input type="text" id="nombre" placeholder="Ej: Óptica GM">
+      </div>
+
+      <!-- Logo (subir archivo) -->
+      <div class="form-group">
+        <label for="logoFile">Subir nuevo logo (imagen)</label>
+        <input type="file" id="logoFile" accept="image/*">
+        <div class="current-logo" id="currentLogoInfo">Logo actual: <span id="currentLogoUrl">Ninguno</span></div>
+      </div>
+
+      <!-- Colores -->
+      <div class="form-group">
+        <label>Colores</label>
+        <div class="color-row">
+          <label for="primary">Primario</label>
+          <input type="color" id="primary" value="#7B2FBE">
+        </div>
+        <div class="color-row">
+          <label for="secondary">Secundario</label>
+          <input type="color" id="secondary" value="#2E7D32">
+        </div>
+        <div class="color-row">
+          <label for="tertiary">Terciario</label>
+          <input type="color" id="tertiary" value="#0288D1">
+        </div>
+        <div class="color-row">
+          <label for="neutral">Neutral</label>
+          <input type="color" id="neutral" value="#424242">
+        </div>
+        <div class="color-row">
+          <label for="color_texto">Color de texto</label>
+          <input type="color" id="color_texto" value="#FFFFFF">
+        </div>
+        <div class="color-row">
+          <label for="color_fondo">Color de fondo</label>
+          <input type="color" id="color_fondo" value="#424242">
+        </div>
+      </div>
+
+      <!-- Tipografía -->
+      <div class="form-group">
+        <label for="font_family">Tipografía</label>
+        <select id="font_family">
+          <option value="Inter">Inter</option>
+          <option value="Roboto">Roboto</option>
+          <option value="Open Sans">Open Sans</option>
+          <option value="Lato">Lato</option>
+          <option value="Montserrat">Montserrat</option>
+          <option value="Poppins">Poppins</option>
+          <option value="Nunito">Nunito</option>
+        </select>
+      </div>
+
+      <button type="submit">Guardar cambios</button>
+    </form>
+    <div id="message"></div>
+
+    <!-- Vista previa -->
+    <div class="preview-box" id="preview">
+      <img id="previewLogo" src="" alt="Logo" style="display:none;">
+      <div class="name" id="previewName">Nombre de la óptica</div>
+    </div>
+  </div>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const opticaId = urlParams.get('cliente') || 'default';
+    const API_URL = 'https://script.google.com/macros/s/.../exec'; // REEMPLAZAR
+
+    const form = document.getElementById('configForm');
+    const message = document.getElementById('message');
+
+    // Función para leer archivo como base64
+    function readFileAsDataURL(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = (e) => resolve(e.target.result);
+        reader.onerror = (e) => reject(e.target.error);
+        reader.readAsDataURL(file);
+      });
+    }
+
+    // Cargar configuración actual
+    async function loadConfig() {
+      try {
+        const res = await fetch(`${API_URL}?action=get&id=${opticaId}`);
+        const config = await res.json();
+        if (config) {
+          document.getElementById('nombre').value = config.nombre_optica || '';
+          document.getElementById('primary').value = config.primary || '#7B2FBE';
+          document.getElementById('secondary').value = config.secondary || '#2E7D32';
+          document.getElementById('tertiary').value = config.tertiary || '#0288D1';
+          document.getElementById('neutral').value = config.neutral || '#424242';
+          document.getElementById('color_texto').value = config.color_texto || '#FFFFFF';
+          document.getElementById('color_fondo').value = config.color_fondo || '#424242';
+          document.getElementById('font_family').value = config.font_family || 'Inter';
+          // Mostrar logo actual
+          if (config.logo_url) {
+            document.getElementById('currentLogoUrl').innerHTML = `<a href="${config.logo_url}" target="_blank">Ver logo actual</a>`;
+          } else {
+            document.getElementById('currentLogoUrl').textContent = 'Ninguno';
+          }
+          updatePreview(config);
+        } else {
+          console.warn('Configuración no encontrada, usando valores por defecto.');
+        }
+      } catch (error) {
+        console.error('Error al cargar:', error);
+      }
+    }
+
+    function updatePreview(config) {
+      const previewName = document.getElementById('previewName');
+      const previewLogo = document.getElementById('previewLogo');
+      if (config.nombre_optica) {
+        previewName.textContent = config.nombre_optica;
+      }
+      if (config.logo_url) {
+        previewLogo.src = config.logo_url;
+        previewLogo.style.display = 'inline';
+      } else {
+        previewLogo.style.display = 'none';
+      }
+      const previewBox = document.getElementById('preview');
+      if (config.color_fondo) previewBox.style.backgroundColor = config.color_fondo;
+      if (config.color_texto) previewBox.style.color = config.color_texto;
+      if (config.font_family) previewBox.style.fontFamily = config.font_family;
+    }
+
+    // Guardar configuración
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      message.textContent = 'Guardando...';
+      message.style.color = 'blue';
+
+      // Recoger datos del formulario
+      const nombre = document.getElementById('nombre').value;
+      const primary = document.getElementById('primary').value;
+      const secondary = document.getElementById('secondary').value;
+      const tertiary = document.getElementById('tertiary').value;
+      const neutral = document.getElementById('neutral').value;
+      const color_texto = document.getElementById('color_texto').value;
+      const color_fondo = document.getElementById('color_fondo').value;
+      const font_family = document.getElementById('font_family').value;
+
+      // Preparar datos base (colores y texto)
+      const colors = {
+        nombre_optica: nombre,
+        primary: primary,
+        secondary: secondary,
+        tertiary: tertiary,
+        neutral: neutral,
+        color_texto: color_texto,
+        color_fondo: color_fondo,
+        font_family: font_family
+      };
+
+      // Si hay archivo seleccionado, leerlo y enviar como base64
+      const fileInput = document.getElementById('logoFile');
+      let logoData = null;
+      if (fileInput.files.length > 0) {
+        try {
+          logoData = await readFileAsDataURL(fileInput.files[0]);
+        } catch (err) {
+          message.textContent = 'Error al leer el archivo: ' + err.message;
+          message.style.color = 'red';
+          return;
+        }
+      }
+
+      // Construir parámetros
+      const params = new URLSearchParams();
+      params.append('action', 'set');
+      params.append('id', opticaId);
+      params.append('colors', JSON.stringify(colors));
+      if (logoData) {
+        params.append('logoData', logoData);
+      }
+
+      try {
+        const response = await fetch(API_URL, {
+          method: 'POST',
+          body: params
+        });
+        const result = await response.json();
+        message.textContent = result.success ? '✅ ¡Configuración guardada!' : '❌ Error al guardar.';
+        message.style.color = result.success ? 'green' : 'red';
+        if (result.success) {
+          // Recargar configuración para mostrar logo actualizado
+          loadConfig();
+        }
+      } catch (error) {
+        message.textContent = '❌ Error de conexión.';
+        message.style.color = 'red';
+      }
+    });
+
+    // Cargar al inicio
+    loadConfig();
+  </script>
+</body>
+</html>
