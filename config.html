@@ -163,6 +163,7 @@
     }
     .preview-box img { max-height: 70px; object-fit: contain; border-radius: 4px; }
     .preview-box .name { font-size: 1.4rem; font-weight: 700; letter-spacing: -0.02em; }
+    .preview-box .doctor { font-size: 1rem; opacity: 0.8; }
     @media (max-width: 480px) {
       .container { padding: 1.5rem; }
       .colors-grid { grid-template-columns: repeat(2, 1fr); }
@@ -185,7 +186,7 @@
         <input type="text" id="nombre" placeholder="Ej: Óptica GM" autocomplete="off">
       </div>
 
-      <!-- Nombre del Doctor (NUEVO) -->
+      <!-- Nombre del Doctor -->
       <div class="form-group">
         <label for="nombre_doctor">Nombre del Doctor / Especialista</label>
         <input type="text" id="nombre_doctor" placeholder="Ej: Dr. Alejandro Gómez" autocomplete="off">
@@ -255,14 +256,16 @@
       <div class="preview-box" id="preview">
         <img id="previewLogo" src="" alt="Logo" style="display:none;">
         <div class="name" id="previewName">Nombre de la óptica</div>
-        <div id="previewDoctor" style="font-size:1rem; opacity:0.8;">Dr. Ejemplo</div>
+        <div class="doctor" id="previewDoctor">Dr. Ejemplo</div>
       </div>
     </div>
   </div>
 
   <script>
     // ====== CONFIGURACIÓN ======
-    const API_URL = 'https://script.google.com/macros/s/AKfycbx4ZzV6-MAMdFSBorfNIBXnxAsNOXFsyxoXgiK5SwDPit2L2Q_t02nB3xXPWbTaqaDCIw/exec';
+    // 🔴 REEMPLAZA ESTA URL CON LA DE TU WEB APP PUBLICADA (ACCESO "CUALQUIER PERSONA")
+    const API_URL = 'https://script.google.com/macros/s/AKfycbwMxvRQFEVCMlXklnRl2W6OV7F--zQ6_x862grd6FlxY0jr80ppWTR7KkLGBTP1Dq8UxA/exec';
+
     const urlParams = new URLSearchParams(window.location.search);
     const opticaId = urlParams.get('cliente') || 'default';
 
@@ -278,7 +281,7 @@
     const fileInput = document.getElementById('logoFile');
     const uploadText = document.getElementById('uploadText');
 
-    // ====== ACTUALIZAR VISTA PREVIA INSTANTÁNEA ======
+    // ====== VISTA PREVIA EN VIVO ======
     function livePreview() {
       const nombre = document.getElementById('nombre').value;
       const doctor = document.getElementById('nombre_doctor').value;
@@ -299,6 +302,7 @@
     document.getElementById('color_texto').addEventListener('input', livePreview);
     document.getElementById('font_family').addEventListener('change', livePreview);
 
+    // Preview al seleccionar archivo
     fileInput.addEventListener('change', function(e) {
       const file = e.target.files[0];
       if (file) {
@@ -312,6 +316,7 @@
       }
     });
 
+    // ====== MOSTRAR MENSAJES ======
     function showMessage(text, type) {
       message.textContent = text;
       message.style.display = 'block';
@@ -363,7 +368,7 @@
       }
     }
 
-    // ====== GUARDAR CAMBIOS ======
+    // ====== GUARDAR CAMBIOS (CON POST PARA EL LOGO) ======
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       btnSubmit.disabled = true;
@@ -383,22 +388,45 @@
       };
 
       const file = fileInput.files[0];
+      console.log('ID de óptica:', opticaId);
+      console.log('Archivo seleccionado:', file ? file.name : 'Ninguno');
 
       try {
-        // Subir logo con POST
+        // 1. Subir logo con POST si hay archivo
         if (file) {
           if (!opticaId) throw new Error('ID de óptica no definido.');
+
           const formData = new FormData();
           formData.append('action', 'upload_logo');
           formData.append('id', opticaId);
           formData.append('logo', file);
 
-          const uploadRes = await fetch(API_URL, { method: 'POST', body: formData });
+          // Depuración: mostrar campos del FormData
+          console.log('FormData campos:');
+          for (let [key, value] of formData.entries()) {
+            if (key === 'logo') {
+              console.log(key, 'ARCHIVO:', value.name, value.size);
+            } else {
+              console.log(key, value);
+            }
+          }
+
+          // Enviar el ID también en la URL por si acaso
+          const uploadUrl = API_URL + '?id=' + encodeURIComponent(opticaId) + '&action=upload_logo';
+
+          const uploadRes = await fetch(uploadUrl, {
+            method: 'POST',
+            body: formData
+          });
+
           if (!uploadRes.ok) {
             const errorText = await uploadRes.text();
             throw new Error(`Error en el servidor: ${uploadRes.status} - ${errorText}`);
           }
+
           const uploadResult = await uploadRes.json();
+          console.log('Respuesta del servidor (upload):', uploadResult);
+
           if (uploadResult.success) {
             configData.logo_url = uploadResult.url;
             showMessage('Logo subido correctamente.', 'success');
@@ -407,7 +435,7 @@
           }
         }
 
-        // Guardar configuración (GET)
+        // 2. Guardar configuración (GET)
         const params = new URLSearchParams({
           action: 'set',
           id: opticaId,
@@ -415,25 +443,26 @@
         });
         const configRes = await fetch(`${API_URL}?${params.toString()}`);
         const configResult = await configRes.json();
+        console.log('Respuesta del servidor (config):', configResult);
 
         if (configResult.success) {
           showMessage('¡✅ Configuración guardada correctamente!', 'success');
           uploadText.innerHTML = `Suelte su imagen aquí o <span>búsquela en su equipo</span>`;
           fileInput.value = '';
-          loadConfig();
+          loadConfig(); // Recargar para reflejar cambios
         } else {
           throw new Error(configResult.error || 'Error al guardar configuración');
         }
       } catch (error) {
         showMessage('❌ Error: ' + error.message, 'error');
-        console.error(error);
+        console.error('Error detallado:', error);
       } finally {
         btnSubmit.disabled = false;
         btnSubmit.textContent = 'Guardar todos los cambios';
       }
     });
 
-    // Inicializar
+    // ====== INICIALIZAR ======
     loadConfig();
   </script>
 </body>
