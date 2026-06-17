@@ -101,7 +101,6 @@
       box-shadow: 0 0 0 3px rgba(123, 47, 190, 0.15);
     }
 
-    /* Estilizado del cargador de archivos */
     .file-upload-wrapper {
       position: relative;
       border: 2px dashed var(--border-color);
@@ -143,7 +142,6 @@
     }
     .current-logo a:hover { text-decoration: underline; }
 
-    /* Cuadrícula de colores optimizada */
     .colors-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
@@ -185,7 +183,6 @@
       background: none;
     }
 
-    /* Botón de Acción Principal */
     button[type="submit"] {
       background: var(--primary-brand);
       color: white;
@@ -206,7 +203,6 @@
       transform: translateY(-1px);
     }
 
-    /* Alertas de Estado */
     #message {
       margin-top: 1rem;
       padding: 0.75rem 1rem;
@@ -217,7 +213,6 @@
       display: none;
     }
 
-    /* Caja de Vista Previa Realista en Vivo */
     .preview-section {
       margin-top: 2.5rem;
     }
@@ -225,7 +220,7 @@
     .preview-box {
       padding: 2.5rem 1.5rem;
       border-radius: 12px;
-      background: #424242; /* Default */
+      background: #424242;
       color: #FFFFFF;
       border: 1px solid var(--border-color);
       text-align: center;
@@ -268,13 +263,11 @@
       
       <div class="section-title">Información Básica</div>
       
-      <!-- Nombre -->
       <div class="form-group">
         <label for="nombre">Nombre de la óptica</label>
         <input type="text" id="nombre" placeholder="Ej: Óptica GM" autocomplete="off">
       </div>
 
-      <!-- Logo -->
       <div class="form-group">
         <label>Logotipo de la sucursal</label>
         <div class="file-upload-wrapper">
@@ -286,7 +279,6 @@
 
       <div class="section-title">Paleta Cromática</div>
       
-      <!-- Cuadrícula de Colores -->
       <div class="colors-grid">
         <div class="color-card">
           <label for="primary">Primario</label>
@@ -316,7 +308,6 @@
 
       <div class="section-title">Tipografía del Sistema</div>
 
-      <!-- Tipografía -->
       <div class="form-group">
         <label for="font_family">Familia tipográfica fuente</label>
         <select id="font_family">
@@ -335,7 +326,6 @@
 
     <div id="message"></div>
 
-    <!-- Vista previa Dinámica -->
     <div class="preview-section">
       <div class="section-title">Vista previa en tiempo real</div>
       <div class="preview-box" id="preview">
@@ -349,7 +339,8 @@
     // ====== CONFIGURACIÓN ======
     const urlParams = new URLSearchParams(window.location.search);
     const opticaId = urlParams.get('cliente') || 'default';
-    const API_URL = 'https://script.google.com/macros/s/AKfycby7SmS1F-DLQy7wRPyj3kG9ocT3runri4EblGN1YoA_l4gIpqPA48OlcpmcMzjtqi8aCg/exec'; // ¡Mantén tu URL aquí!
+    // REEMPLAZA ESTA URL CON LA DE TU WEB APP (sin los "...")
+    const API_URL = 'https://script.google.com/macros/s/AKfycbzNfDc_loF-BLQNxfQKgPupDkgqttpYM7BwIhpQRou6q6CswDFdAvMia5MVitpCUIBv/exec';
 
     // ====== ELEMENTOS ======
     const form = document.getElementById('configForm');
@@ -375,13 +366,11 @@
       previewBox.style.fontFamily = fontFam;
     }
 
-    // Escuchadores para actualización en tiempo real al escribir o cambiar valores
     document.getElementById('nombre').addEventListener('input', livePreview);
     document.getElementById('color_fondo').addEventListener('input', livePreview);
     document.getElementById('color_texto').addEventListener('input', livePreview);
     document.getElementById('font_family').addEventListener('change', livePreview);
 
-    // Preview local e instantánea si seleccionan un archivo local sin subirlo aún
     fileInput.addEventListener('change', function(e) {
       const file = e.target.files[0];
       if (file) {
@@ -395,7 +384,6 @@
       }
     });
 
-    // ====== MOSTRAR MENSAJES ESTILIZADOS ======
     function showMessage(text, type) {
       message.textContent = text;
       message.style.display = 'block';
@@ -414,7 +402,7 @@
       }
     }
 
-    // ====== CARGAR CONFIGURACIÓN DESDE LA API ======
+    // ====== CARGAR CONFIGURACIÓN ======
     async function loadConfig() {
       try {
         const res = await fetch(`${API_URL}?action=get&id=${opticaId}`);
@@ -443,16 +431,18 @@
         }
       } catch (error) {
         console.error('Error al cargar la configuración inicial:', error);
+        showMessage('Error al cargar la configuración. Verifica la conexión.', 'error');
       }
     }
 
-    // ====== GUARDAR CAMBIOS PROCESO ======
+    // ====== GUARDAR CAMBIOS (SOLO CON GET) ======
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       btnSubmit.disabled = true;
       btnSubmit.textContent = 'Guardando configuración...';
-      showMessage('Procesando datos y subiendo archivos...', 'info');
+      showMessage('Procesando datos...', 'info');
 
+      // Obtener todos los valores
       const configData = {
         nombre_optica: document.getElementById('nombre').value,
         primary: document.getElementById('primary').value,
@@ -464,44 +454,49 @@
         font_family: document.getElementById('font_family').value,
       };
 
+      // Si se seleccionó un archivo, lo convertimos a base64 y lo enviamos en la URL
       const file = fileInput.files[0];
+      if (file) {
+        try {
+          // Leer el archivo como base64
+          const reader = new FileReader();
+          const base64 = await new Promise((resolve, reject) => {
+            reader.onload = () => resolve(reader.result.split(',')[1]); // solo la parte base64
+            reader.onerror = reject;
+            reader.readAsDataURL(file);
+          });
+          // Agregar al objeto configData (el backend decodificará)
+          configData.logo_base64 = base64;
+          configData.logo_filename = file.name;
+        } catch (err) {
+          showMessage('Error al procesar el archivo: ' + err.message, 'error');
+          btnSubmit.disabled = false;
+          btnSubmit.textContent = 'Guardar todos los cambios';
+          return;
+        }
+      }
 
       try {
-        let logoUrl = null;
-
-        if (file) {
-          const formData = new FormData();
-          formData.append('action', 'upload_logo');
-          formData.append('id', opticaId);
-          formData.append('logo', file);
-
-          const uploadRes = await fetch(API_URL, { method: 'POST', body: formData });
-          const uploadResult = await uploadRes.json();
-          
-          if (uploadResult.success) {
-            logoUrl = uploadResult.url;
-            configData.logo_url = logoUrl;
-          } else {
-            throw new Error(uploadResult.error || 'Error al subir el logo');
-          }
-        }
-
+        // Codificar el objeto completo como JSON
+        const jsonData = JSON.stringify(configData);
+        // Construir URL con todos los parámetros
         const params = new URLSearchParams({
           action: 'set',
           id: opticaId,
-          colors: JSON.stringify(configData)
+          config: jsonData
         });
 
-        const configRes = await fetch(`${API_URL}?${params.toString()}`, { method: 'GET' });
-        const configResult = await configRes.json();
+        const response = await fetch(`${API_URL}?${params.toString()}`);
+        const result = await response.json();
 
-        if (configResult.success) {
-          showMessage('¡✅ Configuración e identidad guardadas correctamente!', 'success');
+        if (result.success) {
+          showMessage('¡✅ Configuración guardada correctamente!', 'success');
           uploadText.innerHTML = `Suelte su imagen aquí o <span>búsquela en su equipo</span>`;
-          fileInput.value = ''; // Limpiar input file
-          loadConfig();
+          fileInput.value = '';
+          // Recargar configuración para actualizar vista
+          await loadConfig();
         } else {
-          throw new Error('Error en la respuesta del servidor al guardar.');
+          throw new Error(result.error || 'Error al guardar');
         }
       } catch (error) {
         showMessage('❌ Error: ' + error.message, 'error');
