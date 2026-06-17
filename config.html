@@ -4,205 +4,312 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Configurar Óptica | Panel de Control</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+  
   <style>
     :root {
-      --bg-main: #f8fafc;
+      --bg-main: #f8fafd;
       --card-bg: #ffffff;
-      --text-main: #0f172a;
-      --text-muted: #64748b;
-      --border-color: #e2e8f0;
+      --text-main: #424242; /* Tu Color Neutral */
+      --text-muted: #71717a;
+      --border-color: #e4e4e7;
+      
+      /* Colores Corporativos Requeridos */
       --primary-brand: #7B2FBE;
       --primary-hover: #63229e;
-      --success: #10b981;
-      --error: #ef4444;
+      --secondary-brand: #2E7D32;
+      --tertiary-brand: #0288D1;
+      --neutral-brand: #424242;
     }
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
+    
     body {
-      font-family: 'Inter', sans-serif;
+      font-family: 'Plus Jakarta Sans', sans-serif;
       background-color: var(--bg-main);
       color: var(--text-main);
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 2rem 1rem;
+      padding: 5rem 1rem 3rem 1rem; /* Aumentado el padding superior para dar espacio al botón de regreso */
+      background: radial-gradient(circle at top right, #fafafa 0%, #f3e5f5 100%);
+      position: relative;
     }
+
+    /* Botón Regresar Superior */
+    .back-container {
+      position: absolute;
+      top: 1.5rem;
+      left: 1.5rem;
+      z-index: 10;
+    }
+    .btn-back {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--card-bg);
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+      padding: 0.6rem 1rem;
+      border-radius: 12px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);
+    }
+    .btn-back:hover {
+      color: var(--primary-brand);
+      border-color: var(--primary-brand);
+      transform: translateX(-2px);
+      box-shadow: 0 10px 15px -3px rgba(123, 47, 190, 0.05);
+    }
+
     .container {
       width: 100%;
-      max-width: 680px;
+      max-width: 720px;
       background: var(--card-bg);
-      padding: 2.5rem;
+      padding: 3rem;
+      border-radius: 24px;
+      box-shadow: 0 20px 40px -15px rgba(123, 47, 190, 0.06);
+      border: 1px solid rgba(228, 228, 231, 0.6);
+    }
+
+    /* Encabezado Principal */
+    .header { text-align: center; margin-bottom: 3rem; }
+    .header .icon-wrapper {
+      width: 56px;
+      height: 56px;
+      background: rgba(123, 47, 190, 0.08);
+      color: var(--primary-brand);
       border-radius: 16px;
-      box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05);
-      border: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem auto;
     }
-    .header { text-align: center; margin-bottom: 2.5rem; }
-    .header h1 { font-size: 1.75rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.5rem; }
-    .header p { color: var(--text-muted); font-size: 0.95rem; }
+    .header h1 { font-size: 2rem; font-weight: 800; tracking: -0.03em; color: var(--neutral-brand); margin-bottom: 0.5rem; }
+    .header p { color: var(--text-muted); font-size: 0.95rem; font-weight: 500; }
+
+    /* Secciones de Formulario */
     .section-title {
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.07em;
       color: var(--text-muted);
-      margin-bottom: 1rem;
+      margin: 2.5rem 0 1.25rem 0;
       font-weight: 700;
-      border-bottom: 1px solid var(--border-color);
-      padding-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
     }
+    .section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border-color);
+    }
+
     .form-group { margin-bottom: 1.5rem; display: flex; flex-direction: column; }
-    .form-group label { font-weight: 500; margin-bottom: 0.5rem; font-size: 0.9rem; color: var(--text-main); }
+    .form-group label { font-weight: 600; margin-bottom: 0.6rem; font-size: 0.88rem; color: var(--neutral-brand); }
+    
     .form-group input[type="text"], .form-group select {
-      padding: 0.75rem 1rem;
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
+      padding: 0.85rem 1.2rem;
+      border: 1.5px solid var(--border-color);
+      border-radius: 12px;
       font-size: 0.95rem;
       font-family: inherit;
+      font-weight: 500;
       color: var(--text-main);
       background-color: #fff;
-      transition: all 0.2s ease;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
       outline: none;
     }
     .form-group input[type="text"]:focus, .form-group select:focus {
       border-color: var(--primary-brand);
-      box-shadow: 0 0 0 3px rgba(123,47,190,0.15);
+      box-shadow: 0 0 0 4px rgba(123, 47, 190, 0.12);
     }
+
+    /* Subida de Logotipo Mejorada */
     .file-upload-wrapper {
       position: relative;
-      border: 2px dashed var(--border-color);
-      border-radius: 8px;
-      padding: 1.2rem;
+      border: 2px dashed #cbd5e1;
+      border-radius: 14px;
+      padding: 2rem 1.5rem;
       text-align: center;
-      background: #fdfdfd;
+      background: #fafafa;
       cursor: pointer;
-      transition: background 0.2s ease;
-    }
-    .file-upload-wrapper:hover { background: #f8fafc; border-color: var(--text-muted); }
-    .file-upload-wrapper input[type="file"] {
-      position: absolute;
-      top: 0; left: 0; width: 100%; height: 100%;
-      opacity: 0;
-      cursor: pointer;
-    }
-    .file-upload-text { font-size: 0.9rem; color: var(--text-muted); }
-    .file-upload-text span { color: var(--primary-brand); font-weight: 600; }
-    .current-logo { margin-top: 0.6rem; font-size: 0.85rem; color: var(--text-muted); }
-    .current-logo a { color: var(--primary-brand); text-decoration: none; font-weight: 500; }
-    .current-logo a:hover { text-decoration: underline; }
-    .colors-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-      gap: 1rem;
-      margin-bottom: 1.5rem;
-    }
-    .color-card {
-      background: #f8fafc;
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      padding: 0.75rem;
+      transition: all 0.2s ease;
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 0.5rem;
     }
-    .color-card label { font-size: 0.8rem; font-weight: 600; color: var(--text-muted); }
+    .file-upload-wrapper:hover { background: #f5f3ff; border-color: var(--primary-brand); }
+    .file-upload-wrapper input[type="file"] {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      opacity: 0; cursor: pointer;
+    }
+    .file-upload-text { font-size: 0.9rem; color: var(--text-muted); font-weight: 500; }
+    .file-upload-text span { color: var(--primary-brand); font-weight: 700; }
+    .file-icon { color: var(--text-muted); font-size: 2rem; }
+    .file-upload-wrapper:hover .file-icon { color: var(--primary-brand); }
+
+    .current-logo { margin-top: 0.75rem; font-size: 0.85rem; color: var(--text-muted); display: flex; align-items: center; gap: 0.4rem; font-weight: 500; }
+    .current-logo a { color: var(--tertiary-brand); text-decoration: none; font-weight: 600; }
+    .current-logo a:hover { text-decoration: underline; }
+
+    /* Cuadrícula de Selectores de Color */
+    .colors-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .color-card {
+      background: #ffffff;
+      border: 1.5px solid var(--border-color);
+      border-radius: 14px;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+      transition: transform 0.2s ease;
+    }
+    .color-card:hover { transform: translateY(-2px); border-color: #cbd5e1; }
+    .color-card label { font-size: 0.8rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.02em; }
+    
     .color-picker-wrapper {
       width: 100%;
-      height: 40px;
-      border-radius: 6px;
+      height: 44px;
+      border-radius: 10px;
       overflow: hidden;
       border: 1px solid var(--border-color);
       position: relative;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
     }
     .color-picker-wrapper input[type="color"] {
       position: absolute;
       top: -5px; left: -5px; width: 120%; height: 120%;
-      cursor: pointer;
-      border: none;
-      background: none;
+      cursor: pointer; border: none; background: none;
     }
+
+    /* Botón Guardar */
     button[type="submit"] {
       background: var(--primary-brand);
       color: white;
       border: none;
-      padding: 0.85rem 1.5rem;
-      border-radius: 8px;
+      padding: 1rem 1.5rem;
+      border-radius: 14px;
       font-size: 1rem;
-      font-weight: 600;
+      font-weight: 700;
       cursor: pointer;
       width: 100%;
-      margin-top: 1rem;
-      transition: all 0.2s ease;
-      box-shadow: 0 4px 6px -1px rgba(123,47,190,0.2);
+      margin-top: 1.5rem;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 10px 20px -5px rgba(123, 47, 190, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
     }
-    button[type="submit"]:hover { background: var(--primary-hover); transform: translateY(-1px); }
+    button[type="submit"]:hover { background: var(--primary-hover); transform: translateY(-1px); box-shadow: 0 12px 24px -5px rgba(123, 47, 190, 0.35); }
+    button[type="submit"]:disabled { background: #d4d4d8; cursor: not-allowed; transform: none; box-shadow: none; }
+
+    /* Mensajes de Alerta */
     #message {
-      margin-top: 1rem;
-      padding: 0.75rem 1rem;
-      border-radius: 8px;
-      font-size: 0.9rem;
-      text-align: center;
-      font-weight: 500;
-      display: none;
-    }
-    .preview-section { margin-top: 2.5rem; }
-    .preview-box {
-      padding: 2.5rem 1.5rem;
+      margin-top: 1.25rem;
+      padding: 1rem 1.25rem;
       border-radius: 12px;
-      background: #424242;
+      font-size: 0.9rem;
+      text-align: left;
+      font-weight: 600;
+      display: none;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* Sección Vista Previa */
+    .preview-section { margin-top: 3.5rem; }
+    .preview-box {
+      padding: 3rem 2rem;
+      border-radius: 18px;
+      background: var(--neutral-brand);
       color: #FFFFFF;
-      border: 1px solid var(--border-color);
       text-align: center;
-      transition: all 0.3s ease;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 1rem;
-      min-height: 160px;
+      gap: 1.25rem;
+      min-height: 180px;
+      box-shadow: 0 15px 30px -10px rgba(0,0,0,0.1);
     }
-    .preview-box img { max-height: 70px; object-fit: contain; border-radius: 4px; }
-    .preview-box .name { font-size: 1.4rem; font-weight: 700; letter-spacing: -0.02em; }
-    .preview-box .doctor { font-size: 1rem; opacity: 0.8; }
-    @media (max-width: 480px) {
-      .container { padding: 1.5rem; }
+    .preview-box img { max-height: 80px; width: auto; object-fit: contain; border-radius: 6px; }
+    .preview-box .name { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.03em; }
+    .preview-box .doctor { font-size: 1rem; opacity: 0.85; font-weight: 500; }
+
+    /* Adaptabilidad Móvil */
+    @media (max-width: 600px) {
+      body { padding-top: 5.5rem; }
+      .back-container { top: 1rem; left: 1rem; width: calc(100% - 2rem); }
+      .btn-back { width: 100%; justify-content: center; }
+      .container { padding: 1.75rem; }
       .colors-grid { grid-template-columns: repeat(2, 1fr); }
     }
   </style>
 </head>
 <body>
+
+  <div class="back-container">
+    <button class="btn-back" onclick="window.location.href='panel-operativo-tienda.html'">
+      <span class="material-symbols-outlined" style="font-size: 18px;">arrow_back</span>
+      Volver al Panel
+    </button>
+  </div>
+
   <div class="container">
     <div class="header">
-      <h1>⚙️ Configurar Óptica</h1>
+      <div class="icon-wrapper">
+        <span class="material-symbols-outlined" style="font-size: 28px;">tune</span>
+      </div>
+      <h1>Configurar Óptica</h1>
       <p>Personaliza la apariencia visual e identidad de tu sucursal</p>
     </div>
 
     <form id="configForm" enctype="multipart/form-data">
       <div class="section-title">Información Básica</div>
 
-      <!-- Nombre de la óptica -->
       <div class="form-group">
         <label for="nombre">Nombre de la óptica</label>
         <input type="text" id="nombre" placeholder="Ej: Óptica GM" autocomplete="off">
       </div>
 
-      <!-- Nombre del Doctor -->
       <div class="form-group">
         <label for="nombre_doctor">Nombre del Doctor / Especialista</label>
         <input type="text" id="nombre_doctor" placeholder="Ej: Dr. Alejandro Gómez" autocomplete="off">
       </div>
 
-      <!-- Logo -->
       <div class="form-group">
         <label>Logotipo de la sucursal</label>
         <div class="file-upload-wrapper">
-          <div class="file-upload-text" id="uploadText">Suelte su imagen aquí o <span>búsquela en su equipo</span></div>
+          <span class="material-symbols-outlined file-icon" id="fileIcon">cloud_upload</span>
+          <div class="file-upload-text" id="uploadText">Arrastre su logotipo aquí o <span>búsquelo en su dispositivo</span></div>
           <input type="file" id="logoFile" accept="image/*">
         </div>
-        <div class="current-logo" id="currentLogoDisplay">Logo guardado: <span id="logoUrlText">Ninguno</span></div>
+        <div class="current-logo" id="currentLogoDisplay">
+          <span class="material-symbols-outlined" style="font-size: 16px;">link</span>
+          <span>Logo en servidor:</span> <span id="logoUrlText">Ninguno</span>
+        </div>
       </div>
 
-      <div class="section-title">Paleta Cromática</div>
+      <div class="section-title">Paleta Cromática Corporativa</div>
 
       <div class="colors-grid">
         <div class="color-card">
@@ -222,19 +329,20 @@
           <div class="color-picker-wrapper"><input type="color" id="neutral" value="#424242"></div>
         </div>
         <div class="color-card">
-          <label for="color_texto">Texto Preview</label>
+          <label for="color_texto">Texto Vista Previa</label>
           <div class="color-picker-wrapper"><input type="color" id="color_texto" value="#FFFFFF"></div>
         </div>
         <div class="color-card">
-          <label for="color_fondo">Fondo Preview</label>
+          <label for="color_fondo">Fondo Vista Previa</label>
           <div class="color-picker-wrapper"><input type="color" id="color_fondo" value="#424242"></div>
         </div>
       </div>
 
       <div class="section-title">Tipografía del Sistema</div>
       <div class="form-group">
-        <label for="font_family">Familia tipográfica fuente</label>
+        <label for="font_family">Familia tipográfica principal</label>
         <select id="font_family">
+          <option value="Plus Jakarta Sans">Plus Jakarta Sans (Recomendada)</option>
           <option value="Inter">Inter</option>
           <option value="Roboto">Roboto</option>
           <option value="Open Sans">Open Sans</option>
@@ -245,12 +353,13 @@
         </select>
       </div>
 
-      <button type="submit" id="btnSubmit">Guardar todos los cambios</button>
+      <button type="submit" id="btnSubmit">
+        <span class="material-symbols-outlined" style="font-size: 20px;">save</span> Guardar todos los cambios
+      </button>
     </form>
 
     <div id="message"></div>
 
-    <!-- Vista previa Dinámica -->
     <div class="preview-section">
       <div class="section-title">Vista previa en tiempo real</div>
       <div class="preview-box" id="preview">
@@ -262,14 +371,11 @@
   </div>
 
   <script>
-    // ====== CONFIGURACIÓN ======
-    // 🔴 REEMPLAZA ESTA URL CON LA DE TU WEB APP PUBLICADA (ACCESO "CUALQUIER PERSONA")
     const API_URL = 'https://script.google.com/macros/s/AKfycbwMxvRQFEVCMlXklnRl2W6OV7F--zQ6_x862grd6FlxY0jr80ppWTR7KkLGBTP1Dq8UxA/exec';
 
     const urlParams = new URLSearchParams(window.location.search);
     const opticaId = urlParams.get('cliente') || 'default';
 
-    // ====== ELEMENTOS ======
     const form = document.getElementById('configForm');
     const btnSubmit = document.getElementById('btnSubmit');
     const message = document.getElementById('message');
@@ -280,8 +386,8 @@
     const logoUrlText = document.getElementById('logoUrlText');
     const fileInput = document.getElementById('logoFile');
     const uploadText = document.getElementById('uploadText');
+    const fileIcon = document.getElementById('fileIcon');
 
-    // ====== VISTA PREVIA EN VIVO ======
     function livePreview() {
       const nombre = document.getElementById('nombre').value;
       const doctor = document.getElementById('nombre_doctor').value;
@@ -302,11 +408,12 @@
     document.getElementById('color_texto').addEventListener('input', livePreview);
     document.getElementById('font_family').addEventListener('change', livePreview);
 
-    // Preview al seleccionar archivo
     fileInput.addEventListener('change', function(e) {
       const file = e.target.files[0];
       if (file) {
-        uploadText.innerHTML = `Archivo seleccionado: <strong>${file.name}</strong>`;
+        fileIcon.textContent = "task_alt";
+        fileIcon.style.color = "var(--secondary-brand)";
+        uploadText.innerHTML = `Listo para subir: <strong>${file.name}</strong>`;
         const reader = new FileReader();
         reader.onload = function(event) {
           previewLogo.src = event.target.result;
@@ -316,13 +423,12 @@
       }
     });
 
-    // ====== MOSTRAR MENSAJES ======
     function showMessage(text, type) {
-      message.textContent = text;
-      message.style.display = 'block';
+      message.innerHTML = text;
+      message.style.display = 'flex';
       if(type === 'success') {
         message.style.backgroundColor = '#ecfdf5';
-        message.style.color = 'var(--success)';
+        message.style.color = 'var(--secondary-brand)';
         message.style.border = '1px solid #a7f3d0';
       } else if (type === 'error') {
         message.style.backgroundColor = '#fef2f2';
@@ -330,12 +436,11 @@
         message.style.border = '1px solid #fca5a5';
       } else {
         message.style.backgroundColor = '#f1f5f9';
-        message.style.color = 'var(--text-main)';
+        message.style.color = 'var(--neutral-brand)';
         message.style.border = '1px solid var(--border-color)';
       }
     }
 
-    // ====== CARGAR CONFIGURACIÓN ======
     async function loadConfig() {
       try {
         const res = await fetch(`${API_URL}?action=get&id=${opticaId}`);
@@ -345,7 +450,7 @@
           document.getElementById('nombre_doctor').value = config.nombre_doctor || '';
 
           if (config.logo_url) {
-            logoUrlText.innerHTML = `<a href="${config.logo_url}" target="_blank">Ver logo actual</a>`;
+            logoUrlText.innerHTML = `<a href="${config.logo_url}" target="_blank">Ver logo guardado</a>`;
             previewLogo.src = config.logo_url;
             previewLogo.style.display = 'inline';
           } else {
@@ -359,7 +464,7 @@
           document.getElementById('neutral').value = config.neutral || '#424242';
           document.getElementById('color_texto').value = config.color_texto || '#FFFFFF';
           document.getElementById('color_fondo').value = config.color_fondo || '#424242';
-          document.getElementById('font_family').value = config.font_family || 'Inter';
+          document.getElementById('font_family').value = config.font_family || 'Plus Jakarta Sans';
 
           livePreview();
         }
@@ -368,12 +473,11 @@
       }
     }
 
-    // ====== GUARDAR CAMBIOS (CON POST PARA EL LOGO) ======
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       btnSubmit.disabled = true;
-      btnSubmit.textContent = 'Guardando configuración...';
-      showMessage('Procesando datos...', 'info');
+      btnSubmit.innerHTML = `<span class="material-symbols-outlined animate-spin" style="animation: spin 1s linear infinite;">sync</span> Guardando configuración...`;
+      showMessage('Procesando datos en la nube...', 'info');
 
       const configData = {
         nombre_optica: document.getElementById('nombre').value,
@@ -388,54 +492,31 @@
       };
 
       const file = fileInput.files[0];
-      console.log('ID de óptica:', opticaId);
-      console.log('Archivo seleccionado:', file ? file.name : 'Ninguno');
 
       try {
-        // 1. Subir logo con POST si hay archivo
         if (file) {
           if (!opticaId) throw new Error('ID de óptica no definido.');
-
           const formData = new FormData();
           formData.append('action', 'upload_logo');
           formData.append('id', opticaId);
           formData.append('logo', file);
 
-          // Depuración: mostrar campos del FormData
-          console.log('FormData campos:');
-          for (let [key, value] of formData.entries()) {
-            if (key === 'logo') {
-              console.log(key, 'ARCHIVO:', value.name, value.size);
-            } else {
-              console.log(key, value);
-            }
-          }
-
-          // Enviar el ID también en la URL por si acaso
           const uploadUrl = API_URL + '?id=' + encodeURIComponent(opticaId) + '&action=upload_logo';
-
-          const uploadRes = await fetch(uploadUrl, {
-            method: 'POST',
-            body: formData
-          });
+          const uploadRes = await fetch(uploadUrl, { method: 'POST', body: formData });
 
           if (!uploadRes.ok) {
             const errorText = await uploadRes.text();
-            throw new Error(`Error en el servidor: ${uploadRes.status} - ${errorText}`);
+            throw new Error(`Error en el servidor: ${uploadRes.status}`);
           }
 
           const uploadResult = await uploadRes.json();
-          console.log('Respuesta del servidor (upload):', uploadResult);
-
           if (uploadResult.success) {
             configData.logo_url = uploadResult.url;
-            showMessage('Logo subido correctamente.', 'success');
           } else {
             throw new Error(uploadResult.error || 'Error al subir el logo');
           }
         }
 
-        // 2. Guardar configuración (GET)
         const params = new URLSearchParams({
           action: 'set',
           id: opticaId,
@@ -443,27 +524,30 @@
         });
         const configRes = await fetch(`${API_URL}?${params.toString()}`);
         const configResult = await configRes.json();
-        console.log('Respuesta del servidor (config):', configResult);
 
         if (configResult.success) {
-          showMessage('¡✅ Configuración guardada correctamente!', 'success');
-          uploadText.innerHTML = `Suelte su imagen aquí o <span>búsquela en su equipo</span>`;
+          showMessage('¡Configuración guardada de forma segura!', 'success');
+          fileIcon.textContent = "cloud_upload";
+          fileIcon.style.color = "var(--text-muted)";
+          uploadText.innerHTML = `Arrastre su logotipo aquí o <span>búsquelo en su dispositivo</span>`;
           fileInput.value = '';
-          loadConfig(); // Recargar para reflejar cambios
+          loadConfig();
         } else {
           throw new Error(configResult.error || 'Error al guardar configuración');
         }
       } catch (error) {
-        showMessage('❌ Error: ' + error.message, 'error');
-        console.error('Error detallado:', error);
+        showMessage('Hubo un inconveniente: ' + error.message, 'error');
       } finally {
         btnSubmit.disabled = false;
-        btnSubmit.textContent = 'Guardar todos los cambios';
+        btnSubmit.innerHTML = `<span class="material-symbols-outlined" style="font-size: 20px;">save</span> Guardar todos los cambios`;
       }
     });
 
-    // ====== INICIALIZAR ======
     loadConfig();
   </script>
+  
+  <style>
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+  </style>
 </body>
 </html>
