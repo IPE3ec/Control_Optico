@@ -3,10 +3,9 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
-    <title>LensCalibrate Pro | Ópticas GM</title>
+    <title>Control Optico | IPE3 </title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=Inter:wght@400;500&amp;family=Geist:wght@500;600&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-    <!-- Librerías para PDF -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script id="tailwind-config">
@@ -151,9 +150,31 @@
 
         .recommendation-card {
             transition: all 0.2s ease;
+            border-left: 4px solid;
         }
         .recommendation-card:hover {
             transform: translateX(4px);
+        }
+        .recommendation-card .param-value {
+            font-weight: 700;
+            color: #003ec7;
+            background: #dde1ff;
+            padding: 1px 8px;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+        .recommendation-card .step-number {
+            display: inline-block;
+            background: #003ec7;
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 20px;
+            font-size: 10px;
+            font-weight: 700;
+            margin-right: 6px;
         }
 
         @keyframes pulse-badge {
@@ -199,16 +220,48 @@
             color: #065f46;
         }
 
-        /* Estilo para impresión PDF */
         @media print {
             .no-print { display: none !important; }
             .print-only { display: block !important; }
-            .certificate-container {
-                border: 2px solid #000 !important;
-                background: white !important;
-            }
         }
         .print-only { display: none; }
+
+        /* Tooltip para parámetros */
+        .param-tooltip {
+            position: relative;
+            cursor: help;
+            border-bottom: 1px dashed #737688;
+        }
+        .param-tooltip:hover .param-tooltip-content {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .param-tooltip-content {
+            position: absolute;
+            bottom: calc(100% + 8px);
+            left: 50%;
+            transform: translateX(-50%) translateY(-4px);
+            background: #1a1a2e;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 9px;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.2s ease;
+            z-index: 50;
+        }
+        .param-tooltip-content::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 5px solid transparent;
+            border-top-color: #1a1a2e;
+        }
     </style>
 </head>
 <body class="bg-background text-on-background font-body-lg antialiased min-h-screen flex flex-col pb-20 smooth-scroll">
@@ -218,7 +271,7 @@
     <div class="flex items-center gap-2">
         <span class="material-symbols-outlined text-primary text-[28px]" style="font-variation-settings: 'FILL' 1;">precision_manufacturing</span>
         <h1 class="font-headline-md text-headline-md font-bold text-primary">Ópticas GM</h1>
-        <span class="ml-2 px-2 py-0.5 bg-tertiary-container text-on-tertiary-container text-[8px] font-bold rounded-full uppercase tracking-wider">v4.0</span>
+        <span class="ml-2 px-2 py-0.5 bg-tertiary-container text-on-tertiary-container text-[8px] font-bold rounded-full uppercase tracking-wider">v5.0</span>
     </div>
     <div class="flex items-center gap-4">
         <button class="material-symbols-outlined text-on-surface-variant hover:bg-surface-container-low transition-colors p-2 rounded-full">account_circle</button>
@@ -246,17 +299,13 @@
             <p class="text-body-sm text-on-surface-variant">Ingrese los valores <strong>reales</strong> del ojo esquemático y los datos de la óptica.</p>
         </div>
 
-        <!-- ========================================== -->
-        <!-- DATOS DE LA ÓPTICA (NUEVO)                 -->
-        <!-- ========================================== -->
+        <!-- DATOS DE LA ÓPTICA -->
         <div class="diagnostic-card bg-surface-container-lowest rounded-xl p-4 space-y-3 border-2 border-primary/20">
             <div class="flex items-center gap-2">
                 <span class="material-symbols-outlined text-primary">storefront</span>
                 <h3 class="font-label-caps text-label-caps text-primary uppercase tracking-wider">Datos de la Óptica</h3>
                 <span class="ml-auto text-[8px] px-2 py-0.5 bg-primary-container text-on-primary-container rounded-full">Obligatorio</span>
             </div>
-            <p class="text-[10px] text-on-surface-variant">Estos datos aparecerán en el certificado de calibración.</p>
-            
             <div class="grid grid-cols-2 gap-2">
                 <div class="flex flex-col gap-0.5 col-span-2">
                     <label class="font-label-caps text-label-caps text-outline uppercase text-[8px]">Nombre de la Óptica</label>
@@ -272,7 +321,7 @@
                 </div>
                 <div class="flex flex-col gap-0.5 col-span-2">
                     <label class="font-label-caps text-label-caps text-outline uppercase text-[8px]">Dirección</label>
-                    <input class="w-full bg-surface-container border-none rounded h-9 px-3 font-body-sm text-sm" id="clinica-direccion" placeholder="Av. Principal 123, Santiago" type="text" value="Av. Providencia 1234, Santiago"/>
+                    <input class="w-full bg-surface-container border-none rounded h-9 px-3 font-body-sm text-sm" id="clinica-direccion" placeholder="Av. Principal 123" type="text" value="Av. Providencia 1234, Santiago"/>
                 </div>
                 <div class="flex flex-col gap-0.5 col-span-2">
                     <label class="font-label-caps text-label-caps text-outline uppercase text-[8px]">Email</label>
@@ -281,14 +330,13 @@
             </div>
         </div>
         
-        <!-- Panel de Tolerancias -->
+        <!-- TOLERANCIAS -->
         <div class="diagnostic-card bg-primary-container/5 rounded-xl p-4 space-y-3 border-2 border-primary/30">
             <div class="flex items-center gap-2">
                 <span class="material-symbols-outlined text-primary">rule_settings</span>
                 <h3 class="font-label-caps text-label-caps text-primary uppercase tracking-wider">Tolerancias de Calibración</h3>
                 <span class="ml-auto text-[8px] px-2 py-0.5 bg-primary-container text-on-primary-container rounded-full">Ajustable</span>
             </div>
-            
             <div class="grid grid-cols-2 gap-2">
                 <div class="flex flex-col gap-0.5">
                     <label class="font-label-caps text-label-caps text-outline uppercase text-[8px]">SPH / CYL</label>
@@ -321,15 +369,13 @@
             </div>
         </div>
 
-        <!-- REFERENCIA DEL OJO ESQUEMÁTICO -->
+        <!-- REFERENCIA -->
         <div class="diagnostic-card bg-surface-container-lowest rounded-xl p-4 space-y-4 border-2 border-primary/20">
             <div class="flex items-center gap-2">
                 <span class="material-symbols-outlined text-primary">verified</span>
                 <h3 class="font-label-caps text-label-caps text-primary uppercase tracking-wider">Valores de Referencia</h3>
                 <span class="ml-auto concept-badge concept-badge-ref">CERTIFICADO</span>
             </div>
-            <p class="text-xs text-on-surface-variant">Valores <strong>reales</strong> del ojo esquemático según su certificado.</p>
-            
             <div class="grid grid-cols-3 gap-3">
                 <div class="flex flex-col gap-1">
                     <label class="font-label-caps text-label-caps text-outline uppercase text-[9px]">SPH</label>
@@ -353,7 +399,6 @@
                     </div>
                 </div>
             </div>
-            
             <div class="grid grid-cols-2 gap-3">
                 <div class="flex flex-col gap-1">
                     <label class="font-label-caps text-label-caps text-outline uppercase text-[9px]">R1 (mm)</label>
@@ -387,17 +432,13 @@
             <p class="text-body-sm text-on-surface-variant">Configure el equipo e ingrese sus datos de identificación.</p>
         </div>
 
-        <!-- ========================================== -->
-        <!-- DATOS DEL EQUIPO (NUEVO)                   -->
-        <!-- ========================================== -->
+        <!-- DATOS DEL EQUIPO -->
         <div class="diagnostic-card bg-surface-container-lowest rounded-xl p-4 space-y-3 border-2 border-primary/20">
             <div class="flex items-center gap-2">
                 <span class="material-symbols-outlined text-primary">precision_manufacturing</span>
                 <h3 class="font-label-caps text-label-caps text-primary uppercase tracking-wider">Datos del Equipo</h3>
                 <span class="ml-auto text-[8px] px-2 py-0.5 bg-primary-container text-on-primary-container rounded-full">Obligatorio</span>
             </div>
-            <p class="text-[10px] text-on-surface-variant">Estos datos identifican el instrumento calibrado.</p>
-            
             <div class="grid grid-cols-2 gap-2">
                 <div class="flex flex-col gap-0.5 col-span-2">
                     <label class="font-label-caps text-label-caps text-outline uppercase text-[8px]">Marca / Fabricante</label>
@@ -490,15 +531,13 @@
             </div>
         </div>
 
-        <!-- Panel de TARGET -->
+        <!-- TARGET -->
         <div class="p-4 bg-surface-container rounded-xl border border-primary/20 space-y-3">
             <div class="flex items-center justify-between">
                 <h4 class="text-xs font-bold text-primary uppercase tracking-wider">🎯 Target de Configuración</h4>
                 <span class="px-2 py-0.5 text-[8px] font-bold bg-primary-container text-on-primary-container rounded-full badge-pulse">Live</span>
                 <span class="concept-badge concept-badge-target">ESPERADO</span>
             </div>
-            <p class="text-[9px] text-on-surface-variant">Lo que el equipo DEBERÍA medir según la configuración</p>
-            
             <div class="grid grid-cols-1 gap-1 text-xs font-data-mono">
                 <div class="p-2 bg-surface-container-lowest rounded flex justify-between items-center" id="pred_sph">
                     <span class="text-on-surface-variant">SPH</span>
@@ -523,7 +562,6 @@
                     <span class="font-bold text-primary">--</span>
                 </div>
             </div>
-            
             <div class="text-[8px] text-outline border-t border-outline-variant/30 pt-2 mt-1 flex justify-between items-center">
                 <span>📌 Referencia: <span id="ref-display-sph">--</span>D / <span id="ref-display-cyl">--</span>D × <span id="ref-display-ax">--</span>°</span>
                 <span>🔧 Offset: <span id="offset-display">0.00</span>D</span>
@@ -610,11 +648,8 @@
             <span class="px-3 py-1 bg-tertiary-container text-on-tertiary-container rounded-full text-[10px] font-bold uppercase tracking-wider">Estado Completo</span>
         </div>
         
-        <!-- ========================================== -->
-        <!-- CERTIFICADO COMPLETO PARA PDF             -->
-        <!-- ========================================== -->
+        <!-- CERTIFICADO -->
         <div id="certificate-for-pdf" class="bg-white rounded-2xl shadow-xl overflow-hidden">
-            <!-- Encabezado del Certificado -->
             <div class="bg-primary p-4 text-white text-center">
                 <div class="flex items-center justify-center gap-3">
                     <span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">precision_manufacturing</span>
@@ -624,7 +659,6 @@
                 <p class="text-[10px] opacity-60 mt-0.5" id="cert-clinica-nombre">Ópticas GM</p>
             </div>
 
-            <!-- Badge de Estado -->
             <div id="statusBadgeContainer" class="m-4 rounded-xl p-4 text-center text-white font-bold tracking-wide text-sm diagnostic-status">
                 <div class="flex items-center justify-center gap-3">
                     <span class="material-symbols-outlined" id="statusIcon">pending</span>
@@ -637,7 +671,6 @@
                 </div>
             </div>
 
-            <!-- Datos Óptica y Equipo -->
             <div class="grid grid-cols-2 gap-2 px-4 text-[10px] text-on-surface-variant border-b border-outline-variant pb-3">
                 <div>
                     <span class="font-bold text-on-surface">Óptica:</span>
@@ -657,7 +690,6 @@
                 </div>
             </div>
 
-            <!-- Tabla de Resultados -->
             <div class="overflow-x-auto p-3">
                 <table class="w-full text-left text-xs border-collapse">
                     <thead>
@@ -672,12 +704,10 @@
                         </tr>
                     </thead>
                     <tbody id="tablaResultadosCuerpo" class="font-data-mono">
-                        <!-- Inserción vía JS -->
                     </tbody>
                 </table>
             </div>
 
-            <!-- Resumen Final -->
             <div class="bg-inverse-surface text-inverse-on-surface p-4 mx-4 rounded-xl">
                 <div class="flex justify-between items-center">
                     <div>
@@ -692,7 +722,6 @@
                 </div>
             </div>
 
-            <!-- Pie de Certificado -->
             <div class="p-4 text-[8px] text-outline border-t border-outline-variant mt-4 flex justify-between items-center">
                 <div>
                     <span>Fecha: <span id="cert-date">--</span></span>
@@ -706,19 +735,38 @@
             <div class="px-4 pb-3 text-[7px] text-outline text-center border-t border-outline-variant pt-2">
                 Tolerancias: SPH/CYL ±<span id="cert-tol-sph">0.25</span>D | EJE ±<span id="cert-tol-eje">3</span>° | K ±<span id="cert-tol-k">0.50</span>mm
                 <span class="mx-2">|</span>
-                Documento generado automáticamente por LensCalibrate Pro v4.0
+                Documento generado automáticamente por LensCalibrate Pro v5.0
             </div>
         </div>
 
-        <!-- Recomendaciones (solo en pantalla) -->
+        <!-- ========================================== -->
+        <!-- GUÍA DE CORRECCIÓN CON PARÁMETROS         -->
+        <!-- ========================================== -->
         <div class="space-y-3 no-print">
-            <h3 class="font-label-caps text-label-caps text-outline uppercase px-2">Guía de Corrección Técnica</h3>
+            <h3 class="font-label-caps text-label-caps text-outline uppercase px-2 flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary text-sm">build</span>
+                Guía de Corrección Técnica - Parámetros Accionables
+            </h3>
             <div id="contenedorRecomendaciones" class="space-y-2">
                 <!-- Inserción vía JS -->
             </div>
+            <div class="bg-surface-container-high rounded-xl p-3 text-[9px] text-on-surface-variant flex items-start gap-2">
+                <span class="material-symbols-outlined text-primary text-sm">info</span>
+                <div>
+                    <span class="font-bold">¿Cómo usar esta guía?</span>
+                    <br>
+                    1. Sigue los pasos en orden de prioridad (marcados con números)
+                    <br>
+                    2. Aplica el ajuste indicado en el parámetro específico del equipo
+                    <br>
+                    3. Repite la medición para verificar la corrección
+                    <br>
+                    4. Si persiste el error, revisa la calibración general del instrumento
+                </div>
+            </div>
         </div>
 
-        <!-- Botones de Acción -->
+        <!-- Botones -->
         <div class="grid grid-cols-1 gap-3 pt-4 no-print">
             <button class="w-full h-14 bg-surface-container-highest text-primary rounded-xl font-bold border border-primary/20 flex items-center justify-center gap-2 transition-all" onclick="generarPDF()">
                 <span class="material-symbols-outlined">picture_as_pdf</span>
@@ -770,6 +818,7 @@
     let medicionActual = { sph: 0, cyl: 0, ax: 0, k1: 0, k2: 0 };
     let desviosActuales = { sph: 0, cyl: 0, ax: 0, k1: 0, k2: 0 };
     let historial = [];
+    let pasoRecomendacion = 0;
 
     // ============================================
     // FUNCIONES DE UTILIDAD
@@ -794,7 +843,6 @@
 
     function convertirCilindro(sph, cyl, ax, signoDeseado) {
         let resultado = { sph, cyl, ax };
-        
         if (signoDeseado === '+' && cyl < 0) {
             resultado.sph = sph + cyl;
             resultado.cyl = Math.abs(cyl);
@@ -804,7 +852,6 @@
             resultado.cyl = -cyl;
             resultado.ax = normalizarEje(ax - 90);
         }
-        
         return resultado;
     }
 
@@ -833,7 +880,6 @@
     // ============================================
     function nextStep(step) {
         document.querySelectorAll('.step-content').forEach(el => el.classList.remove('active'));
-        
         if (step === 1) {
             document.getElementById('step-1').classList.add('active');
         } else if (step === 2) {
@@ -849,7 +895,6 @@
             document.getElementById('results').classList.add('active');
             actualizarCertificadoConDatos();
         }
-
         updateNavState(step);
         updateStepperUI(step);
         currentStep = step;
@@ -860,12 +905,10 @@
         const btnInput = document.getElementById('nav-input');
         const btnCalibrate = document.getElementById('nav-calibrate');
         const btnMeasure = document.getElementById('nav-measure');
-
         [btnInput, btnCalibrate, btnMeasure].forEach(btn => {
             btn.className = "flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-all duration-150";
             btn.querySelector('.material-symbols-outlined').style.fontVariationSettings = "'FILL' 0";
         });
-
         if (step === 1) {
             btnInput.className = "flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-4 py-1 transition-all duration-150";
             btnInput.querySelector('.material-symbols-outlined').style.fontVariationSettings = "'FILL' 1";
@@ -884,7 +927,6 @@
             const node = document.getElementById(`step-node-${i}`);
             const line = document.getElementById(`step-line-${i}`);
             if(!node) continue;
-            
             if(i <= max) {
                 node.className = "w-8 h-8 rounded-full flex items-center justify-center bg-primary text-on-primary font-bold text-sm";
                 if(line) line.classList.add('active');
@@ -931,7 +973,6 @@
         const index = parseFloat(document.getElementById('config_index').value);
 
         let refConvertida = convertirCilindro(ref_sph, ref_cyl, ref_ax, config_cyl);
-        
         target.sph = redondearA(refConvertida.sph + dsft, incr);
         target.cyl = redondearA(refConvertida.cyl, incr);
         target.ax = refConvertida.ax;
@@ -946,7 +987,6 @@
             target.k2 = redondearA(k2_d, inck);
         }
 
-        // Actualizar UI
         const offsetSph = (target.sph - reference.sph).toFixed(2);
         const offsetCyl = (target.cyl - reference.cyl).toFixed(2);
         
@@ -959,7 +999,6 @@
                 <span class="text-[9px] text-outline font-normal">(${offsetSph >= 0 ? '+' : ''}${offsetSph}D)</span>
             </span>
         `;
-        
         document.getElementById('pred_cyl').innerHTML = `
             <span class="text-on-surface-variant">CYL</span>
             <span>
@@ -969,7 +1008,6 @@
                 <span class="text-[9px] text-outline font-normal">(${offsetCyl >= 0 ? '+' : ''}${offsetCyl}D)</span>
             </span>
         `;
-        
         document.getElementById('pred_ax').innerHTML = `
             <span class="text-on-surface-variant">EJE</span>
             <span>
@@ -1009,20 +1047,296 @@
     }
 
     // ============================================
-    // ACTUALIZAR CERTIFICADO CON DATOS
+    // ACTUALIZAR CERTIFICADO
     // ============================================
     function actualizarCertificadoConDatos() {
         const optica = obtenerDatosOptica();
         const equipo = obtenerDatosEquipo();
-        
         document.getElementById('cert-clinica-nombre').innerText = optica.nombre;
         document.getElementById('cert-clinica-full').innerText = optica.nombre;
         document.getElementById('cert-clinica-rut').innerText = `RUT: ${optica.rut}`;
         document.getElementById('cert-clinica-dir').innerText = optica.direccion;
-        
         document.getElementById('cert-equipo-full').innerText = `${equipo.marca} ${equipo.modelo}`;
         document.getElementById('cert-equipo-serie').innerText = `SN: ${equipo.serie}`;
         document.getElementById('cert-equipo-fechas').innerText = `Cal: ${equipo.ultimaCal} → ${equipo.proxCal}`;
+    }
+
+    // ============================================
+    // GENERAR RECOMENDACIONES ACCIONABLES
+    // ============================================
+    function generarRecomendacionesAccionables(varSph, varCyl, varAx, varK1, varK2, tolerancias, mmd) {
+        pasoRecomendacion = 0;
+        let recomendaciones = [];
+        const sufijoK = mmd === 'mm' ? 'mm' : 'D';
+        const tolSphCyl = tolerancias.sph_cyl;
+        const tolEje = tolerancias.eje;
+        const tolK = mmd === 'mm' ? tolerancias.k_mm : tolerancias.k_d;
+
+        // --- 1. ERROR DE ESFERA (SPH) ---
+        if (Math.abs(varSph) > tolSphCyl) {
+            pasoRecomendacion++;
+            const correccion = (Math.round(varSph / 0.12) * 0.12);
+            const signo = correccion > 0 ? '−' : '+';
+            const valor = Math.abs(correccion).toFixed(2);
+            
+            recomendaciones.push({
+                paso: pasoRecomendacion,
+                prioridad: 'alta',
+                tipo: 'sph',
+                titulo: 'Corrección de Esfera (SPH)',
+                parametro: 'D-SFT (Offset Esférico)',
+                accion: `Ajustar el parámetro D-SFT en ${signo}${valor}D`,
+                detalle: `El desvío es de ${varSph.toFixed(2)}D. Aplicar ${signo}${valor}D compensará el error.`,
+                valorActual: `${varSph.toFixed(2)}D`,
+                valorRecomendado: `${signo}${valor}D`,
+                instrucciones: [
+                    `1. Acceder al menú de configuración del equipo`,
+                    `2. Buscar el parámetro "D-SFT" o "Offset Esférico"`,
+                    `3. Modificar el valor actual en ${signo}${valor}D`,
+                    `4. Guardar cambios y repetir la medición`
+                ]
+            });
+        }
+
+        // --- 2. ERROR DE CILINDRO (CYL) ---
+        if (Math.abs(varCyl) > tolSphCyl) {
+            pasoRecomendacion++;
+            const correccion = (Math.round(varCyl / 0.12) * 0.12);
+            const signo = correccion > 0 ? '−' : '+';
+            const valor = Math.abs(correccion).toFixed(2);
+            
+            recomendaciones.push({
+                paso: pasoRecomendacion,
+                prioridad: 'alta',
+                tipo: 'cyl',
+                titulo: 'Corrección de Cilindro (CYL)',
+                parametro: 'Cyl Offset (Compensación de Cilindro)',
+                accion: `Ajustar el parámetro de compensación de cilindro en ${signo}${valor}D`,
+                detalle: `El desvío es de ${varCyl.toFixed(2)}D. Aplicar ${signo}${valor}D al cilindro.`,
+                valorActual: `${varCyl.toFixed(2)}D`,
+                valorRecomendado: `${signo}${valor}D`,
+                instrucciones: [
+                    `1. Acceder al menú de servicio o calibración`,
+                    `2. Buscar el parámetro "Cyl Offset" o "Compensación de Cilindro"`,
+                    `3. Modificar el valor actual en ${signo}${valor}D`,
+                    `4. Guardar cambios y repetir la medición`
+                ]
+            });
+        }
+
+        // --- 3. ERROR DE EJE (AX) ---
+        if (Math.abs(varAx) > tolEje) {
+            pasoRecomendacion++;
+            const correccion = (Math.round(varAx / 0.5) * 0.5);
+            const signo = correccion > 0 ? '−' : '+';
+            const valor = Math.abs(correccion).toFixed(1);
+            
+            recomendaciones.push({
+                paso: pasoRecomendacion,
+                prioridad: 'media',
+                tipo: 'ax',
+                titulo: 'Corrección de Eje (AX)',
+                parametro: 'Alineación del Sensor / Montura',
+                accion: `Rotar el ojo esquemático o ajustar el sensor en ${signo}${valor}°`,
+                detalle: `El eje rota ${varAx}° fuera de tolerancia (tol ±${tolEje}°).`,
+                valorActual: `${varAx}°`,
+                valorRecomendado: `${signo}${valor}°`,
+                instrucciones: [
+                    `1. Verificar la alineación mecánica del ojo esquemático`,
+                    `2. Aflojar la montura del ojo esquemático`,
+                    `3. Rotar ${signo}${valor}° (${correccion > 0 ? 'sentido antihorario' : 'sentido horario'})`,
+                    `4. Apretar la montura y repetir la medición`
+                ]
+            });
+        }
+
+        // --- 4. ERROR DE QUERATOMETRÍA (K1) ---
+        if (Math.abs(varK1) > tolK) {
+            pasoRecomendacion++;
+            const correccion = (Math.round(varK1 / 0.01) * 0.01);
+            const signo = correccion > 0 ? '−' : '+';
+            const valor = Math.abs(correccion).toFixed(2);
+            
+            recomendaciones.push({
+                paso: pasoRecomendacion,
+                prioridad: 'alta',
+                tipo: 'k1',
+                titulo: 'Corrección de K1 (Queratometría)',
+                parametro: 'Factor de Calibración K1',
+                accion: `Ajustar el factor de calibración de K1 en ${signo}${valor}${sufijoK}`,
+                detalle: `K1 desvía ${varK1.toFixed(2)}${sufijoK} (tol ±${tolK.toFixed(2)}${sufijoK}).`,
+                valorActual: `${varK1.toFixed(2)}${sufijoK}`,
+                valorRecomendado: `${signo}${valor}${sufijoK}`,
+                instrucciones: [
+                    `1. Acceder al menú de calibración de queratometría`,
+                    `2. Buscar el parámetro "K1 Factor" o "R1 Calibration"`,
+                    `3. Modificar el valor en ${signo}${valor}${sufijoK}`,
+                    `4. Guardar y repetir la medición`,
+                    `5. Si el error persiste, limpiar la lentilla con alcohol isopropílico`
+                ]
+            });
+        }
+
+        // --- 5. ERROR DE QUERATOMETRÍA (K2) ---
+        if (Math.abs(varK2) > tolK) {
+            pasoRecomendacion++;
+            const correccion = (Math.round(varK2 / 0.01) * 0.01);
+            const signo = correccion > 0 ? '−' : '+';
+            const valor = Math.abs(correccion).toFixed(2);
+            
+            recomendaciones.push({
+                paso: pasoRecomendacion,
+                prioridad: 'alta',
+                tipo: 'k2',
+                titulo: 'Corrección de K2 (Queratometría)',
+                parametro: 'Factor de Calibración K2',
+                accion: `Ajustar el factor de calibración de K2 en ${signo}${valor}${sufijoK}`,
+                detalle: `K2 desvía ${varK2.toFixed(2)}${sufijoK} (tol ±${tolK.toFixed(2)}${sufijoK}).`,
+                valorActual: `${varK2.toFixed(2)}${sufijoK}`,
+                valorRecomendado: `${signo}${valor}${sufijoK}`,
+                instrucciones: [
+                    `1. Acceder al menú de calibración de queratometría`,
+                    `2. Buscar el parámetro "K2 Factor" o "R2 Calibration"`,
+                    `3. Modificar el valor en ${signo}${valor}${sufijoK}`,
+                    `4. Guardar y repetir la medición`,
+                    `5. Si el error persiste, limpiar la lentilla con alcohol isopropílico`
+                ]
+            });
+        }
+
+        // --- 6. ERROR COMBINADO (SPH + CYL) ---
+        if (Math.abs(varSph) > tolSphCyl && Math.abs(varCyl) > tolSphCyl) {
+            pasoRecomendacion++;
+            const corrSph = (Math.round(varSph / 0.12) * 0.12);
+            const corrCyl = (Math.round(varCyl / 0.12) * 0.12);
+            const signoSph = corrSph > 0 ? '−' : '+';
+            const signoCyl = corrCyl > 0 ? '−' : '+';
+            
+            recomendaciones.push({
+                paso: pasoRecomendacion,
+                prioridad: 'critica',
+                tipo: 'combinado',
+                titulo: '⚠ ERROR COMBINADO - Calibración General',
+                parametro: 'Calibración Completa del Instrumento',
+                accion: `Realizar calibración general: SPH ${signoSph}${Math.abs(corrSph).toFixed(2)}D, CYL ${signoCyl}${Math.abs(corrCyl).toFixed(2)}D`,
+                detalle: `Error combinado en SPH (${varSph.toFixed(2)}D) y CYL (${varCyl.toFixed(2)}D). Se recomienda calibración completa.`,
+                valorActual: `SPH: ${varSph.toFixed(2)}D, CYL: ${varCyl.toFixed(2)}D`,
+                valorRecomendado: `SPH: ${signoSph}${Math.abs(corrSph).toFixed(2)}D, CYL: ${signoCyl}${Math.abs(corrCyl).toFixed(2)}D`,
+                instrucciones: [
+                    `1. Realizar calibración de fábrica del instrumento`,
+                    `2. Usar el joystick y el procedimiento estándar del fabricante`,
+                    `3. Verificar que el ojo esquemático esté limpio y bien posicionado`,
+                    `4. Ejecutar el auto-calibrado del sistema`,
+                    `5. Repetir la medición después de la calibración`
+                ]
+            });
+        }
+
+        // --- 7. ERROR DE QUERATOMETRÍA COMBINADO (K1 + K2) ---
+        if (Math.abs(varK1) > tolK && Math.abs(varK2) > tolK) {
+            pasoRecomendacion++;
+            recomendaciones.push({
+                paso: pasoRecomendacion,
+                prioridad: 'alta',
+                tipo: 'k_ambos',
+                titulo: '⚠ Error de Queratometría en Ambos Ejes',
+                parametro: 'Limpieza y Verificación Óptica',
+                accion: `Limpiar lentilla del ojo esquemático con alcohol isopropílico`,
+                detalle: `K1 desvía ${varK1.toFixed(2)}${sufijoK}, K2 desvía ${varK2.toFixed(2)}${sufijoK}.`,
+                valorActual: `K1: ${varK1.toFixed(2)}${sufijoK}, K2: ${varK2.toFixed(2)}${sufijoK}`,
+                valorRecomendado: `Limpiar y verificar antes de recalibrar`,
+                instrucciones: [
+                    `1. Retirar el ojo esquemático de la montura`,
+                    `2. Limpiar la lentilla con alcohol isopropílico y paño de microfibra`,
+                    `3. Verificar que no haya rayones o suciedad`,
+                    `4. Reinstalar el ojo esquemático correctamente`,
+                    `5. Repetir la medición`
+                ]
+            });
+        }
+
+        return recomendaciones;
+    }
+
+    // ============================================
+    // RENDER RECOMENDACIONES EN UI
+    // ============================================
+    function renderRecomendaciones(recomendaciones) {
+        const contenedor = document.getElementById('contenedorRecomendaciones');
+        contenedor.innerHTML = '';
+
+        if (!recomendaciones || recomendaciones.length === 0) {
+            contenedor.innerHTML = `
+                <div class="recommendation-card bg-surface-container-lowest rounded-xl p-4 flex gap-4 items-center border-l-4 border-l-green-600">
+                    <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center text-green-600">
+                        <span class="material-symbols-outlined">done_all</span>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-sm font-bold text-on-surface">✅ Todos los parámetros están en tolerancia</p>
+                        <p class="text-xs text-on-surface-variant">No se requieren ajustes. El equipo está correctamente calibrado.</p>
+                    </div>
+                </div>
+            `;
+            return;
+        }
+
+        // Ordenar por prioridad: critica > alta > media > baja
+        const prioridadOrden = { 'critica': 0, 'alta': 1, 'media': 2, 'baja': 3 };
+        recomendaciones.sort((a, b) => prioridadOrden[a.prioridad] - prioridadOrden[b.prioridad]);
+
+        recomendaciones.forEach(rec => {
+            const colores = {
+                'critica': { border: 'border-l-red-600', bg: 'bg-red-50', icon: 'error', iconBg: 'bg-red-100', iconColor: 'text-red-600' },
+                'alta': { border: 'border-l-error', bg: 'bg-error-container/10', icon: 'warning', iconBg: 'bg-error-container', iconColor: 'text-error' },
+                'media': { border: 'border-l-amber-500', bg: 'bg-amber-50', icon: 'info', iconBg: 'bg-amber-100', iconColor: 'text-amber-600' },
+                'baja': { border: 'border-l-blue-500', bg: 'bg-blue-50', icon: 'info', iconBg: 'bg-blue-100', iconColor: 'text-blue-600' }
+            };
+            const color = colores[rec.prioridad] || colores.media;
+
+            contenedor.innerHTML += `
+                <div class="recommendation-card ${color.bg} rounded-xl p-4 space-y-2 border-l-4 ${color.border}">
+                    <div class="flex items-start gap-3">
+                        <div class="w-8 h-8 rounded-full ${color.iconBg} flex items-center justify-center ${color.iconColor} flex-shrink-0">
+                            <span class="text-sm font-bold">${rec.paso}</span>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <p class="text-sm font-bold text-on-surface">${rec.titulo}</p>
+                                <span class="text-[8px] px-2 py-0.5 ${color.iconBg} ${color.iconColor} rounded-full font-bold uppercase">${rec.prioridad}</span>
+                            </div>
+                            <p class="text-xs text-on-surface-variant mt-0.5">
+                                <span class="font-medium">Parámetro:</span> ${rec.parametro}
+                            </p>
+                            <p class="text-xs font-medium text-primary mt-1">🔧 ${rec.accion}</p>
+                            <p class="text-xs text-on-surface-variant mt-0.5">${rec.detalle}</p>
+                            
+                            <div class="grid grid-cols-2 gap-2 mt-2 text-xs">
+                                <div class="bg-surface-container rounded p-1.5 text-center">
+                                    <span class="text-outline text-[9px]">Valor Actual</span>
+                                    <br>
+                                    <span class="font-bold text-error">${rec.valorActual}</span>
+                                </div>
+                                <div class="bg-surface-container rounded p-1.5 text-center">
+                                    <span class="text-outline text-[9px]">Valor Recomendado</span>
+                                    <br>
+                                    <span class="font-bold text-green-600">${rec.valorRecomendado}</span>
+                                </div>
+                            </div>
+
+                            <div class="mt-2 bg-surface-container-high rounded p-2">
+                                <p class="text-[9px] font-bold text-on-surface-variant uppercase tracking-wider flex items-center gap-1">
+                                    <span class="material-symbols-outlined text-[14px]">list</span>
+                                    Instrucciones paso a paso:
+                                </p>
+                                <ol class="text-[10px] text-on-surface-variant mt-1 space-y-0.5 list-decimal list-inside">
+                                    ${rec.instrucciones.map(inst => `<li class="pl-1">${inst}</li>`).join('')}
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
     }
 
     // ============================================
@@ -1071,7 +1385,7 @@
 
         let fallo = !checkSph || !checkCyl || !checkAx || !checkK1 || !checkK2;
 
-        // Render tabla
+        // --- TABLA DE RESULTADOS ---
         let cuerpoHTML = '';
         const items = [
             { nombre: 'SPH', ref: reference.sph, target: target.sph, real: m_sph, desvio: varSph, check: checkSph, unidad: 'D', decimals: 2, tol: tolSphCyl },
@@ -1087,7 +1401,6 @@
             const desvioStr = item.desvio >= 0 ? `+${item.desvio.toFixed(item.decimals)}` : item.desvio.toFixed(item.decimals);
             const rowClass = item.check ? 'table-row-ok' : 'table-row-error';
             const tolStr = `±${item.tol.toFixed(item.decimals)}${item.unidad}`;
-            
             cuerpoHTML += `
                 <tr class="border-b border-outline-variant/30 ${rowClass}">
                     <td class="py-2 font-bold">${item.nombre}</td>
@@ -1102,11 +1415,10 @@
         });
         document.getElementById('tablaResultadosCuerpo').innerHTML = cuerpoHTML;
 
-        // Badge de estado
+        // --- BADGE DE ESTADO ---
         const badge = document.getElementById('statusBadgeContainer');
         const statusIcon = document.getElementById('statusIcon');
         const statusText = document.getElementById('statusText');
-        
         if(!fallo) {
             badge.className = "rounded-xl p-4 text-center text-white font-bold tracking-wide text-sm bg-green-600 diagnostic-status";
             statusIcon.innerText = 'verified';
@@ -1115,100 +1427,30 @@
         } else {
             badge.className = "rounded-xl p-4 text-center text-white font-bold tracking-wide text-sm bg-red-600 diagnostic-status";
             statusIcon.innerText = 'warning';
-            statusText.innerText = '⚠ REQUIERE CALIBRACIÓN';
+            statusText.innerText = '⚠ REQUIERE AJUSTES - Ver guía abajo';
             document.getElementById('res-icon').className = "material-symbols-outlined text-red-400 text-3xl";
         }
 
+        // --- RESUMEN ---
         document.getElementById('res-final-power').innerHTML = `${m_sph.toFixed(2)} ${m_cyl >= 0 ? '+' : ''}${m_cyl.toFixed(2)} x ${m_ax}°`;
         document.getElementById('res-sph-deviation').innerText = `${varSph >= 0 ? '+' : ''}${varSph.toFixed(2)}D (tol ±${tolSphCyl.toFixed(2)}D)`;
         document.getElementById('res-cyl-deviation').innerText = `${varCyl >= 0 ? '+' : ''}${varCyl.toFixed(2)}D (tol ±${tolSphCyl.toFixed(2)}D)`;
 
-        // Actualizar certificado
+        // --- CERTIFICADO ---
         document.getElementById('cert-date').innerText = new Date().toLocaleDateString('es-ES');
         document.getElementById('cert-tech-name').innerText = document.getElementById('tech-name').value || "Técnico de Laboratorio";
-        
         document.getElementById('cert-tol-sph').innerText = tolSphCyl.toFixed(2);
         document.getElementById('cert-tol-eje').innerText = tolEje.toFixed(1);
         document.getElementById('cert-tol-k').innerText = tolK.toFixed(2);
-
         document.getElementById('cert-status-label').innerHTML = 
             fallo ? `❌ FUERA DE TOLERANCIA | Desvío SPH: ${varSph.toFixed(2)}D` :
             `✅ Verificado en tolerancias | Desvío SPH: ${varSph.toFixed(2)}D`;
 
-        // Recomendaciones
-        const contenedorRecs = document.getElementById('contenedorRecomendaciones');
-        contenedorRecs.innerHTML = "";
+        // --- RECOMENDACIONES ACCIONABLES ---
+        const recomendaciones = generarRecomendacionesAccionables(varSph, varCyl, varAx, varK1, varK2, tolerancias, mmd);
+        renderRecomendaciones(recomendaciones);
 
-        if(!fallo) {
-            contenedorRecs.innerHTML = `
-                <div class="recommendation-card diagnostic-card bg-surface-container-lowest rounded-xl p-4 flex gap-4 items-center border-l-4 border-l-green-600">
-                    <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center text-green-600">
-                        <span class="material-symbols-outlined">done_all</span>
-                    </div>
-                    <div class="flex-1">
-                        <p class="text-sm font-bold text-on-surface">✅ Calibración Exitosa</p>
-                        <p class="text-xs text-on-surface-variant">
-                            Todos los parámetros están dentro de tolerancia. El equipo está listo para uso clínico.
-                        </p>
-                    </div>
-                </div>
-            `;
-        } else {
-            if (Math.abs(varSph) > tolSphCyl) {
-                contenedorRecs.innerHTML += `
-                    <div class="recommendation-card diagnostic-card bg-surface-container-lowest rounded-xl p-4 flex gap-4 items-center border-l-4 border-l-error">
-                        <div class="w-12 h-12 rounded-full bg-error-container flex items-center justify-center text-error">
-                            <span class="material-symbols-outlined">calibrate</span>
-                        </div>
-                        <div class="flex-1">
-                            <p class="text-sm font-bold text-on-surface">Error Esférico</p>
-                            <p class="text-xs text-on-surface-variant">Desvío de <b>${varSph.toFixed(2)}D</b>. Ajuste D-SFT.</p>
-                        </div>
-                    </div>
-                `;
-            }
-            if (Math.abs(varCyl) > tolSphCyl) {
-                contenedorRecs.innerHTML += `
-                    <div class="recommendation-card diagnostic-card bg-surface-container-lowest rounded-xl p-4 flex gap-4 items-center border-l-4 border-l-amber-500">
-                        <div class="w-12 h-12 rounded-full bg-amber-100 flex items-center justify-center text-amber-600">
-                            <span class="material-symbols-outlined">sync</span>
-                        </div>
-                        <div class="flex-1">
-                            <p class="text-sm font-bold text-on-surface">Error Cilíndrico</p>
-                            <p class="text-xs text-on-surface-variant">Desvío de <b>${varCyl.toFixed(2)}D</b>. Revise calibración de cilindro.</p>
-                        </div>
-                    </div>
-                `;
-            }
-            if (Math.abs(varAx) > tolEje) {
-                contenedorRecs.innerHTML += `
-                    <div class="recommendation-card diagnostic-card bg-surface-container-lowest rounded-xl p-4 flex gap-4 items-center border-l-4 border-l-amber-500">
-                        <div class="w-12 h-12 rounded-full bg-amber-100 flex items-center justify-center text-amber-600">
-                            <span class="material-symbols-outlined">autorenew</span>
-                        </div>
-                        <div class="flex-1">
-                            <p class="text-sm font-bold text-on-surface">Error de Eje</p>
-                            <p class="text-xs text-on-surface-variant">Rotación de <b>${varAx}°</b>. Revise alineación.</p>
-                        </div>
-                    </div>
-                `;
-            }
-            if (Math.abs(varK1) > tolK || Math.abs(varK2) > tolK) {
-                contenedorRecs.innerHTML += `
-                    <div class="recommendation-card diagnostic-card bg-surface-container-lowest rounded-xl p-4 flex gap-4 items-center border-l-4 border-l-error">
-                        <div class="w-12 h-12 rounded-full bg-error-container flex items-center justify-center text-error">
-                            <span class="material-symbols-outlined">warning</span>
-                        </div>
-                        <div class="flex-1">
-                            <p class="text-sm font-bold text-on-surface">Error de Queratometría</p>
-                            <p class="text-xs text-on-surface-variant">Radios fuera de tolerancia. Limpie la lentilla.</p>
-                        </div>
-                    </div>
-                `;
-            }
-        }
-
-        // Historial
+        // --- HISTORIAL ---
         historial.push({
             fecha: new Date().toISOString(),
             optica: obtenerDatosOptica(),
@@ -1218,7 +1460,8 @@
             medicion: { ...medicionActual },
             desvios: { ...desviosActuales },
             estado: fallo ? 'FALLO' : 'OK',
-            tolerancias: { ...tolerancias }
+            tolerancias: { ...tolerancias },
+            recomendaciones: recomendaciones
         });
 
         document.getElementById('historial-count').innerText = historial.length;
@@ -1232,6 +1475,7 @@
     async function generarPDF() {
         const overlay = document.getElementById('loading-overlay');
         const loadingText = document.getElementById('loading-text');
+        if (!overlay) return;
         
         overlay.classList.remove('hidden');
         loadingText.innerText = 'Generando PDF...';
@@ -1244,16 +1488,13 @@
                 useCORS: true,
                 logging: false
             });
-            
             const imgData = canvas.toDataURL('image/png');
             const { jsPDF } = window.jspdf;
             const pdf = new jsPDF('p', 'mm', 'a4');
             const pdfWidth = 210;
             const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-            
             pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
             pdf.save('Certificado_Calibracion_Opticas_GM.pdf');
-            
             overlay.classList.add('hidden');
         } catch (error) {
             console.error('Error al generar PDF:', error);
@@ -1263,15 +1504,10 @@
     }
 
     // ============================================
-    // IMPRIMIR CERTIFICADO
+    // IMPRIMIR
     // ============================================
     function imprimirCertificado() {
-        const originalTitle = document.title;
-        document.title = 'Certificado de Calibración - Ópticas GM';
-        
         window.print();
-        
-        document.title = originalTitle;
     }
 
     // ============================================
@@ -1287,11 +1523,9 @@
         document.getElementById('tablaResultadosCuerpo').innerHTML = '';
         document.getElementById('contenedorRecomendaciones').innerHTML = '';
         document.getElementById('res-final-power').innerHTML = '--';
-        
         document.getElementById('statusBadgeContainer').className = "rounded-xl p-4 text-center text-white font-bold tracking-wide text-sm bg-gray-500 diagnostic-status";
         document.getElementById('statusIcon').innerText = 'pending';
         document.getElementById('statusText').innerText = 'Esperando datos...';
-        
         nextStep(1);
     }
 
@@ -1318,7 +1552,7 @@
 
     document.addEventListener('DOMContentLoaded', () => {
         calcularTarget();
-        // Valores por defecto para el ejemplo
+        // Valores de ejemplo
         document.getElementById('obs-sph').value = '-2.25';
         document.getElementById('obs-cyl').value = '-1.75';
         document.getElementById('obs-ax').value = '89';
