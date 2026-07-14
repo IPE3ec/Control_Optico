@@ -1,0 +1,1330 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+    <title>LensCalibrate Pro | Ópticas GM</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=Inter:wght@400;500&amp;family=Geist:wght@500;600&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <!-- Librerías para PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-container": "#0052ff",
+                        "primary": "#003ec7",
+                        "outline-variant": "#c3c5d9",
+                        "on-primary-container": "#dfe3ff",
+                        "on-tertiary-fixed-variant": "#004e60",
+                        "on-primary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "secondary-fixed-dim": "#b9c7e4",
+                        "on-tertiary-fixed": "#001f28",
+                        "secondary": "#515f78",
+                        "on-error-container": "#93000a",
+                        "primary-fixed-dim": "#b7c4ff",
+                        "primary-fixed": "#dde1ff",
+                        "surface-container-low": "#eff4ff",
+                        "background": "#f8f9ff",
+                        "surface-tint": "#004ced",
+                        "on-primary-fixed": "#001452",
+                        "surface-container-high": "#dce9ff",
+                        "surface-container-highest": "#d3e4fe",
+                        "surface-bright": "#f8f9ff",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "on-tertiary-container": "#bcecff",
+                        "outline": "#737688",
+                        "error-container": "#ffdad6",
+                        "tertiary-fixed": "#b7eaff",
+                        "tertiary-container": "#006f89",
+                        "surface-variant": "#d3e4fe",
+                        "on-secondary-fixed": "#0d1c32",
+                        "surface": "#f8f9ff",
+                        "surface-dim": "#cbdbf5",
+                        "inverse-surface": "#213145",
+                        "tertiary": "#005569",
+                        "on-secondary-container": "#55637d",
+                        "inverse-on-surface": "#eaf1ff",
+                        "surface-container": "#e5eeff",
+                        "surface-container-lowest": "#ffffff",
+                        "inverse-primary": "#b7c4ff",
+                        "on-primary-fixed-variant": "#0038b6",
+                        "on-secondary-fixed-variant": "#39475f",
+                        "on-surface": "#0b1c30",
+                        "on-surface-variant": "#434656",
+                        "on-error": "#ffffff",
+                        "secondary-fixed": "#d6e3ff",
+                        "secondary-container": "#d2e0fe",
+                        "tertiary-fixed-dim": "#4cd6ff",
+                        "on-background": "#0b1c30"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "stack-md": "1rem",
+                        "stack-lg": "2rem",
+                        "margin-desktop": "2rem",
+                        "stack-sm": "0.5rem",
+                        "margin-mobile": "1rem",
+                        "gutter": "1rem"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Hanken Grotesk"],
+                        "label-caps": ["Geist"],
+                        "data-mono": ["Geist"],
+                        "body-lg": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "headline-lg-mobile": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "data-mono": ["15px", {"lineHeight": "20px", "letterSpacing": "-0.01em", "fontWeight": "500"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .step-content { display: none; }
+        .step-content.active { display: block; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        .diagnostic-card {
+            border: 1px solid #c3c5d9;
+            transition: all 0.2s ease;
+        }
+        .diagnostic-card:focus-within {
+            border: 2px solid #0052ff;
+            box-shadow: 0 4px 12px rgba(0, 82, 255, 0.1);
+        }
+        
+        .stepper-line {
+            height: 2px;
+            background: #c3c5d9;
+            flex-grow: 1;
+            margin: 0 8px;
+        }
+        .stepper-line.active {
+            background: #0052ff;
+        }
+
+        @keyframes spin-slow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .animate-spin-slow {
+            animation: spin-slow 2s linear infinite;
+        }
+
+        .certificate-container {
+            background-image: radial-gradient(circle at 2px 2px, #c3c5d9 1px, transparent 0);
+            background-size: 24px 24px;
+        }
+        body {
+            min-height: max(884px, 100dvh);
+        }
+
+        .diagnostic-status {
+            transition: all 0.3s ease;
+        }
+
+        .recommendation-card {
+            transition: all 0.2s ease;
+        }
+        .recommendation-card:hover {
+            transform: translateX(4px);
+        }
+
+        @keyframes pulse-badge {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        .badge-pulse {
+            animation: pulse-badge 1.5s ease-in-out infinite;
+        }
+
+        .table-row-ok {
+            background: rgba(34, 197, 94, 0.05);
+        }
+        .table-row-error {
+            background: rgba(239, 68, 68, 0.05);
+        }
+        .table-row-warning {
+            background: rgba(234, 179, 8, 0.05);
+        }
+
+        .smooth-scroll {
+            scroll-behavior: smooth;
+        }
+
+        .concept-badge {
+            font-size: 8px;
+            padding: 1px 8px;
+            border-radius: 9999px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .concept-badge-ref {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+        .concept-badge-target {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        .concept-badge-meas {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        /* Estilo para impresión PDF */
+        @media print {
+            .no-print { display: none !important; }
+            .print-only { display: block !important; }
+            .certificate-container {
+                border: 2px solid #000 !important;
+                background: white !important;
+            }
+        }
+        .print-only { display: none; }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-lg antialiased min-h-screen flex flex-col pb-20 smooth-scroll">
+
+<!-- Top App Bar -->
+<header class="w-full top-0 sticky z-50 bg-surface border-b border-outline-variant flex justify-between items-center px-margin-mobile h-16 no-print">
+    <div class="flex items-center gap-2">
+        <span class="material-symbols-outlined text-primary text-[28px]" style="font-variation-settings: 'FILL' 1;">precision_manufacturing</span>
+        <h1 class="font-headline-md text-headline-md font-bold text-primary">Ópticas GM</h1>
+        <span class="ml-2 px-2 py-0.5 bg-tertiary-container text-on-tertiary-container text-[8px] font-bold rounded-full uppercase tracking-wider">v4.0</span>
+    </div>
+    <div class="flex items-center gap-4">
+        <button class="material-symbols-outlined text-on-surface-variant hover:bg-surface-container-low transition-colors p-2 rounded-full">account_circle</button>
+    </div>
+</header>
+
+<!-- Main Canvas -->
+<main class="flex-grow w-full max-w-md mx-auto px-margin-mobile py-stack-md">
+    
+    <!-- Progress Stepper -->
+    <nav class="flex items-center justify-between mb-stack-lg px-2 no-print">
+        <div class="w-8 h-8 rounded-full flex items-center justify-center bg-primary text-on-primary font-bold text-sm" id="step-node-1">1</div>
+        <div class="stepper-line" id="step-line-1"></div>
+        <div class="w-8 h-8 rounded-full flex items-center justify-center bg-surface-container-high text-on-surface-variant font-bold text-sm" id="step-node-2">2</div>
+        <div class="stepper-line" id="step-line-2"></div>
+        <div class="w-8 h-8 rounded-full flex items-center justify-center bg-surface-container-high text-on-surface-variant font-bold text-sm" id="step-node-3">3</div>
+    </nav>
+
+    <!-- ============================================ -->
+    <!-- STEP 1: REFERENCIA + DATOS ÓPTICA           -->
+    <!-- ============================================ -->
+    <section class="step-content active space-y-stack-md" id="step-1">
+        <div class="flex flex-col gap-1">
+            <h2 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface">Referencia del Ojo Esquemático</h2>
+            <p class="text-body-sm text-on-surface-variant">Ingrese los valores <strong>reales</strong> del ojo esquemático y los datos de la óptica.</p>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- DATOS DE LA ÓPTICA (NUEVO)                 -->
+        <!-- ========================================== -->
+        <div class="diagnostic-card bg-surface-container-lowest rounded-xl p-4 space-y-3 border-2 border-primary/20">
+            <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary">storefront</span>
+                <h3 class="font-label-caps text-label-caps text-primary uppercase tracking-wider">Datos de la Óptica</h3>
+                <span class="ml-auto text-[8px] px-2 py-0.5 bg-primary-container text-on-primary-container rounded-full">Obligatorio</span>
+            </div>
+            <p class="text-[10px] text-on-surface-variant">Estos datos aparecerán en el certificado de calibración.</p>
+            
+            <div class="grid grid-cols-2 gap-2">
+                <div class="flex flex-col gap-0.5 col-span-2">
+                    <label class="font-label-caps text-label-caps text-outline uppercase text-[8px]">Nombre de la Óptica</label>
+                    <input class="w-full bg-surface-container border-none rounded h-9 px-3 font-body-sm text-sm" id="clinica-nombre" placeholder="Ópticas GM" type="text" value="Ópticas GM"/>
+                </div>
+                <div class="flex flex-col gap-0.5">
+                    <label class="font-label-caps text-label-caps text-outline uppercase text-[8px]">RUT / NIT</label>
+                    <input class="w-full bg-surface-container border-none rounded h-9 px-3 font-body-sm text-sm" id="clinica-rut" placeholder="12.345.678-9" type="text" value="76.123.456-7"/>
+                </div>
+                <div class="flex flex-col gap-0.5">
+                    <label class="font-label-caps text-label-caps text-outline uppercase text-[8px]">Teléfono</label>
+                    <input class="w-full bg-surface-container border-none rounded h-9 px-3 font-body-sm text-sm" id="clinica-telefono" placeholder="+56 2 1234 5678" type="text" value="+56 2 1234 5678"/>
+                </div>
+                <div class="flex flex-col gap-0.5 col-span-2">
+                    <label class="font-label-caps text-label-caps text-outline uppercase text-[8px]">Dirección</label>
+                    <input class="w-full bg-surface-container border-none rounded h-9 px-3 font-body-sm text-sm" id="clinica-direccion" placeholder="Av. Principal 123, Santiago" type="text" value="Av. Providencia 1234, Santiago"/>
+                </div>
+                <div class="flex flex-col gap-0.5 col-span-2">
+                    <label class="font-label-caps text-label-caps text-outline uppercase text-[8px]">Email</label>
+                    <input class="w-full bg-surface-container border-none rounded h-9 px-3 font-body-sm text-sm" id="clinica-email" placeholder="contacto@opticagm.cl" type="email" value="contacto@opticagm.cl"/>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Panel de Tolerancias -->
+        <div class="diagnostic-card bg-primary-container/5 rounded-xl p-4 space-y-3 border-2 border-primary/30">
+            <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary">rule_settings</span>
+                <h3 class="font-label-caps text-label-caps text-primary uppercase tracking-wider">Tolerancias de Calibración</h3>
+                <span class="ml-auto text-[8px] px-2 py-0.5 bg-primary-container text-on-primary-container rounded-full">Ajustable</span>
+            </div>
+            
+            <div class="grid grid-cols-2 gap-2">
+                <div class="flex flex-col gap-0.5">
+                    <label class="font-label-caps text-label-caps text-outline uppercase text-[8px]">SPH / CYL</label>
+                    <div class="flex items-center bg-surface-container rounded px-2 h-8">
+                        <input class="bg-transparent border-none focus:ring-0 w-full font-data-mono text-data-mono text-primary text-center" id="tol-sph-cyl" step="0.01" type="number" value="0.25" min="0.01" max="1.00"/>
+                        <span class="text-[9px] text-outline">D</span>
+                    </div>
+                </div>
+                <div class="flex flex-col gap-0.5">
+                    <label class="font-label-caps text-label-caps text-outline uppercase text-[8px]">EJE</label>
+                    <div class="flex items-center bg-surface-container rounded px-2 h-8">
+                        <input class="bg-transparent border-none focus:ring-0 w-full font-data-mono text-data-mono text-primary text-center" id="tol-eje" step="0.5" type="number" value="3" min="0.5" max="10"/>
+                        <span class="text-[9px] text-outline">°</span>
+                    </div>
+                </div>
+                <div class="flex flex-col gap-0.5">
+                    <label class="font-label-caps text-label-caps text-outline uppercase text-[8px]">K (mm)</label>
+                    <div class="flex items-center bg-surface-container rounded px-2 h-8">
+                        <input class="bg-transparent border-none focus:ring-0 w-full font-data-mono text-data-mono text-primary text-center" id="tol-k-mm" step="0.01" type="number" value="0.50" min="0.01" max="1.00"/>
+                        <span class="text-[9px] text-outline">mm</span>
+                    </div>
+                </div>
+                <div class="flex flex-col gap-0.5">
+                    <label class="font-label-caps text-label-caps text-outline uppercase text-[8px]">K (D)</label>
+                    <div class="flex items-center bg-surface-container rounded px-2 h-8">
+                        <input class="bg-transparent border-none focus:ring-0 w-full font-data-mono text-data-mono text-primary text-center" id="tol-k-d" step="0.01" type="number" value="0.37" min="0.01" max="1.00"/>
+                        <span class="text-[9px] text-outline">D</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- REFERENCIA DEL OJO ESQUEMÁTICO -->
+        <div class="diagnostic-card bg-surface-container-lowest rounded-xl p-4 space-y-4 border-2 border-primary/20">
+            <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary">verified</span>
+                <h3 class="font-label-caps text-label-caps text-primary uppercase tracking-wider">Valores de Referencia</h3>
+                <span class="ml-auto concept-badge concept-badge-ref">CERTIFICADO</span>
+            </div>
+            <p class="text-xs text-on-surface-variant">Valores <strong>reales</strong> del ojo esquemático según su certificado.</p>
+            
+            <div class="grid grid-cols-3 gap-3">
+                <div class="flex flex-col gap-1">
+                    <label class="font-label-caps text-label-caps text-outline uppercase text-[9px]">SPH</label>
+                    <div class="flex items-center bg-surface-container rounded px-2 h-10 border border-primary/10">
+                        <input class="bg-transparent border-none focus:ring-0 w-full font-data-mono text-data-mono text-center text-primary" id="ref-sph" step="0.01" type="number" value="-2.25"/>
+                        <span class="text-[10px] text-outline">D</span>
+                    </div>
+                </div>
+                <div class="flex flex-col gap-1">
+                    <label class="font-label-caps text-label-caps text-outline uppercase text-[9px]">CYL</label>
+                    <div class="flex items-center bg-surface-container rounded px-2 h-10 border border-primary/10">
+                        <input class="bg-transparent border-none focus:ring-0 w-full font-data-mono text-data-mono text-center text-primary" id="ref-cyl" step="0.01" type="number" value="-1.75"/>
+                        <span class="text-[10px] text-outline">D</span>
+                    </div>
+                </div>
+                <div class="flex flex-col gap-1">
+                    <label class="font-label-caps text-label-caps text-outline uppercase text-[9px]">EJE</label>
+                    <div class="flex items-center bg-surface-container rounded px-2 h-10 border border-primary/10">
+                        <input class="bg-transparent border-none focus:ring-0 w-full font-data-mono text-data-mono text-center text-primary" id="ref-ax" step="1" type="number" min="0" max="180" value="89"/>
+                        <span class="text-[10px] text-outline">°</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-2 gap-3">
+                <div class="flex flex-col gap-1">
+                    <label class="font-label-caps text-label-caps text-outline uppercase text-[9px]">R1 (mm)</label>
+                    <div class="flex items-center bg-surface-container rounded px-2 h-10 border border-primary/10">
+                        <input class="bg-transparent border-none focus:ring-0 w-full font-data-mono text-data-mono text-center text-primary" id="ref-k1" step="0.01" type="number" min="5" max="12" value="8.05"/>
+                        <span class="text-[10px] text-outline">mm</span>
+                    </div>
+                </div>
+                <div class="flex flex-col gap-1">
+                    <label class="font-label-caps text-label-caps text-outline uppercase text-[9px]">R2 (mm)</label>
+                    <div class="flex items-center bg-surface-container rounded px-2 h-10 border border-primary/10">
+                        <input class="bg-transparent border-none focus:ring-0 w-full font-data-mono text-data-mono text-center text-primary" id="ref-k2" step="0.01" type="number" min="5" max="12" value="7.85"/>
+                        <span class="text-[10px] text-outline">mm</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <button class="w-full h-14 bg-primary text-on-primary rounded-full font-bold shadow-lg active:scale-95 transition-transform flex items-center justify-center gap-2 no-print" onclick="nextStep(2)">
+            Configurar Equipo
+            <span class="material-symbols-outlined">arrow_forward</span>
+        </button>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- STEP 2: EQUIPMENT SETUP + DATOS EQUIPO      -->
+    <!-- ============================================ -->
+    <section class="step-content space-y-stack-md" id="step-2">
+        <div class="flex flex-col gap-1">
+            <h2 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface">Setup del Equipo</h2>
+            <p class="text-body-sm text-on-surface-variant">Configure el equipo e ingrese sus datos de identificación.</p>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- DATOS DEL EQUIPO (NUEVO)                   -->
+        <!-- ========================================== -->
+        <div class="diagnostic-card bg-surface-container-lowest rounded-xl p-4 space-y-3 border-2 border-primary/20">
+            <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary">precision_manufacturing</span>
+                <h3 class="font-label-caps text-label-caps text-primary uppercase tracking-wider">Datos del Equipo</h3>
+                <span class="ml-auto text-[8px] px-2 py-0.5 bg-primary-container text-on-primary-container rounded-full">Obligatorio</span>
+            </div>
+            <p class="text-[10px] text-on-surface-variant">Estos datos identifican el instrumento calibrado.</p>
+            
+            <div class="grid grid-cols-2 gap-2">
+                <div class="flex flex-col gap-0.5 col-span-2">
+                    <label class="font-label-caps text-label-caps text-outline uppercase text-[8px]">Marca / Fabricante</label>
+                    <input class="w-full bg-surface-container border-none rounded h-9 px-3 font-body-sm text-sm" id="equipo-marca" placeholder="Topcon" type="text" value="Topcon"/>
+                </div>
+                <div class="flex flex-col gap-0.5">
+                    <label class="font-label-caps text-label-caps text-outline uppercase text-[8px]">Modelo</label>
+                    <input class="w-full bg-surface-container border-none rounded h-9 px-3 font-body-sm text-sm" id="equipo-modelo" placeholder="KR-1" type="text" value="KR-1"/>
+                </div>
+                <div class="flex flex-col gap-0.5">
+                    <label class="font-label-caps text-label-caps text-outline uppercase text-[8px]">N° Serie</label>
+                    <input class="w-full bg-surface-container border-none rounded h-9 px-3 font-body-sm text-sm" id="equipo-serie" placeholder="SN-2024-001" type="text" value="SN-2026-001"/>
+                </div>
+                <div class="flex flex-col gap-0.5">
+                    <label class="font-label-caps text-label-caps text-outline uppercase text-[8px]">Última Calibración</label>
+                    <input class="w-full bg-surface-container border-none rounded h-9 px-3 font-body-sm text-sm" id="equipo-ultima-cal" placeholder="2024-01-15" type="date" value="2025-12-01"/>
+                </div>
+                <div class="flex flex-col gap-0.5">
+                    <label class="font-label-caps text-label-caps text-outline uppercase text-[8px]">Próxima Calibración</label>
+                    <input class="w-full bg-surface-container border-none rounded h-9 px-3 font-body-sm text-sm" id="equipo-prox-cal" placeholder="2025-01-15" type="date" value="2026-12-01"/>
+                </div>
+            </div>
+        </div>
+        
+        <div class="diagnostic-card bg-surface-container-lowest rounded-xl p-4 space-y-4">
+            <div class="flex items-center justify-between">
+                <div class="flex flex-col">
+                    <span class="font-label-caps text-label-caps text-outline uppercase">Distancia al Vértice (VD)</span>
+                    <span class="text-headline-md font-data-mono text-primary" id="vd-display">12.0 mm</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center active:bg-primary-fixed" onclick="adjustVD(-0.5)">-</button>
+                    <button class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center active:bg-primary-fixed" onclick="adjustVD(0.5)">+</button>
+                </div>
+            </div>
+            <input class="w-full accent-primary" id="vd-range" max="20" min="0" oninput="updateVD(this.value)" step="0.5" type="range" value="12"/>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+            <div class="diagnostic-card bg-surface-container-lowest rounded-xl p-4">
+                <label class="font-label-caps text-label-caps text-outline uppercase block mb-2">Signo CYL</label>
+                <select class="w-full bg-surface-container border-none rounded h-10 font-data-mono text-sm" id="cyl-sign" onchange="calcularTarget()">
+                    <option value="-">(-) Menos</option>
+                    <option value="+">(+) Más</option>
+                </select>
+            </div>
+            <div class="diagnostic-card bg-surface-container-lowest rounded-xl p-4">
+                <label class="font-label-caps text-label-caps text-outline uppercase block mb-2">Paso SPH/CYL</label>
+                <select class="w-full bg-surface-container border-none rounded h-10 font-data-mono text-sm" id="step-inc" onchange="calcularTarget()">
+                    <option value="0.25">0.25 D</option>
+                    <option value="0.12">0.12 D</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+            <div class="diagnostic-card bg-surface-container-lowest rounded-xl p-4">
+                <label class="font-label-caps text-label-caps text-outline uppercase block mb-2">D-SFT (Offset)</label>
+                <select class="w-full bg-surface-container border-none rounded h-10 font-data-mono text-sm" id="config_dsft" onchange="calcularTarget()">
+                    <option value="0.00">0.00</option>
+                    <option value="0.12">0.12</option>
+                    <option value="0.25">0.25</option>
+                    <option value="-0.12">-0.12</option>
+                    <option value="-0.25">-0.25</option>
+                </select>
+            </div>
+            <div class="diagnostic-card bg-surface-container-lowest rounded-xl p-4">
+                <label class="font-label-caps text-label-caps text-outline uppercase block mb-2">Modo Córnea</label>
+                <select class="w-full bg-surface-container border-none rounded h-10 font-data-mono text-sm" id="config_mmd" onchange="calcularTarget()">
+                    <option value="mm">mm (Radio)</option>
+                    <option value="D">D (Potencia)</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+            <div class="diagnostic-card bg-surface-container-lowest rounded-xl p-4">
+                <label class="font-label-caps text-label-caps text-outline uppercase block mb-2">Paso K</label>
+                <select class="w-full bg-surface-container border-none rounded h-10 font-data-mono text-sm" id="config_inck" onchange="calcularTarget()">
+                    <option value="0.05">0.05</option>
+                    <option value="0.12">0.12</option>
+                </select>
+            </div>
+            <div class="diagnostic-card bg-surface-container-lowest rounded-xl p-4">
+                <label class="font-label-caps text-label-caps text-outline uppercase block mb-2">INDEX Ref.</label>
+                <select class="w-full bg-surface-container border-none rounded h-10 font-data-mono text-sm" id="config_index" onchange="calcularTarget()">
+                    <option value="1.3375">1.3375</option>
+                    <option value="1.336">1.336</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Panel de TARGET -->
+        <div class="p-4 bg-surface-container rounded-xl border border-primary/20 space-y-3">
+            <div class="flex items-center justify-between">
+                <h4 class="text-xs font-bold text-primary uppercase tracking-wider">🎯 Target de Configuración</h4>
+                <span class="px-2 py-0.5 text-[8px] font-bold bg-primary-container text-on-primary-container rounded-full badge-pulse">Live</span>
+                <span class="concept-badge concept-badge-target">ESPERADO</span>
+            </div>
+            <p class="text-[9px] text-on-surface-variant">Lo que el equipo DEBERÍA medir según la configuración</p>
+            
+            <div class="grid grid-cols-1 gap-1 text-xs font-data-mono">
+                <div class="p-2 bg-surface-container-lowest rounded flex justify-between items-center" id="pred_sph">
+                    <span class="text-on-surface-variant">SPH</span>
+                    <span class="font-bold text-primary">--</span>
+                </div>
+                <div class="p-2 bg-surface-container-lowest rounded flex justify-between items-center" id="pred_cyl">
+                    <span class="text-on-surface-variant">CYL</span>
+                    <span class="font-bold text-primary">--</span>
+                </div>
+                <div class="p-2 bg-surface-container-lowest rounded flex justify-between items-center" id="pred_ax">
+                    <span class="text-on-surface-variant">EJE</span>
+                    <span class="font-bold text-primary">--</span>
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-1 text-xs font-data-mono border-t border-outline-variant/30 pt-2">
+                <div class="p-2 bg-surface-container-lowest rounded flex justify-between items-center" id="pred_k1">
+                    <span class="text-on-surface-variant">K1</span>
+                    <span class="font-bold text-primary">--</span>
+                </div>
+                <div class="p-2 bg-surface-container-lowest rounded flex justify-between items-center" id="pred_k2">
+                    <span class="text-on-surface-variant">K2</span>
+                    <span class="font-bold text-primary">--</span>
+                </div>
+            </div>
+            
+            <div class="text-[8px] text-outline border-t border-outline-variant/30 pt-2 mt-1 flex justify-between items-center">
+                <span>📌 Referencia: <span id="ref-display-sph">--</span>D / <span id="ref-display-cyl">--</span>D × <span id="ref-display-ax">--</span>°</span>
+                <span>🔧 Offset: <span id="offset-display">0.00</span>D</span>
+            </div>
+        </div>
+
+        <div class="flex gap-3 no-print">
+            <button class="flex-1 h-14 bg-surface-container-high text-on-surface-variant rounded-full font-bold" onclick="nextStep(1)">Volver</button>
+            <button class="flex-[2] h-14 bg-primary text-on-primary rounded-full font-bold shadow-lg flex items-center justify-center gap-2" onclick="nextStep(3)">
+                Ingresar Medidas
+                <span class="material-symbols-outlined">analytics</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- STEP 3: ACTUAL MEASUREMENTS                 -->
+    <!-- ============================================ -->
+    <section class="step-content space-y-stack-md" id="step-3">
+        <div class="flex flex-col gap-1">
+            <h2 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface">Medición Actual</h2>
+            <p class="text-body-sm text-on-surface-variant">Ingrese las lecturas <strong>reales</strong> que imprime el equipo.</p>
+        </div>
+        
+        <div class="diagnostic-card bg-surface-container-lowest rounded-xl p-4 space-y-6 border-2 border-amber-500/30">
+            <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-amber-500">sensors</span>
+                <span class="concept-badge concept-badge-meas">MEDIDO</span>
+                <span class="text-[9px] text-on-surface-variant">Valores leídos del instrumento</span>
+            </div>
+            
+            <div class="relative py-4 border-b border-outline-variant/30">
+                <div class="absolute -top-3 left-2 px-2 bg-surface-container-lowest text-[10px] font-bold text-primary tracking-widest uppercase">Refracción Observada</div>
+                <div class="grid grid-cols-3 gap-4">
+                    <div class="text-center">
+                        <span class="block text-[10px] text-outline mb-1">SPH</span>
+                        <input class="w-full text-center bg-surface-container border-none rounded h-10 font-data-mono" id="obs-sph" placeholder="-2.25" step="0.01" type="number"/>
+                    </div>
+                    <div class="text-center">
+                        <span class="block text-[10px] text-outline mb-1">CYL</span>
+                        <input class="w-full text-center bg-surface-container border-none rounded h-10 font-data-mono" id="obs-cyl" placeholder="-1.75" step="0.01" type="number"/>
+                    </div>
+                    <div class="text-center">
+                        <span class="block text-[10px] text-outline mb-1">EJE</span>
+                        <input class="w-full text-center bg-surface-container border-none rounded h-10 font-data-mono" id="obs-ax" placeholder="89" type="number" min="0" max="180"/>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="relative py-4 border-b border-outline-variant/30">
+                <div class="absolute -top-3 left-2 px-2 bg-surface-container-lowest text-[10px] font-bold text-primary tracking-widest uppercase" id="lbl_modo_obs">Córnea Observada</div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="text-center">
+                        <span class="block text-[10px] text-outline mb-1" id="lbl_obs_k1">R1 (mm)</span>
+                        <input class="w-full text-center bg-surface-container border-none rounded h-10 font-data-mono" id="obs-k1" placeholder="8.05" step="0.01" type="number"/>
+                    </div>
+                    <div class="text-center">
+                        <span class="block text-[10px] text-outline mb-1" id="lbl_obs_k2">R2 (mm)</span>
+                        <input class="w-full text-center bg-surface-container border-none rounded h-10 font-data-mono" id="obs-k2" placeholder="7.85" step="0.01" type="number"/>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flex flex-col gap-2 pt-2">
+                <label class="font-label-caps text-label-caps text-outline uppercase block">Técnico Responsable</label>
+                <input class="w-full bg-surface-container border-none rounded h-12 px-4 font-body-sm" id="tech-name" placeholder="Nombre del técnico" type="text" value="Juan Pérez"/>
+            </div>
+        </div>
+        
+        <button class="w-full h-16 bg-primary-container text-on-primary-container rounded-xl font-bold shadow-xl flex items-center justify-center gap-3 active:scale-[0.98] transition-all no-print" onclick="procesarCalibracion()">
+            <span class="material-symbols-outlined text-3xl">biotech</span>
+            EJECUTAR ANÁLISIS DE CALIBRACIÓN
+            <span class="text-[8px] bg-on-primary-container/20 px-2 py-0.5 rounded-full" id="historial-count">0</span>
+        </button>
+        <button class="w-full py-3 text-on-surface-variant font-medium underline no-print" onclick="nextStep(2)">Volver a Configuración</button>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- RESULTS PANEL                               -->
+    <!-- ============================================ -->
+    <section class="step-content space-y-stack-md pb-10" id="results">
+        <div class="flex items-center justify-between no-print">
+            <h2 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface">Resultados</h2>
+            <span class="px-3 py-1 bg-tertiary-container text-on-tertiary-container rounded-full text-[10px] font-bold uppercase tracking-wider">Estado Completo</span>
+        </div>
+        
+        <!-- ========================================== -->
+        <!-- CERTIFICADO COMPLETO PARA PDF             -->
+        <!-- ========================================== -->
+        <div id="certificate-for-pdf" class="bg-white rounded-2xl shadow-xl overflow-hidden">
+            <!-- Encabezado del Certificado -->
+            <div class="bg-primary p-4 text-white text-center">
+                <div class="flex items-center justify-center gap-3">
+                    <span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">precision_manufacturing</span>
+                    <h2 class="text-xl font-bold">Ópticas GM</h2>
+                </div>
+                <p class="text-xs opacity-80 mt-1">Sistema de Calibración Óptica - LensCalibrate Pro</p>
+                <p class="text-[10px] opacity-60 mt-0.5" id="cert-clinica-nombre">Ópticas GM</p>
+            </div>
+
+            <!-- Badge de Estado -->
+            <div id="statusBadgeContainer" class="m-4 rounded-xl p-4 text-center text-white font-bold tracking-wide text-sm diagnostic-status">
+                <div class="flex items-center justify-center gap-3">
+                    <span class="material-symbols-outlined" id="statusIcon">pending</span>
+                    <span id="statusText">Procesando...</span>
+                </div>
+                <div class="text-[8px] opacity-70 mt-1 flex justify-center gap-3" id="toleranciasDisplay">
+                    <span>SPH/CYL: ±<span id="tol-display-sph">0.25</span>D</span>
+                    <span>EJE: ±<span id="tol-display-eje">3</span>°</span>
+                    <span>K: ±<span id="tol-display-k">0.50</span>mm</span>
+                </div>
+            </div>
+
+            <!-- Datos Óptica y Equipo -->
+            <div class="grid grid-cols-2 gap-2 px-4 text-[10px] text-on-surface-variant border-b border-outline-variant pb-3">
+                <div>
+                    <span class="font-bold text-on-surface">Óptica:</span>
+                    <span id="cert-clinica-full">Ópticas GM</span>
+                    <br>
+                    <span id="cert-clinica-rut">RUT: 76.123.456-7</span>
+                    <br>
+                    <span id="cert-clinica-dir">Av. Providencia 1234, Santiago</span>
+                </div>
+                <div class="text-right">
+                    <span class="font-bold text-on-surface">Equipo:</span>
+                    <span id="cert-equipo-full">Topcon KR-1</span>
+                    <br>
+                    <span id="cert-equipo-serie">SN: SN-2026-001</span>
+                    <br>
+                    <span id="cert-equipo-fechas">Cal: 2025-12-01 → 2026-12-01</span>
+                </div>
+            </div>
+
+            <!-- Tabla de Resultados -->
+            <div class="overflow-x-auto p-3">
+                <table class="w-full text-left text-xs border-collapse">
+                    <thead>
+                        <tr class="border-b border-outline-variant text-outline">
+                            <th class="py-2 px-1">Ítem</th>
+                            <th class="py-2 px-1 text-[10px]">Referencia</th>
+                            <th class="py-2 px-1 text-[10px]">Target</th>
+                            <th class="py-2 px-1 text-[10px]">Medido</th>
+                            <th class="py-2 px-1 text-[10px]">Desvío</th>
+                            <th class="py-2 px-1 text-[10px]">Tol.</th>
+                            <th class="py-2 px-1 text-[10px]">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaResultadosCuerpo" class="font-data-mono">
+                        <!-- Inserción vía JS -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Resumen Final -->
+            <div class="bg-inverse-surface text-inverse-on-surface p-4 mx-4 rounded-xl">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <p class="text-[8px] uppercase opacity-70 tracking-widest">Lectura Final</p>
+                        <h3 class="text-lg font-bold" id="res-final-power">--</h3>
+                    </div>
+                    <span class="material-symbols-outlined text-tertiary-fixed text-3xl" id="res-icon">check_circle</span>
+                </div>
+                <div class="grid grid-cols-2 gap-2 text-[10px] mt-2 border-t border-white/10 pt-2">
+                    <div class="opacity-70"><span class="uppercase tracking-wider">Desvío SPH:</span> <span id="res-sph-deviation">--</span></div>
+                    <div class="opacity-70"><span class="uppercase tracking-wider">Desvío CYL:</span> <span id="res-cyl-deviation">--</span></div>
+                </div>
+            </div>
+
+            <!-- Pie de Certificado -->
+            <div class="p-4 text-[8px] text-outline border-t border-outline-variant mt-4 flex justify-between items-center">
+                <div>
+                    <span>Fecha: <span id="cert-date">--</span></span>
+                    <span class="mx-2">|</span>
+                    <span>Técnico: <span id="cert-tech-name">--</span></span>
+                </div>
+                <div>
+                    <span id="cert-status-label" class="font-bold text-green-600">✅ Verificado</span>
+                </div>
+            </div>
+            <div class="px-4 pb-3 text-[7px] text-outline text-center border-t border-outline-variant pt-2">
+                Tolerancias: SPH/CYL ±<span id="cert-tol-sph">0.25</span>D | EJE ±<span id="cert-tol-eje">3</span>° | K ±<span id="cert-tol-k">0.50</span>mm
+                <span class="mx-2">|</span>
+                Documento generado automáticamente por LensCalibrate Pro v4.0
+            </div>
+        </div>
+
+        <!-- Recomendaciones (solo en pantalla) -->
+        <div class="space-y-3 no-print">
+            <h3 class="font-label-caps text-label-caps text-outline uppercase px-2">Guía de Corrección Técnica</h3>
+            <div id="contenedorRecomendaciones" class="space-y-2">
+                <!-- Inserción vía JS -->
+            </div>
+        </div>
+
+        <!-- Botones de Acción -->
+        <div class="grid grid-cols-1 gap-3 pt-4 no-print">
+            <button class="w-full h-14 bg-surface-container-highest text-primary rounded-xl font-bold border border-primary/20 flex items-center justify-center gap-2 transition-all" onclick="generarPDF()">
+                <span class="material-symbols-outlined">picture_as_pdf</span>
+                Generar PDF Completo
+            </button>
+            <button class="w-full h-14 bg-primary text-on-primary rounded-xl font-bold shadow-lg flex items-center justify-center gap-2 transition-all" onclick="imprimirCertificado()">
+                <span class="material-symbols-outlined">print</span>
+                Imprimir Certificado
+            </button>
+            <button class="w-full h-14 bg-surface-container-high text-on-surface-variant rounded-xl flex items-center justify-center gap-2 font-bold" onclick="resetAll()">
+                <span class="material-symbols-outlined">restart_alt</span>
+                Nuevo Escaneo
+            </button>
+        </div>
+    </section>
+</main>
+
+<!-- Bottom Navigation -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-16 px-2 pb-safe border-t border-outline-variant bg-surface-container-lowest no-print">
+    <button class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-4 py-1 transition-all duration-150" id="nav-input" onclick="nextStep(1)">
+        <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">edit_square</span>
+        <span class="font-label-caps text-[10px]">Datos</span>
+    </button>
+    <button class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-all duration-150" id="nav-calibrate" onclick="nextStep(2)">
+        <span class="material-symbols-outlined">biotech</span>
+        <span class="font-label-caps text-[10px]">Configurar</span>
+    </button>
+    <button class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-all duration-150" id="nav-measure" onclick="nextStep(3)">
+        <span class="material-symbols-outlined">sensors</span>
+        <span class="font-label-caps text-[10px]">Medir</span>
+    </button>
+</nav>
+
+<script>
+    // ============================================
+    // CONFIGURACIÓN
+    // ============================================
+    let currentStep = 1;
+    
+    let TOLERANCIAS = {
+        sph_cyl: 0.25,
+        eje: 3,
+        k_mm: 0.50,
+        k_d: 0.37
+    };
+
+    let reference = { sph: 0, cyl: 0, ax: 0, k1: 0, k2: 0 };
+    let target = { sph: 0, cyl: 0, ax: 0, k1: 0, k2: 0 };
+    let medicionActual = { sph: 0, cyl: 0, ax: 0, k1: 0, k2: 0 };
+    let desviosActuales = { sph: 0, cyl: 0, ax: 0, k1: 0, k2: 0 };
+    let historial = [];
+
+    // ============================================
+    // FUNCIONES DE UTILIDAD
+    // ============================================
+    function obtenerTolerancias() {
+        TOLERANCIAS.sph_cyl = parseFloat(document.getElementById('tol-sph-cyl').value) || 0.25;
+        TOLERANCIAS.eje = parseFloat(document.getElementById('tol-eje').value) || 3;
+        TOLERANCIAS.k_mm = parseFloat(document.getElementById('tol-k-mm').value) || 0.50;
+        TOLERANCIAS.k_d = parseFloat(document.getElementById('tol-k-d').value) || 0.37;
+        return TOLERANCIAS;
+    }
+
+    function redondearA(valor, paso) {
+        return Math.round(valor / paso) * paso;
+    }
+
+    function normalizarEje(eje) {
+        eje = eje % 180;
+        if (eje < 0) eje += 180;
+        return eje;
+    }
+
+    function convertirCilindro(sph, cyl, ax, signoDeseado) {
+        let resultado = { sph, cyl, ax };
+        
+        if (signoDeseado === '+' && cyl < 0) {
+            resultado.sph = sph + cyl;
+            resultado.cyl = Math.abs(cyl);
+            resultado.ax = normalizarEje(ax + 90);
+        } else if (signoDeseado === '-' && cyl > 0) {
+            resultado.sph = sph - cyl;
+            resultado.cyl = -cyl;
+            resultado.ax = normalizarEje(ax - 90);
+        }
+        
+        return resultado;
+    }
+
+    function obtenerDatosOptica() {
+        return {
+            nombre: document.getElementById('clinica-nombre').value || 'Ópticas GM',
+            rut: document.getElementById('clinica-rut').value || '--',
+            telefono: document.getElementById('clinica-telefono').value || '--',
+            direccion: document.getElementById('clinica-direccion').value || '--',
+            email: document.getElementById('clinica-email').value || '--'
+        };
+    }
+
+    function obtenerDatosEquipo() {
+        return {
+            marca: document.getElementById('equipo-marca').value || '--',
+            modelo: document.getElementById('equipo-modelo').value || '--',
+            serie: document.getElementById('equipo-serie').value || '--',
+            ultimaCal: document.getElementById('equipo-ultima-cal').value || '--',
+            proxCal: document.getElementById('equipo-prox-cal').value || '--'
+        };
+    }
+
+    // ============================================
+    // NAVEGACIÓN
+    // ============================================
+    function nextStep(step) {
+        document.querySelectorAll('.step-content').forEach(el => el.classList.remove('active'));
+        
+        if (step === 1) {
+            document.getElementById('step-1').classList.add('active');
+        } else if (step === 2) {
+            document.getElementById('step-2').classList.add('active');
+            calcularTarget();
+        } else if (step === 3) {
+            document.getElementById('step-3').classList.add('active');
+            let modo = document.getElementById('config_mmd').value;
+            document.getElementById('lbl_obs_k1').innerText = modo === 'mm' ? 'R1 (mm)' : 'K1 (D)';
+            document.getElementById('lbl_obs_k2').innerText = modo === 'mm' ? 'R2 (mm)' : 'K2 (D)';
+            document.getElementById('historial-count').innerText = historial.length;
+        } else if (step === 'results') {
+            document.getElementById('results').classList.add('active');
+            actualizarCertificadoConDatos();
+        }
+
+        updateNavState(step);
+        updateStepperUI(step);
+        currentStep = step;
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function updateNavState(step) {
+        const btnInput = document.getElementById('nav-input');
+        const btnCalibrate = document.getElementById('nav-calibrate');
+        const btnMeasure = document.getElementById('nav-measure');
+
+        [btnInput, btnCalibrate, btnMeasure].forEach(btn => {
+            btn.className = "flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-all duration-150";
+            btn.querySelector('.material-symbols-outlined').style.fontVariationSettings = "'FILL' 0";
+        });
+
+        if (step === 1) {
+            btnInput.className = "flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-4 py-1 transition-all duration-150";
+            btnInput.querySelector('.material-symbols-outlined').style.fontVariationSettings = "'FILL' 1";
+        } else if (step === 2) {
+            btnCalibrate.className = "flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-4 py-1 transition-all duration-150";
+            btnCalibrate.querySelector('.material-symbols-outlined').style.fontVariationSettings = "'FILL' 1";
+        } else {
+            btnMeasure.className = "flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-4 py-1 transition-all duration-150";
+            btnMeasure.querySelector('.material-symbols-outlined').style.fontVariationSettings = "'FILL' 1";
+        }
+    }
+
+    function updateStepperUI(step) {
+        const max = step === 'results' ? 3 : step;
+        for(let i=1; i<=3; i++) {
+            const node = document.getElementById(`step-node-${i}`);
+            const line = document.getElementById(`step-line-${i}`);
+            if(!node) continue;
+            
+            if(i <= max) {
+                node.className = "w-8 h-8 rounded-full flex items-center justify-center bg-primary text-on-primary font-bold text-sm";
+                if(line) line.classList.add('active');
+            } else {
+                node.className = "w-8 h-8 rounded-full flex items-center justify-center bg-surface-container-high text-on-surface-variant font-bold text-sm";
+                if(line) line.classList.remove('active');
+            }
+        }
+    }
+
+    function updateVD(val) {
+        document.getElementById('vd-display').innerText = `${parseFloat(val).toFixed(1)} mm`;
+        calcularTarget();
+    }
+
+    function adjustVD(delta) {
+        const input = document.getElementById('vd-range');
+        const newVal = Math.min(20, Math.max(0, parseFloat(input.value) + delta));
+        input.value = newVal;
+        updateVD(newVal);
+    }
+
+    // ============================================
+    // CÁLCULO DEL TARGET
+    // ============================================
+    function calcularTarget() {
+        let ref_sph = parseFloat(document.getElementById('ref-sph').value) || 0;
+        let ref_cyl = parseFloat(document.getElementById('ref-cyl').value) || 0;
+        let ref_ax = parseInt(document.getElementById('ref-ax').value) || 0;
+        let ref_k1 = parseFloat(document.getElementById('ref-k1').value) || 1;
+        let ref_k2 = parseFloat(document.getElementById('ref-k2').value) || 1;
+
+        reference.sph = ref_sph;
+        reference.cyl = ref_cyl;
+        reference.ax = normalizarEje(ref_ax);
+        reference.k1 = ref_k1;
+        reference.k2 = ref_k2;
+
+        const config_cyl = document.getElementById('cyl-sign').value;
+        const incr = parseFloat(document.getElementById('step-inc').value);
+        const dsft = parseFloat(document.getElementById('config_dsft').value);
+        const mmd = document.getElementById('config_mmd').value;
+        const inck = parseFloat(document.getElementById('config_inck').value);
+        const index = parseFloat(document.getElementById('config_index').value);
+
+        let refConvertida = convertirCilindro(ref_sph, ref_cyl, ref_ax, config_cyl);
+        
+        target.sph = redondearA(refConvertida.sph + dsft, incr);
+        target.cyl = redondearA(refConvertida.cyl, incr);
+        target.ax = refConvertida.ax;
+
+        if (mmd === 'mm') {
+            target.k1 = redondearA(ref_k1, inck);
+            target.k2 = redondearA(ref_k2, inck);
+        } else {
+            let k1_d = ((index - 1) / (ref_k1 / 1000));
+            let k2_d = ((index - 1) / (ref_k2 / 1000));
+            target.k1 = redondearA(k1_d, inck);
+            target.k2 = redondearA(k2_d, inck);
+        }
+
+        // Actualizar UI
+        const offsetSph = (target.sph - reference.sph).toFixed(2);
+        const offsetCyl = (target.cyl - reference.cyl).toFixed(2);
+        
+        document.getElementById('pred_sph').innerHTML = `
+            <span class="text-on-surface-variant">SPH</span>
+            <span>
+                <span class="text-outline text-[10px] font-normal">Ref ${reference.sph.toFixed(2)}D</span>
+                <span class="mx-1 text-outline text-[9px]">→</span>
+                <span class="font-bold text-primary">${target.sph.toFixed(2)}D</span>
+                <span class="text-[9px] text-outline font-normal">(${offsetSph >= 0 ? '+' : ''}${offsetSph}D)</span>
+            </span>
+        `;
+        
+        document.getElementById('pred_cyl').innerHTML = `
+            <span class="text-on-surface-variant">CYL</span>
+            <span>
+                <span class="text-outline text-[10px] font-normal">Ref ${reference.cyl.toFixed(2)}D</span>
+                <span class="mx-1 text-outline text-[9px]">→</span>
+                <span class="font-bold text-primary">${target.cyl.toFixed(2)}D</span>
+                <span class="text-[9px] text-outline font-normal">(${offsetCyl >= 0 ? '+' : ''}${offsetCyl}D)</span>
+            </span>
+        `;
+        
+        document.getElementById('pred_ax').innerHTML = `
+            <span class="text-on-surface-variant">EJE</span>
+            <span>
+                <span class="text-outline text-[10px] font-normal">Ref ${reference.ax}°</span>
+                <span class="mx-1 text-outline text-[9px]">→</span>
+                <span class="font-bold text-primary">${target.ax}°</span>
+            </span>
+        `;
+
+        const sufijoK = mmd === 'mm' ? 'mm' : 'D';
+        document.getElementById('pred_k1').innerHTML = `
+            <span class="text-on-surface-variant">K1</span>
+            <span>
+                <span class="text-outline text-[10px] font-normal">Ref ${reference.k1.toFixed(2)}mm</span>
+                <span class="mx-1 text-outline text-[9px]">→</span>
+                <span class="font-bold text-primary">${target.k1.toFixed(2)}${sufijoK}</span>
+            </span>
+        `;
+        document.getElementById('pred_k2').innerHTML = `
+            <span class="text-on-surface-variant">K2</span>
+            <span>
+                <span class="text-outline text-[10px] font-normal">Ref ${reference.k2.toFixed(2)}mm</span>
+                <span class="mx-1 text-outline text-[9px]">→</span>
+                <span class="font-bold text-primary">${target.k2.toFixed(2)}${sufijoK}</span>
+            </span>
+        `;
+
+        document.getElementById('ref-display-sph').innerText = reference.sph.toFixed(2);
+        document.getElementById('ref-display-cyl').innerText = reference.cyl.toFixed(2);
+        document.getElementById('ref-display-ax').innerText = reference.ax;
+        document.getElementById('offset-display').innerText = dsft.toFixed(2);
+
+        const tolerancias = obtenerTolerancias();
+        document.getElementById('tol-display-sph').innerText = tolerancias.sph_cyl.toFixed(2);
+        document.getElementById('tol-display-eje').innerText = tolerancias.eje.toFixed(1);
+        document.getElementById('tol-display-k').innerText = tolerancias.k_mm.toFixed(2);
+    }
+
+    // ============================================
+    // ACTUALIZAR CERTIFICADO CON DATOS
+    // ============================================
+    function actualizarCertificadoConDatos() {
+        const optica = obtenerDatosOptica();
+        const equipo = obtenerDatosEquipo();
+        
+        document.getElementById('cert-clinica-nombre').innerText = optica.nombre;
+        document.getElementById('cert-clinica-full').innerText = optica.nombre;
+        document.getElementById('cert-clinica-rut').innerText = `RUT: ${optica.rut}`;
+        document.getElementById('cert-clinica-dir').innerText = optica.direccion;
+        
+        document.getElementById('cert-equipo-full').innerText = `${equipo.marca} ${equipo.modelo}`;
+        document.getElementById('cert-equipo-serie').innerText = `SN: ${equipo.serie}`;
+        document.getElementById('cert-equipo-fechas').innerText = `Cal: ${equipo.ultimaCal} → ${equipo.proxCal}`;
+    }
+
+    // ============================================
+    // PROCESAMIENTO PRINCIPAL
+    // ============================================
+    function procesarCalibracion() {
+        let m_sph = parseFloat(document.getElementById('obs-sph').value);
+        let m_cyl = parseFloat(document.getElementById('obs-cyl').value);
+        let m_ax = parseInt(document.getElementById('obs-ax').value);
+        let m_k1 = parseFloat(document.getElementById('obs-k1').value);
+        let m_k2 = parseFloat(document.getElementById('obs-k2').value);
+
+        if ([m_sph, m_cyl, m_ax, m_k1, m_k2].some(isNaN)) {
+            alert("⚠ Por favor completa todas las mediciones observadas.");
+            return;
+        }
+
+        if (m_ax < 0 || m_ax > 180) {
+            alert("⚠ El eje debe estar entre 0° y 180°.");
+            return;
+        }
+
+        medicionActual = { sph: m_sph, cyl: m_cyl, ax: m_ax, k1: m_k1, k2: m_k2 };
+
+        const tolerancias = obtenerTolerancias();
+        const mmd = document.getElementById('config_mmd').value;
+        const sufijoK = mmd === 'mm' ? 'mm' : 'D';
+        const tolK = mmd === 'mm' ? tolerancias.k_mm : tolerancias.k_d;
+        const tolSphCyl = tolerancias.sph_cyl;
+        const tolEje = tolerancias.eje;
+
+        let varSph = m_sph - reference.sph;
+        let varCyl = m_cyl - reference.cyl;
+        let varAx = normalizarEje(m_ax - reference.ax);
+        if (varAx > 90) varAx -= 180;
+        let varK1 = m_k1 - reference.k1;
+        let varK2 = m_k2 - reference.k2;
+
+        desviosActuales = { sph: varSph, cyl: varCyl, ax: varAx, k1: varK1, k2: varK2 };
+
+        const checkSph = Math.abs(varSph) <= tolSphCyl;
+        const checkCyl = Math.abs(varCyl) <= tolSphCyl;
+        const checkAx = Math.abs(varAx) <= tolEje;
+        const checkK1 = Math.abs(varK1) <= tolK;
+        const checkK2 = Math.abs(varK2) <= tolK;
+
+        let fallo = !checkSph || !checkCyl || !checkAx || !checkK1 || !checkK2;
+
+        // Render tabla
+        let cuerpoHTML = '';
+        const items = [
+            { nombre: 'SPH', ref: reference.sph, target: target.sph, real: m_sph, desvio: varSph, check: checkSph, unidad: 'D', decimals: 2, tol: tolSphCyl },
+            { nombre: 'CYL', ref: reference.cyl, target: target.cyl, real: m_cyl, desvio: varCyl, check: checkCyl, unidad: 'D', decimals: 2, tol: tolSphCyl },
+            { nombre: 'EJE', ref: reference.ax, target: target.ax, real: m_ax, desvio: varAx, check: checkAx, unidad: '°', decimals: 0, tol: tolEje },
+            { nombre: 'K1', ref: reference.k1, target: target.k1, real: m_k1, desvio: varK1, check: checkK1, unidad: sufijoK, decimals: 2, tol: tolK },
+            { nombre: 'K2', ref: reference.k2, target: target.k2, real: m_k2, desvio: varK2, check: checkK2, unidad: sufijoK, decimals: 2, tol: tolK }
+        ];
+
+        items.forEach(item => {
+            const statusClass = item.check ? 'text-green-600' : 'text-error';
+            const statusIcon = item.check ? '✅' : '❌';
+            const desvioStr = item.desvio >= 0 ? `+${item.desvio.toFixed(item.decimals)}` : item.desvio.toFixed(item.decimals);
+            const rowClass = item.check ? 'table-row-ok' : 'table-row-error';
+            const tolStr = `±${item.tol.toFixed(item.decimals)}${item.unidad}`;
+            
+            cuerpoHTML += `
+                <tr class="border-b border-outline-variant/30 ${rowClass}">
+                    <td class="py-2 font-bold">${item.nombre}</td>
+                    <td class="text-[10px] text-outline font-bold">${item.ref.toFixed(item.decimals)}${item.unidad}</td>
+                    <td class="text-[10px] text-primary">${item.target.toFixed(item.decimals)}${item.unidad}</td>
+                    <td class="text-xs font-bold">${item.real.toFixed(item.decimals)}${item.unidad}</td>
+                    <td class="${statusClass} font-bold text-xs">${desvioStr}</td>
+                    <td class="text-[9px] text-outline">${tolStr}</td>
+                    <td class="${statusClass} text-center text-sm">${statusIcon}</td>
+                </tr>
+            `;
+        });
+        document.getElementById('tablaResultadosCuerpo').innerHTML = cuerpoHTML;
+
+        // Badge de estado
+        const badge = document.getElementById('statusBadgeContainer');
+        const statusIcon = document.getElementById('statusIcon');
+        const statusText = document.getElementById('statusText');
+        
+        if(!fallo) {
+            badge.className = "rounded-xl p-4 text-center text-white font-bold tracking-wide text-sm bg-green-600 diagnostic-status";
+            statusIcon.innerText = 'verified';
+            statusText.innerText = '✓ SISTEMA EN CALIBRACIÓN ÓPTIMA';
+            document.getElementById('res-icon').className = "material-symbols-outlined text-green-400 text-3xl";
+        } else {
+            badge.className = "rounded-xl p-4 text-center text-white font-bold tracking-wide text-sm bg-red-600 diagnostic-status";
+            statusIcon.innerText = 'warning';
+            statusText.innerText = '⚠ REQUIERE CALIBRACIÓN';
+            document.getElementById('res-icon').className = "material-symbols-outlined text-red-400 text-3xl";
+        }
+
+        document.getElementById('res-final-power').innerHTML = `${m_sph.toFixed(2)} ${m_cyl >= 0 ? '+' : ''}${m_cyl.toFixed(2)} x ${m_ax}°`;
+        document.getElementById('res-sph-deviation').innerText = `${varSph >= 0 ? '+' : ''}${varSph.toFixed(2)}D (tol ±${tolSphCyl.toFixed(2)}D)`;
+        document.getElementById('res-cyl-deviation').innerText = `${varCyl >= 0 ? '+' : ''}${varCyl.toFixed(2)}D (tol ±${tolSphCyl.toFixed(2)}D)`;
+
+        // Actualizar certificado
+        document.getElementById('cert-date').innerText = new Date().toLocaleDateString('es-ES');
+        document.getElementById('cert-tech-name').innerText = document.getElementById('tech-name').value || "Técnico de Laboratorio";
+        
+        document.getElementById('cert-tol-sph').innerText = tolSphCyl.toFixed(2);
+        document.getElementById('cert-tol-eje').innerText = tolEje.toFixed(1);
+        document.getElementById('cert-tol-k').innerText = tolK.toFixed(2);
+
+        document.getElementById('cert-status-label').innerHTML = 
+            fallo ? `❌ FUERA DE TOLERANCIA | Desvío SPH: ${varSph.toFixed(2)}D` :
+            `✅ Verificado en tolerancias | Desvío SPH: ${varSph.toFixed(2)}D`;
+
+        // Recomendaciones
+        const contenedorRecs = document.getElementById('contenedorRecomendaciones');
+        contenedorRecs.innerHTML = "";
+
+        if(!fallo) {
+            contenedorRecs.innerHTML = `
+                <div class="recommendation-card diagnostic-card bg-surface-container-lowest rounded-xl p-4 flex gap-4 items-center border-l-4 border-l-green-600">
+                    <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center text-green-600">
+                        <span class="material-symbols-outlined">done_all</span>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-sm font-bold text-on-surface">✅ Calibración Exitosa</p>
+                        <p class="text-xs text-on-surface-variant">
+                            Todos los parámetros están dentro de tolerancia. El equipo está listo para uso clínico.
+                        </p>
+                    </div>
+                </div>
+            `;
+        } else {
+            if (Math.abs(varSph) > tolSphCyl) {
+                contenedorRecs.innerHTML += `
+                    <div class="recommendation-card diagnostic-card bg-surface-container-lowest rounded-xl p-4 flex gap-4 items-center border-l-4 border-l-error">
+                        <div class="w-12 h-12 rounded-full bg-error-container flex items-center justify-center text-error">
+                            <span class="material-symbols-outlined">calibrate</span>
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-sm font-bold text-on-surface">Error Esférico</p>
+                            <p class="text-xs text-on-surface-variant">Desvío de <b>${varSph.toFixed(2)}D</b>. Ajuste D-SFT.</p>
+                        </div>
+                    </div>
+                `;
+            }
+            if (Math.abs(varCyl) > tolSphCyl) {
+                contenedorRecs.innerHTML += `
+                    <div class="recommendation-card diagnostic-card bg-surface-container-lowest rounded-xl p-4 flex gap-4 items-center border-l-4 border-l-amber-500">
+                        <div class="w-12 h-12 rounded-full bg-amber-100 flex items-center justify-center text-amber-600">
+                            <span class="material-symbols-outlined">sync</span>
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-sm font-bold text-on-surface">Error Cilíndrico</p>
+                            <p class="text-xs text-on-surface-variant">Desvío de <b>${varCyl.toFixed(2)}D</b>. Revise calibración de cilindro.</p>
+                        </div>
+                    </div>
+                `;
+            }
+            if (Math.abs(varAx) > tolEje) {
+                contenedorRecs.innerHTML += `
+                    <div class="recommendation-card diagnostic-card bg-surface-container-lowest rounded-xl p-4 flex gap-4 items-center border-l-4 border-l-amber-500">
+                        <div class="w-12 h-12 rounded-full bg-amber-100 flex items-center justify-center text-amber-600">
+                            <span class="material-symbols-outlined">autorenew</span>
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-sm font-bold text-on-surface">Error de Eje</p>
+                            <p class="text-xs text-on-surface-variant">Rotación de <b>${varAx}°</b>. Revise alineación.</p>
+                        </div>
+                    </div>
+                `;
+            }
+            if (Math.abs(varK1) > tolK || Math.abs(varK2) > tolK) {
+                contenedorRecs.innerHTML += `
+                    <div class="recommendation-card diagnostic-card bg-surface-container-lowest rounded-xl p-4 flex gap-4 items-center border-l-4 border-l-error">
+                        <div class="w-12 h-12 rounded-full bg-error-container flex items-center justify-center text-error">
+                            <span class="material-symbols-outlined">warning</span>
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-sm font-bold text-on-surface">Error de Queratometría</p>
+                            <p class="text-xs text-on-surface-variant">Radios fuera de tolerancia. Limpie la lentilla.</p>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        // Historial
+        historial.push({
+            fecha: new Date().toISOString(),
+            optica: obtenerDatosOptica(),
+            equipo: obtenerDatosEquipo(),
+            referencia: { ...reference },
+            target: { ...target },
+            medicion: { ...medicionActual },
+            desvios: { ...desviosActuales },
+            estado: fallo ? 'FALLO' : 'OK',
+            tolerancias: { ...tolerancias }
+        });
+
+        document.getElementById('historial-count').innerText = historial.length;
+        actualizarCertificadoConDatos();
+        nextStep('results');
+    }
+
+    // ============================================
+    // GENERAR PDF
+    // ============================================
+    async function generarPDF() {
+        const overlay = document.getElementById('loading-overlay');
+        const loadingText = document.getElementById('loading-text');
+        
+        overlay.classList.remove('hidden');
+        loadingText.innerText = 'Generando PDF...';
+
+        try {
+            const element = document.getElementById('certificate-for-pdf');
+            const canvas = await html2canvas(element, {
+                scale: 2,
+                backgroundColor: '#ffffff',
+                useCORS: true,
+                logging: false
+            });
+            
+            const imgData = canvas.toDataURL('image/png');
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF('p', 'mm', 'a4');
+            const pdfWidth = 210;
+            const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+            
+            pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+            pdf.save('Certificado_Calibracion_Opticas_GM.pdf');
+            
+            overlay.classList.add('hidden');
+        } catch (error) {
+            console.error('Error al generar PDF:', error);
+            alert('❌ Error al generar el PDF. Por favor, intente de nuevo.');
+            overlay.classList.add('hidden');
+        }
+    }
+
+    // ============================================
+    // IMPRIMIR CERTIFICADO
+    // ============================================
+    function imprimirCertificado() {
+        const originalTitle = document.title;
+        document.title = 'Certificado de Calibración - Ópticas GM';
+        
+        window.print();
+        
+        document.title = originalTitle;
+    }
+
+    // ============================================
+    // REINICIAR
+    // ============================================
+    function resetAll() {
+        document.getElementById('obs-sph').value = '';
+        document.getElementById('obs-cyl').value = '';
+        document.getElementById('obs-ax').value = '';
+        document.getElementById('obs-k1').value = '';
+        document.getElementById('obs-k2').value = '';
+        document.getElementById('tech-name').value = '';
+        document.getElementById('tablaResultadosCuerpo').innerHTML = '';
+        document.getElementById('contenedorRecomendaciones').innerHTML = '';
+        document.getElementById('res-final-power').innerHTML = '--';
+        
+        document.getElementById('statusBadgeContainer').className = "rounded-xl p-4 text-center text-white font-bold tracking-wide text-sm bg-gray-500 diagnostic-status";
+        document.getElementById('statusIcon').innerText = 'pending';
+        document.getElementById('statusText').innerText = 'Esperando datos...';
+        
+        nextStep(1);
+    }
+
+    // ============================================
+    // INICIALIZACIÓN
+    // ============================================
+    document.querySelectorAll('input, select').forEach(element => {
+        element.addEventListener('focus', () => {
+            element.closest('.diagnostic-card')?.classList.add('ring-2', 'ring-primary-container');
+        });
+        element.addEventListener('blur', () => {
+            element.closest('.diagnostic-card')?.classList.remove('ring-2', 'ring-primary-container');
+        });
+    });
+
+    document.querySelectorAll('[id^="tol-"]').forEach(el => {
+        el.addEventListener('input', () => {
+            const tolerancias = obtenerTolerancias();
+            document.getElementById('tol-display-sph').innerText = tolerancias.sph_cyl.toFixed(2);
+            document.getElementById('tol-display-eje').innerText = tolerancias.eje.toFixed(1);
+            document.getElementById('tol-display-k').innerText = tolerancias.k_mm.toFixed(2);
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+        calcularTarget();
+        // Valores por defecto para el ejemplo
+        document.getElementById('obs-sph').value = '-2.25';
+        document.getElementById('obs-cyl').value = '-1.75';
+        document.getElementById('obs-ax').value = '89';
+        document.getElementById('obs-k1').value = '8.05';
+        document.getElementById('obs-k2').value = '7.85';
+    });
+</script>
+</body>
+</html>
