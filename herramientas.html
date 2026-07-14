@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
-    <title>LensCalibrate Pro | Ópticas GM</title>
+    <title>Control Óptico | LensCalibrate Pro</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=Inter:wght@400;500&amp;family=Geist:wght@500;600&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -136,6 +136,50 @@
             animation: spin-slow 2s linear infinite;
         }
 
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.02); }
+        }
+        .animate-pulse-soft {
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes slide-in {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-slide-in {
+            animation: slide-in 0.5s ease-out forwards;
+        }
+
+        @keyframes bounce-arrow {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(8px); }
+        }
+        .animate-bounce-arrow {
+            animation: bounce-arrow 1.5s ease-in-out infinite;
+        }
+
+        @keyframes fade-in-out {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 1; }
+        }
+        .animate-fade-in-out {
+            animation: fade-in-out 2s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+        .shimmer-text {
+            background: linear-gradient(90deg, #003ec7 20%, #0052ff 40%, #003ec7 60%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shimmer 2s ease-in-out infinite;
+        }
+
         .certificate-container {
             background-image: radial-gradient(circle at 2px 2px, #c3c5d9 1px, transparent 0);
             background-size: 24px 24px;
@@ -175,14 +219,6 @@
             font-size: 10px;
             font-weight: 700;
             margin-right: 6px;
-        }
-
-        @keyframes pulse-badge {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
-        }
-        .badge-pulse {
-            animation: pulse-badge 1.5s ease-in-out infinite;
         }
 
         .table-row-ok {
@@ -226,41 +262,52 @@
         }
         .print-only { display: none; }
 
-        /* Tooltip para parámetros */
-        .param-tooltip {
+        /* Estilo para la animación de ayuda */
+        .help-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(0, 82, 255, 0.08);
+            padding: 4px 12px;
+            border-radius: 9999px;
+            font-size: 10px;
+            color: #003ec7;
+            font-weight: 600;
+            border: 1px dashed #0052ff;
+        }
+        .help-indicator .material-symbols-outlined {
+            font-size: 16px;
+        }
+
+        /* Tarjeta con borde animado */
+        .animated-border {
             position: relative;
-            cursor: help;
-            border-bottom: 1px dashed #737688;
+            overflow: hidden;
         }
-        .param-tooltip:hover .param-tooltip-content {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
-        .param-tooltip-content {
-            position: absolute;
-            bottom: calc(100% + 8px);
-            left: 50%;
-            transform: translateX(-50%) translateY(-4px);
-            background: #1a1a2e;
-            color: white;
-            padding: 4px 10px;
-            border-radius: 4px;
-            font-size: 9px;
-            white-space: nowrap;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.2s ease;
-            z-index: 50;
-        }
-        .param-tooltip-content::after {
+        .animated-border::before {
             content: '';
             position: absolute;
-            top: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            border: 5px solid transparent;
-            border-top-color: #1a1a2e;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #0052ff, #00b4d8, #0052ff, #00b4d8);
+            background-size: 300% 300%;
+            border-radius: 12px;
+            z-index: -1;
+            animation: border-shimmer 3s ease-in-out infinite;
+        }
+        @keyframes border-shimmer {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .animated-border .inner-content {
+            position: relative;
+            z-index: 1;
+            background: white;
+            border-radius: 10px;
+            margin: 2px;
         }
     </style>
 </head>
@@ -270,7 +317,7 @@
 <header class="w-full top-0 sticky z-50 bg-surface border-b border-outline-variant flex justify-between items-center px-margin-mobile h-16 no-print">
     <div class="flex items-center gap-2">
         <span class="material-symbols-outlined text-primary text-[28px]" style="font-variation-settings: 'FILL' 1;">precision_manufacturing</span>
-        <h1 class="font-headline-md text-headline-md font-bold text-primary">Calibracion de Equipos</h1>
+        <h1 class="font-headline-md text-headline-md font-bold text-primary">Control Óptico</h1>
         <span class="ml-2 px-2 py-0.5 bg-tertiary-container text-on-tertiary-container text-[8px] font-bold rounded-full uppercase tracking-wider">v5.0</span>
     </div>
     <div class="flex items-center gap-4">
@@ -296,7 +343,7 @@
     <section class="step-content active space-y-stack-md" id="step-1">
         <div class="flex flex-col gap-1">
             <h2 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface">Referencia del Ojo Esquemático</h2>
-            <p class="text-body-sm text-on-surface-variant">Ingrese los valores <strong>reales</strong> del ojo esquemático y los datos de la óptica.</p>
+            <p class="text-body-sm text-on-surface-variant">Ingrese los valores <strong>reales</strong> del ojo esquemático según su certificado de calibración.</p>
         </div>
 
         <!-- DATOS DE LA ÓPTICA -->
@@ -369,50 +416,68 @@
             </div>
         </div>
 
-        <!-- REFERENCIA -->
-        <div class="diagnostic-card bg-surface-container-lowest rounded-xl p-4 space-y-4 border-2 border-primary/20">
-            <div class="flex items-center gap-2">
-                <span class="material-symbols-outlined text-primary">verified</span>
-                <h3 class="font-label-caps text-label-caps text-primary uppercase tracking-wider">Valores de Referencia</h3>
-                <span class="ml-auto concept-badge concept-badge-ref">CERTIFICADO</span>
-            </div>
-            <div class="grid grid-cols-3 gap-3">
-                <div class="flex flex-col gap-1">
-                    <label class="font-label-caps text-label-caps text-outline uppercase text-[9px]">SPH</label>
-                    <div class="flex items-center bg-surface-container rounded px-2 h-10 border border-primary/10">
-                        <input class="bg-transparent border-none focus:ring-0 w-full font-data-mono text-data-mono text-center text-primary" id="ref-sph" step="0.01" type="number" value="-2.25"/>
-                        <span class="text-[10px] text-outline">D</span>
+        <!-- REFERENCIA CON ANIMACIÓN -->
+        <div class="animated-border rounded-xl">
+            <div class="inner-content p-4 space-y-4">
+                <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-primary">verified</span>
+                    <h3 class="font-label-caps text-label-caps text-primary uppercase tracking-wider">Valores de Referencia</h3>
+                    <span class="ml-auto concept-badge concept-badge-ref">CERTIFICADO</span>
+                </div>
+                
+                <!-- INDICADOR ANIMADO - AQUÍ VAN LOS DATOS DEL OJO ESQUEMÁTICO -->
+                <div class="help-indicator animate-pulse-soft">
+                    <span class="material-symbols-outlined">touch_app</span>
+                    <span>⬅️ Ingresa aquí los valores del <strong>certificado del ojo esquemático</strong></span>
+                </div>
+                <div class="text-[10px] text-on-surface-variant bg-surface-container p-2 rounded flex items-center gap-2">
+                    <span class="material-symbols-outlined text-primary text-sm animate-bounce-arrow">arrow_forward</span>
+                    <span>Estos son los valores <strong>reales y conocidos</strong> del ojo esquemático</span>
+                </div>
+                
+                <div class="grid grid-cols-3 gap-3">
+                    <div class="flex flex-col gap-1">
+                        <label class="font-label-caps text-label-caps text-outline uppercase text-[9px]">SPH</label>
+                        <div class="flex items-center bg-surface-container rounded px-2 h-10 border border-primary/10">
+                            <input class="bg-transparent border-none focus:ring-0 w-full font-data-mono text-data-mono text-center text-primary" id="ref-sph" step="0.01" type="number" value="-2.25"/>
+                            <span class="text-[10px] text-outline">D</span>
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-1">
+                        <label class="font-label-caps text-label-caps text-outline uppercase text-[9px]">CYL</label>
+                        <div class="flex items-center bg-surface-container rounded px-2 h-10 border border-primary/10">
+                            <input class="bg-transparent border-none focus:ring-0 w-full font-data-mono text-data-mono text-center text-primary" id="ref-cyl" step="0.01" type="number" value="-1.75"/>
+                            <span class="text-[10px] text-outline">D</span>
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-1">
+                        <label class="font-label-caps text-label-caps text-outline uppercase text-[9px]">EJE</label>
+                        <div class="flex items-center bg-surface-container rounded px-2 h-10 border border-primary/10">
+                            <input class="bg-transparent border-none focus:ring-0 w-full font-data-mono text-data-mono text-center text-primary" id="ref-ax" step="1" type="number" min="0" max="180" value="89"/>
+                            <span class="text-[10px] text-outline">°</span>
+                        </div>
                     </div>
                 </div>
-                <div class="flex flex-col gap-1">
-                    <label class="font-label-caps text-label-caps text-outline uppercase text-[9px]">CYL</label>
-                    <div class="flex items-center bg-surface-container rounded px-2 h-10 border border-primary/10">
-                        <input class="bg-transparent border-none focus:ring-0 w-full font-data-mono text-data-mono text-center text-primary" id="ref-cyl" step="0.01" type="number" value="-1.75"/>
-                        <span class="text-[10px] text-outline">D</span>
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="flex flex-col gap-1">
+                        <label class="font-label-caps text-label-caps text-outline uppercase text-[9px]">R1 (mm)</label>
+                        <div class="flex items-center bg-surface-container rounded px-2 h-10 border border-primary/10">
+                            <input class="bg-transparent border-none focus:ring-0 w-full font-data-mono text-data-mono text-center text-primary" id="ref-k1" step="0.01" type="number" min="5" max="12" value="8.05"/>
+                            <span class="text-[10px] text-outline">mm</span>
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-1">
+                        <label class="font-label-caps text-label-caps text-outline uppercase text-[9px]">R2 (mm)</label>
+                        <div class="flex items-center bg-surface-container rounded px-2 h-10 border border-primary/10">
+                            <input class="bg-transparent border-none focus:ring-0 w-full font-data-mono text-data-mono text-center text-primary" id="ref-k2" step="0.01" type="number" min="5" max="12" value="7.85"/>
+                            <span class="text-[10px] text-outline">mm</span>
+                        </div>
                     </div>
                 </div>
-                <div class="flex flex-col gap-1">
-                    <label class="font-label-caps text-label-caps text-outline uppercase text-[9px]">EJE</label>
-                    <div class="flex items-center bg-surface-container rounded px-2 h-10 border border-primary/10">
-                        <input class="bg-transparent border-none focus:ring-0 w-full font-data-mono text-data-mono text-center text-primary" id="ref-ax" step="1" type="number" min="0" max="180" value="89"/>
-                        <span class="text-[10px] text-outline">°</span>
-                    </div>
-                </div>
-            </div>
-            <div class="grid grid-cols-2 gap-3">
-                <div class="flex flex-col gap-1">
-                    <label class="font-label-caps text-label-caps text-outline uppercase text-[9px]">R1 (mm)</label>
-                    <div class="flex items-center bg-surface-container rounded px-2 h-10 border border-primary/10">
-                        <input class="bg-transparent border-none focus:ring-0 w-full font-data-mono text-data-mono text-center text-primary" id="ref-k1" step="0.01" type="number" min="5" max="12" value="8.05"/>
-                        <span class="text-[10px] text-outline">mm</span>
-                    </div>
-                </div>
-                <div class="flex flex-col gap-1">
-                    <label class="font-label-caps text-label-caps text-outline uppercase text-[9px]">R2 (mm)</label>
-                    <div class="flex items-center bg-surface-container rounded px-2 h-10 border border-primary/10">
-                        <input class="bg-transparent border-none focus:ring-0 w-full font-data-mono text-data-mono text-center text-primary" id="ref-k2" step="0.01" type="number" min="5" max="12" value="7.85"/>
-                        <span class="text-[10px] text-outline">mm</span>
-                    </div>
+                
+                <div class="text-[8px] text-outline text-center bg-surface-container p-2 rounded flex items-center justify-center gap-2">
+                    <span class="material-symbols-outlined text-[14px] animate-fade-in-out">info</span>
+                    <span>Estos valores son la REFERENCIA contra la que se compararán las mediciones</span>
                 </div>
             </div>
         </div>
@@ -586,48 +651,61 @@
             <p class="text-body-sm text-on-surface-variant">Ingrese las lecturas <strong>reales</strong> que imprime el equipo.</p>
         </div>
         
-        <div class="diagnostic-card bg-surface-container-lowest rounded-xl p-4 space-y-6 border-2 border-amber-500/30">
-            <div class="flex items-center gap-2">
-                <span class="material-symbols-outlined text-amber-500">sensors</span>
-                <span class="concept-badge concept-badge-meas">MEDIDO</span>
-                <span class="text-[9px] text-on-surface-variant">Valores leídos del instrumento</span>
-            </div>
-            
-            <div class="relative py-4 border-b border-outline-variant/30">
-                <div class="absolute -top-3 left-2 px-2 bg-surface-container-lowest text-[10px] font-bold text-primary tracking-widest uppercase">Refracción Observada</div>
-                <div class="grid grid-cols-3 gap-4">
-                    <div class="text-center">
-                        <span class="block text-[10px] text-outline mb-1">SPH</span>
-                        <input class="w-full text-center bg-surface-container border-none rounded h-10 font-data-mono" id="obs-sph" placeholder="-2.25" step="0.01" type="number"/>
-                    </div>
-                    <div class="text-center">
-                        <span class="block text-[10px] text-outline mb-1">CYL</span>
-                        <input class="w-full text-center bg-surface-container border-none rounded h-10 font-data-mono" id="obs-cyl" placeholder="-1.75" step="0.01" type="number"/>
-                    </div>
-                    <div class="text-center">
-                        <span class="block text-[10px] text-outline mb-1">EJE</span>
-                        <input class="w-full text-center bg-surface-container border-none rounded h-10 font-data-mono" id="obs-ax" placeholder="89" type="number" min="0" max="180"/>
+        <!-- MEDICIÓN ACTUAL CON ANIMACIÓN -->
+        <div class="animated-border rounded-xl" style="--border-color: #f59e0b;">
+            <div class="inner-content p-4 space-y-6 border-2 border-amber-500/20">
+                <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-amber-500">sensors</span>
+                    <span class="concept-badge concept-badge-meas">MEDIDO</span>
+                    <span class="text-[9px] text-on-surface-variant">Valores leídos del instrumento</span>
+                </div>
+                
+                <!-- INDICADOR ANIMADO - AQUÍ VAN LAS LECTURAS DEL EQUIPO -->
+                <div class="help-indicator animate-pulse-soft" style="background: rgba(245, 158, 11, 0.1); border-color: #f59e0b; color: #b45309;">
+                    <span class="material-symbols-outlined">scan</span>
+                    <span>⬅️ Ingresa aquí las <strong>lecturas que imprime el equipo</strong></span>
+                </div>
+                <div class="text-[10px] text-on-surface-variant bg-amber-50 p-2 rounded flex items-center gap-2 border border-amber-200">
+                    <span class="material-symbols-outlined text-amber-500 text-sm animate-bounce-arrow">arrow_forward</span>
+                    <span>Estos son los valores <strong>reales medidos</strong> por el instrumento</span>
+                </div>
+                
+                <div class="relative py-4 border-b border-outline-variant/30">
+                    <div class="absolute -top-3 left-2 px-2 bg-white text-[10px] font-bold text-primary tracking-widest uppercase">Refracción Observada</div>
+                    <div class="grid grid-cols-3 gap-4">
+                        <div class="text-center">
+                            <span class="block text-[10px] text-outline mb-1">SPH</span>
+                            <input class="w-full text-center bg-surface-container border-2 border-amber-200 focus:border-amber-500 rounded h-10 font-data-mono" id="obs-sph" placeholder="-2.25" step="0.01" type="number"/>
+                        </div>
+                        <div class="text-center">
+                            <span class="block text-[10px] text-outline mb-1">CYL</span>
+                            <input class="w-full text-center bg-surface-container border-2 border-amber-200 focus:border-amber-500 rounded h-10 font-data-mono" id="obs-cyl" placeholder="-1.75" step="0.01" type="number"/>
+                        </div>
+                        <div class="text-center">
+                            <span class="block text-[10px] text-outline mb-1">EJE</span>
+                            <input class="w-full text-center bg-surface-container border-2 border-amber-200 focus:border-amber-500 rounded h-10 font-data-mono" id="obs-ax" placeholder="89" type="number" min="0" max="180"/>
+                        </div>
                     </div>
                 </div>
-            </div>
-            
-            <div class="relative py-4 border-b border-outline-variant/30">
-                <div class="absolute -top-3 left-2 px-2 bg-surface-container-lowest text-[10px] font-bold text-primary tracking-widest uppercase" id="lbl_modo_obs">Córnea Observada</div>
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="text-center">
-                        <span class="block text-[10px] text-outline mb-1" id="lbl_obs_k1">R1 (mm)</span>
-                        <input class="w-full text-center bg-surface-container border-none rounded h-10 font-data-mono" id="obs-k1" placeholder="8.05" step="0.01" type="number"/>
-                    </div>
-                    <div class="text-center">
-                        <span class="block text-[10px] text-outline mb-1" id="lbl_obs_k2">R2 (mm)</span>
-                        <input class="w-full text-center bg-surface-container border-none rounded h-10 font-data-mono" id="obs-k2" placeholder="7.85" step="0.01" type="number"/>
+                
+                <div class="relative py-4 border-b border-outline-variant/30">
+                    <div class="absolute -top-3 left-2 px-2 bg-white text-[10px] font-bold text-primary tracking-widest uppercase" id="lbl_modo_obs">Córnea Observada</div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="text-center">
+                            <span class="block text-[10px] text-outline mb-1" id="lbl_obs_k1">R1 (mm)</span>
+                            <input class="w-full text-center bg-surface-container border-2 border-amber-200 focus:border-amber-500 rounded h-10 font-data-mono" id="obs-k1" placeholder="8.05" step="0.01" type="number"/>
+                        </div>
+                        <div class="text-center">
+                            <span class="block text-[10px] text-outline mb-1" id="lbl_obs_k2">R2 (mm)</span>
+                            <input class="w-full text-center bg-surface-container border-2 border-amber-200 focus:border-amber-500 rounded h-10 font-data-mono" id="obs-k2" placeholder="7.85" step="0.01" type="number"/>
+                        </div>
                     </div>
                 </div>
-            </div>
-            
-            <div class="flex flex-col gap-2 pt-2">
-                <label class="font-label-caps text-label-caps text-outline uppercase block">Técnico Responsable</label>
-                <input class="w-full bg-surface-container border-none rounded h-12 px-4 font-body-sm" id="tech-name" placeholder="Nombre del técnico" type="text" value="Juan Pérez"/>
+                
+                <div class="flex flex-col gap-2 pt-2">
+                    <label class="font-label-caps text-label-caps text-outline uppercase block">Técnico Responsable</label>
+                    <input class="w-full bg-surface-container border-2 border-amber-200 focus:border-amber-500 rounded h-12 px-4 font-body-sm" id="tech-name" placeholder="Nombre del técnico" type="text" value="Juan Pérez"/>
+                </div>
             </div>
         </div>
         
@@ -653,7 +731,7 @@
             <div class="bg-primary p-4 text-white text-center">
                 <div class="flex items-center justify-center gap-3">
                     <span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">precision_manufacturing</span>
-                    <h2 class="text-xl font-bold">Ópticas GM</h2>
+                    <h2 class="text-xl font-bold">Control Óptico</h2>
                 </div>
                 <p class="text-xs opacity-80 mt-1">Sistema de Calibración Óptica - LensCalibrate Pro</p>
                 <p class="text-[10px] opacity-60 mt-0.5" id="cert-clinica-nombre">Ópticas GM</p>
@@ -735,13 +813,11 @@
             <div class="px-4 pb-3 text-[7px] text-outline text-center border-t border-outline-variant pt-2">
                 Tolerancias: SPH/CYL ±<span id="cert-tol-sph">0.25</span>D | EJE ±<span id="cert-tol-eje">3</span>° | K ±<span id="cert-tol-k">0.50</span>mm
                 <span class="mx-2">|</span>
-                Documento generado automáticamente por LensCalibrate Pro v5.0
+                Documento generado automáticamente por Control Óptico v5.0
             </div>
         </div>
 
-        <!-- ========================================== -->
-        <!-- GUÍA DE CORRECCIÓN CON PARÁMETROS         -->
-        <!-- ========================================== -->
+        <!-- RECOMENDACIONES -->
         <div class="space-y-3 no-print">
             <h3 class="font-label-caps text-label-caps text-outline uppercase px-2 flex items-center gap-2">
                 <span class="material-symbols-outlined text-primary text-sm">build</span>
@@ -760,8 +836,6 @@
                     2. Aplica el ajuste indicado en el parámetro específico del equipo
                     <br>
                     3. Repite la medición para verificar la corrección
-                    <br>
-                    4. Si persiste el error, revisa la calibración general del instrumento
                 </div>
             </div>
         </div>
@@ -1280,7 +1354,6 @@
             return;
         }
 
-        // Ordenar por prioridad: critica > alta > media > baja
         const prioridadOrden = { 'critica': 0, 'alta': 1, 'media': 2, 'baja': 3 };
         recomendaciones.sort((a, b) => prioridadOrden[a.prioridad] - prioridadOrden[b.prioridad]);
 
@@ -1494,7 +1567,7 @@
             const pdfWidth = 210;
             const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
             pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-            pdf.save('Certificado_Calibracion_Opticas_GM.pdf');
+            pdf.save('Certificado_Calibracion_Control_Optico.pdf');
             overlay.classList.add('hidden');
         } catch (error) {
             console.error('Error al generar PDF:', error);
